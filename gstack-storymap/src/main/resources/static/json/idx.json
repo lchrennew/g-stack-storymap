@@ -1,0 +1,123 @@
+[
+  {
+    "file": ".\\example.spec",
+    "spec": {
+      "title": "Specification Heading",
+      "lineNumber": 1,
+      "tags": [
+        "A",
+        "B",
+        "C"
+      ],
+      "scenarios": [
+        {
+          "title": "Scenario Heading",
+          "lineNumber": 10,
+          "tags": [
+            "X",
+            "Y",
+            "Z"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "file": ".\\example1.spec",
+    "spec": {
+      "title": "Specification Heading",
+      "lineNumber": 1,
+      "tags": [
+        "A",
+        "B",
+        "C"
+      ],
+      "scenarios": [
+        {
+          "title": "Scenario Heading",
+          "lineNumber": 10,
+          "tags": [
+            "X",
+            "Y",
+            "Z"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "file": ".\\tags.spec",
+    "spec": {
+      "title": "Test tags",
+      "lineNumber": 1,
+      "tags": [
+        "tag1",
+        "tag2"
+      ],
+      "scenarios": [
+        {
+          "title": "s1",
+          "lineNumber": 4,
+          "tags": [
+            "tag3",
+            "tag4"
+          ]
+        },
+        {
+          "title": "s2",
+          "lineNumber": 8,
+          "tags": [
+            "tag4",
+            "tag5"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "file": ".\\demo\\example.spec",
+    "spec": {
+      "title": "Specification Heading",
+      "lineNumber": 1,
+      "tags": [
+        "A",
+        "B",
+        "C"
+      ],
+      "scenarios": [
+        {
+          "title": "Scenario Heading",
+          "lineNumber": 10,
+          "tags": [
+            "X",
+            "Y",
+            "Z"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "file": ".\\demo\\example1.spec",
+    "spec": {
+      "title": "Specification Heading",
+      "lineNumber": 1,
+      "tags": [
+        "A",
+        "B",
+        "C"
+      ],
+      "scenarios": [
+        {
+          "title": "Scenario Heading",
+          "lineNumber": 10,
+          "tags": [
+            "X",
+            "Y",
+            "Z"
+          ]
+        }
+      ]
+    }
+  }
+]
