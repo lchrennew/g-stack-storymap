@@ -1,10 +1,9 @@
 import React from 'react'
-import CreateSuiteForm from "./CreateSuiteForm";
-import Icon from "./Icon";
+import CreateProjectForm from "./CreateProjectForm";
 import {Card} from "semantic-ui-react";
-import CreateSuiteButton from "./CreateSuiteButton";
+import CreateProjectButton from "./CreateProjectButton";
 
-class CreateSuiteCard extends React.Component {
+class CreateProjectCard extends React.Component {
     constructor(props) {
         super(props)
         this.state = {creating: false}
@@ -24,8 +23,8 @@ class CreateSuiteCard extends React.Component {
         return <Card className={this.state.creating ? '' : 'create'}>
             {
                 this.state.creating ?
-                    <CreateSuiteForm onCancel={this.toggle.bind(this)}/> :
-                    <CreateSuiteButton onClick={this.toggle.bind(this)}/>
+                    <CreateProjectForm onCancel={this.toggle.bind(this)}/> :
+                    <CreateProjectButton onClick={this.toggle.bind(this)}/>
             }
 
         </Card>
@@ -33,4 +32,4 @@ class CreateSuiteCard extends React.Component {
 
 }
 
-export default CreateSuiteCard
+export default CreateProjectCard

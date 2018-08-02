@@ -2,7 +2,7 @@ import React from 'react'
 import {Card, Header} from 'semantic-ui-react'
 import Icon from './Icon'
 
-class CreateSuiteButton extends React.Component {
+class CreateProjectButton extends React.Component {
     render() {
         let {onClick} = this.props
         return <Card.Content
@@ -11,10 +11,10 @@ class CreateSuiteButton extends React.Component {
             onClick={onClick}>
             <div>
                 <Icon name="plus-circle" size={32}/>
-                <Card.Meta>Create new test suite</Card.Meta>
+                <Card.Meta>Create new test project</Card.Meta>
             </div>
         </Card.Content>
     }
 }
 
-export default CreateSuiteButton
+export default CreateProjectButton

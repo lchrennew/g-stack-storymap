@@ -12,9 +12,11 @@ import {BrowserRouter as Router, Route} from 'react-router-dom'
 import reducer from './reducers'
 import Index from './components/Index'
 import Placeholder from "./components/Placeholder";
-import {NotificationManager, ShellManager} from "./components/Contexts";
+import {NotificationManager} from "./components/Contexts";
 
-let devTool = typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f
+let devTool = typeof window === 'object' && typeof window.devToolsExtension !== 'undefined'
+    ? window.devToolsExtension()
+    : f => f
 
 let store = createStore(
     reducer,
@@ -32,7 +34,6 @@ class Console extends React.Component {
                     </Router>
                 </Provider>
                 <NotificationManager/>
-                <ShellManager/>
             </Placeholder>
         )
     }

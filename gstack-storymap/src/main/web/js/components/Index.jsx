@@ -1,13 +1,13 @@
 import React from 'react'
 import {Route, Switch} from "react-router-dom";
-import Suite from "./Suite";
+import Project from "./Project";
 import Header from './Header'
 import Footer from "./Footer";
-import Suites from "./Suites";
-import SuitesProvider from "./SuitesProvider";
+import ProjectsProvider from "./ProjectsProvider";
 import Main from "./Main";
 import Placeholder from "./Placeholder";
 import {SidebarContext} from "./Contexts";
+import Projects from "./Projects";
 
 
 
@@ -19,22 +19,20 @@ class Index extends React.Component {
     /*
     * 路由：
     * 首页测试包列表    /
-    * 测试包首页   /suite/:suite
-    * 目录页       /suite/:suite/:dir
+    * 测试包首页   /project/:project
+    * 目录页       /project/:project/:dir
     * */
     render() {
         return <Placeholder>
             <Header/>
-            <Main>
-                <SidebarContext>
-                    <SuitesProvider>
-                        <Switch>
-                            <Route path="/:suite" component={Suite}/>
-                            <Route path="/" component={Suites}/>
-                        </Switch>
-                    </SuitesProvider>
-                </SidebarContext>
-            </Main>
+            <SidebarContext>
+                <ProjectsProvider>
+                    <Switch>
+                        <Route path="/:project" component={Project}/>
+                        <Route path="/" component={Projects}/>
+                    </Switch>
+                </ProjectsProvider>
+            </SidebarContext>
             <Footer/>
         </Placeholder>
     }

@@ -24,11 +24,6 @@ import {
 import Icon from "./Icon";
 import Main from "./Main";
 import {Link, withRouter} from "react-router-dom";
-import CartItem from "./CartItem";
-import CartItemList from "./CartItemList";
-import VisibleCartItems from "./VisibleCartItems";
-import ExecuteButton from "./ExecuteButton";
-import CartExecuteButton from "./CartExecuteButton";
 import Placeholder from "./Placeholder";
 
 const notifyRef = React.createRef()
@@ -42,65 +37,6 @@ export class NotificationManager extends React.Component {
 
 // 其他js可以调用notify(notification)
 export const notify = opt => notifyRef.current && notifyRef.current.addNotification(opt)
-
-const shellRef = React.createRef()
-
-export const openShell = () => shellRef.current && shellRef.current.start()
-export const closeShell = () => shellRef.current && shellRef.current.close()
-export const printShell = (line) => shellRef.current && shellRef.current.print(line)
-
-class ShellOutput extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {open: false, lines: []}
-        this.messagesEnd = React.createRef()
-
-    }
-
-    start() {
-        this.setState({open: true, lines: []})
-    }
-
-    close() {
-        this.setState({open: false, lines: []})
-    }
-
-    print(line) {
-        this.setState({open: true, lines: [...this.state.lines, line]})
-    }
-
-    componentDidUpdate() {
-        if (this.state.open)
-            this.messagesEnd.current.scrollIntoView({behavior: "smooth"})
-    }
-
-    render() {
-        return <Modal open={this.state.open}
-                      size="fullscreen"
-                      closeOnEscape={true}
-                      closeOnDimmerClick={true}
-                      onClose={this.close.bind(this)}>
-            <Modal.Header>执行输出</Modal.Header>
-            <Modal.Content scrolling className="shell">
-                {this.state.lines.map((line, i) => <p key={i}>{line}</p>)}
-                <div
-                    ref={this.messagesEnd}>
-                </div>
-            </Modal.Content>
-        </Modal>
-    }
-
-}
-//    "Content-Type": "text/plain; charset\u003dutf-8"
-export class ShellManager extends React.Component {
-    render() {
-        return <ShellOutput ref={shellRef}/>
-    }
-}
-
-
-
-
 
 const sidebarRef = React.createRef()
 export const openSidebar = sidebar => sidebarRef.current && sidebarRef.current.open(sidebar)

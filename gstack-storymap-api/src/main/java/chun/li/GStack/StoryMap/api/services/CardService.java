@@ -86,4 +86,22 @@ public class CardService {
             save(original);
         }
     }
+
+    @Transactional
+    public void delete(Long id) {
+        repository.findById(id).ifPresent(card -> {
+            Card next = card.getNext();
+            if (next != null) {
+                if (card.hasProject())
+                    card.getProject().setDetail(next);
+                else if (card.planned())
+                    card.getPlanFor().setPlan(card.getRelease(), next);
+                else if (card.hasPrev())
+                    card.getPrev().setNext(next);
+
+                repository.save(next);
+            }
+            repository.deleteById(id);
+        });
+    }
 }

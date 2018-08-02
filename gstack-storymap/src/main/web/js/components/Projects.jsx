@@ -1,10 +1,9 @@
 import React from 'react'
-import Main from "./Main";
-import SuiteItem from "./SuiteItem";
 import { Card } from 'semantic-ui-react'
 import {connect} from 'react-redux'
-import CreateSuiteCard from "./CreateSuiteCard";
+import CreateProjectCard from "./CreateProjectCard";
 import Placeholder from "./Placeholder";
+import ProjectItem from "./ProjectItem";
 
 const mapDispatchToProps = dispatch => {
     return {}
@@ -12,22 +11,22 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = (state, props) => {
     return {
-        suites: state.suites.list
+        projects: state.projects.list
     }
 }
 
-class Suites extends React.Component {
+class Projects extends React.Component {
     render() {
-        let {suites} = this.props
+        let {projects: projects} = this.props
         return <Placeholder>
-            <h1 className="mt-5">Test Suites</h1>
+            <h1 className="mt-5">Projects</h1>
             <div className="row">
                 <div className="col">
                     <Card.Group itemsPerRow={4}>
                         {
-                            suites.map((suite, i) => <SuiteItem key={i} {...suite}/>)
+                            projects.map((project, i) => <ProjectItem key={i} {...project}/>)
                         }
-                        <CreateSuiteCard/>
+                        <CreateProjectCard/>
                     </Card.Group>
                 </div>
             </div>
@@ -35,4 +34,4 @@ class Suites extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Suites)
+export default connect(mapStateToProps, mapDispatchToProps)(Projects)

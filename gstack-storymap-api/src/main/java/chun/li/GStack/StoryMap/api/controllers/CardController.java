@@ -43,6 +43,12 @@ public class CardController {
         return detail;
     }
 
+    @DeleteMapping("{id}")
+    @ResponseStatus(NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        cardService.delete(id);
+    }
+
 
     @GetMapping("sandbox")
     @ResponseStatus(NO_CONTENT)

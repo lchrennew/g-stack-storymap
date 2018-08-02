@@ -1,25 +1,25 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchSuites} from "../actions";
+import {fetchProjects} from "../actions";
 import {Dimmer, Loader} from "semantic-ui-react";
 
 
 const mapDispatchToProps = dispatch => {
     return {
-        loadSuites: () => dispatch(fetchSuites()),
+        loadProjects: () => dispatch(fetchProjects()),
     }
 }
 
 const mapStateToProps = (state, props) => {
     return {
-        needShowLoading: state.suites.list == null
+        needShowLoading: state.projects.list == null
     }
 }
 
-class SuitesProvider extends React.Component {
+class ProjectsProvider extends React.Component {
     async componentDidMount() {
-        const {loadSuites} = this.props
-        await loadSuites()
+        const {loadProjects} = this.props
+        await loadProjects()
     }
 
     render() {
@@ -34,4 +34,4 @@ class SuitesProvider extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SuitesProvider)
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectsProvider)

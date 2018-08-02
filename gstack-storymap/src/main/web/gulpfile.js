@@ -14,44 +14,6 @@ var gulp = require("gulp"),
 
 var webroot = "../resources/static/";
 var srcroot = './'
-//
-// var paths = {
-//     src: {
-//         js: {
-//             js: srcroot + "js/**/*.js",
-//             jsx: srcroot + 'js/**/*.jsx',
-//             min: webroot + "js/dist/**/*.min.js",
-//             bundle: webroot + 'js/dist/bundle.js',
-//         },
-//         css: {
-//             css: srcroot + "css/**/*.css",
-//             less: srcroot + "css/**/*.less",
-//             sass: srcroot + "sass/**/*.scss",
-//         }
-//     },
-//     dist: {
-//         js: {
-//             babel: webroot + 'js/babel',
-//             min: webroot + 'js/dist/min',
-//             bundle: webroot + 'js/dist/bundle.js',
-//             concat: webroot + "js/bundle.min.js"
-//         },
-//         css: {
-//
-//             min: webroot + "css/**/*.min.css",
-//         }
-//     },
-//     minJs: webroot + "js/dist/**/*.min.js",
-//     css: webroot + "css/**/*.css",
-//     minCss: webroot + "css/**/*.min.css",
-//     concatJsDest: webroot + "js/site.min.js",
-//     concatCssDest: webroot + "css/site.min.css",
-//
-//     lessDest: webroot + "css",
-//     sassDest: webroot + "css",
-//     jsxDest: webroot + 'js/src',
-// };
-
 let paths = {
     js: {
         src: srcroot + 'js/**/*.js',
