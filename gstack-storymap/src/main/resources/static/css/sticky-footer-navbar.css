@@ -36,72 +36,6 @@ body {
     padding-left: 15px;
 }
 
-.commit-tease {
-    position: relative;
-    padding: 10px;
-    margin-bottom: -1px;
-    font-size: 13px;
-    line-height: 20px;
-    color: #586069;
-    background-color: #f1f8ff;
-    border: 1px solid #c8e1ff;
-    border-radius: 3px 3px 0 0;
-}
-
-.file-wrap {
-    margin-bottom: 10px;
-    border: 1px solid #dfe2e5;
-    border-top: 0;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
-}
-
-table.files {
-    margin-bottom: 0;
-}
-
-/*table.files td {*/
-    /*padding: .3rem;*/
-/*}*/
-
-
-table.files td.icon {
-    width: 17px;
-    padding-right: 2px;
-    padding-left: 10px !important;
-    text-align: center;
-    color: rgba(3, 47, 98, 0.55);
-}
-
-table.files td.content {
-    width: 180px;
-}
-
-table.files td.message {
-    font-size:12px;
-    max-width: 442px;
-    padding-left: 10px;
-    overflow: hidden;
-    color: #6a737d;
-}
-
-table.files td.actions {
-    width: 125px;
-    padding-right: 10px !important;
-    color: #6a737d;
-    text-align: right;
-    white-space: nowrap;
-}
-
-table.files td.actions a.link {
-    margin-left: 10px;
-    display: none;
-}
-
-table.files tr:hover td.actions a.link {
-    display: inline-block;
-}
-
 .feather {
     stroke: currentColor;
     stroke-width: 2;
@@ -109,21 +43,6 @@ table.files tr:hover td.actions a.link {
     stroke-linejoin: round;
     fill: none;
     vertical-align: text-bottom;
-}
-
-.modal > .content.shell {
-    padding: 1rem;
-    height: 400px;
-    overflow-y: auto;
-    background: black;
-    color: white;
-    font-family: Lucida Console;
-    font-size: 10px;
-}
-
-.shell p {
-    margin-bottom: 0;
-    white-space: pre-wrap;
 }
 
 .ui.card.create{
@@ -164,4 +83,142 @@ table.files tr:hover td.actions a.link {
 
 .text-muted{
     color: #8a8a8a;
+}
+
+/**************************************
+Sortable List CSS
+***************************************/
+.sortable.list > .item {
+    display: inline-block;
+}
+
+.activity.sortable.list {
+    display: inline-block;
+    font-size: 0em;
+    min-height: 180px;
+}
+
+.sortable.list .card {
+    width: 120px;
+    height: 78px;
+    position: relative;
+    cursor: pointer;
+    padding: 3px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    overflow: hidden;
+    margin: 4px;
+    border: solid 1px #8a8a8a;
+    background-color: #fff;
+}
+
+.activity.sortable.list > .item,
+.activity.item {
+    border-right: 1px solid #8a8a8a;
+    margin: 0;
+    padding: 0 4px;
+    min-width: 137px;
+    position: relative;
+}
+
+.activity.sortable.list > .item:last-child,
+.activity.item:last-child {
+    border-right: none;
+}
+
+.activity.sortable.list > .item.placeholder {
+    visibility: hidden;
+}
+
+.activity.sortable.list > .item,
+.drag-activity {
+    display: inline-block;
+    min-width: 128px;
+    min-height: 86px;
+    position: relative;
+}
+
+.task.sortable.list {
+    display: block;
+    font-size: 0em;
+    min-height: 86px;
+    margin: 0 -4px -12px -5px;
+    padding: 0 4px 12px 5px;
+}
+
+.feature.list {
+    display: inline-block;
+}
+
+.ui-sortable-placeholder.card,
+.ui-sortable-placeholder > .card {
+    border: dashed 1px #8a8a8a !important;
+}
+
+.ui-sortable-placeholder > .sortable.list,
+.drag-activity > .sortable.list {
+    display: none !important;
+}
+
+.drag-activity > .card,
+.drag-task > .card,
+.drag-feature > .card {
+    box-shadow: 1px 1px 5px #888888;
+}
+
+.activity.sortable.list > .item.drag-activity {
+    border-right: none;
+    margin: 0;
+    padding: 0;
+}
+
+.feature.sortable.list:after {
+    content: '';
+    display: block;
+    margin: 0 4px;
+    padding-top: 0;
+    padding-bottom: 0;
+    border: none;
+    width: 120px;
+}
+
+.stretched {
+    display: flex !important;
+}
+
+.stretched > div {
+    display: inline-flex !important;
+    align-self: stretch;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+}
+
+.schedules > .title {
+    background: #eee;
+}
+
+.schedules > .content {
+    margin: 0;
+    padding: 0 !important;
+}
+
+.red-border {
+    border: 1px solid red;
+    box-sizing: border-box;
+}
+
+.purple-border {
+    border: 1px solid purple;
+    box-sizing: border-box;
+}
+
+.blue-border {
+    border: 1px solid blue;
+    box-sizing: border-box;
+}
+
+.orange-border {
+    border: 1px solid orange;
+    box-sizing: border-box;
 }

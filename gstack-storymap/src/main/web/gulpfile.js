@@ -67,6 +67,7 @@ gulp.task('2 - Package all compiled JS (Rollup)', ['1 - Compile JSX into JS'], f
             ['react-notification-system', 'ReactNotificationSystem'],
             ['reactstrap','Reactstrap'],
             ['semantic-ui-react','semanticUIReact'],
+            ['sortablejs','Sortable'],
         ],
         shell = `rollup ${entry} -o ${output} -f umd -g ${globals.map(x=>x.join(':')).join(',')}`
 
