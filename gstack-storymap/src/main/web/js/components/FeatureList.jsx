@@ -6,6 +6,11 @@ class FeatureList extends React.Component {
 
     render() {
         const {taskid, releaseid = '_', list} = this.props
+        const group = {
+            name: '.list.ui-sortable',
+            pull: (to, from) => $(from).data('activity') !== $(to).data('activity')
+        }
+
         return <Sortable className="feature sortable list"
                          ghostClass="ui-sortable-placeholder"
                          dragClass="drag-feature"

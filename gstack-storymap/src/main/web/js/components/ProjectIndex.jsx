@@ -1,11 +1,9 @@
 import React from 'react'
 import Placeholder from "./Placeholder";
-import Card from "./Card";
-import {DragDropContext, Droppable} from "react-beautiful-dnd";
-import Activity from "./Activity";
-import Task from "./Task";
 import ActivityList from "./ActivityList";
 import ScheduleList from "./ScheduleList";
+import {Sticky} from "semantic-ui-react";
+import $ from 'jquery'
 
 const getCards = () => {
     return [
@@ -50,7 +48,41 @@ const getCards = () => {
                     "title": "T3"
                 }
             ]
-        }
+        },
+        // {
+        //     id: 100,
+        //     title: 'A3'
+        // },
+        // {
+        //     id: 101,
+        //     title: 'A3'
+        // }, {
+        //     id: 102,
+        //     title: 'A3'
+        // }, {
+        //     id: 103,
+        //     title: 'A3'
+        // }, {
+        //     id: 104,
+        //     title: 'A3'
+        // }, {
+        //     id: 105,
+        //     title: 'A3'
+        // }, {
+        //     id: 106,
+        //     title: 'A3'
+        // }, {
+        //     id: 107,
+        //     title: 'A3'
+        // },
+        // {
+        //     id: 108,
+        //     title: 'A3'
+        // },
+        // {
+        //     id: 109,
+        //     title: 'A4'
+        // },
     ]
 }
 const getReleases = () => {
@@ -72,9 +104,14 @@ const getReleases = () => {
 
 
 class ProjectIndex extends React.Component{
+    constructor(props) {
+        super(props)
+        this.contextRef = React.createRef()
+    }
+
     render() {
         const {cards = getCards(), releases = getReleases()} = this.props
-        return <Placeholder>
+        return <Placeholder ref={this.contextRef}>
             <ActivityList activities={cards}/>
             <ScheduleList activities={cards} releases={releases}/>
         </Placeholder>

@@ -10,15 +10,14 @@ class Project extends React.Component {
     render() {
         let {match: {params: {project}}, location: {pathname}} = this.props
         return <Placeholder>
-            <Breadcrumb size="huge">
-                <Icon name="map" size={24}/> <Link to={`/${project}`} className="section"><b>DEMO</b></Link>
-                <Breadcrumb.Divider>/</Breadcrumb.Divider>
-            </Breadcrumb>
-            <Divider hidden/>
+            {/*<Breadcrumb size="huge">*/}
+                {/*<Icon name="map" size={24}/> <Link to={`/${project}`} className="section"><b>DEMO</b></Link>*/}
+                {/*<Breadcrumb.Divider>/</Breadcrumb.Divider>*/}
+            {/*</Breadcrumb>*/}
+            {/*<Divider hidden/>*/}
             <Switch>
                 <Route path="/:project" component={ProjectIndex}/>
             </Switch>
-            <Divider hidden/>
         </Placeholder>
 
     }

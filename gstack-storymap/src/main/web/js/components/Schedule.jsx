@@ -8,11 +8,13 @@ class Schedule extends React.Component {
         const {activities, release} = this.props
         return release ?
             <Placeholder>
-                <Accordion.Title active>{release.title}</Accordion.Title>
+                <Accordion.Title active>
+                    <div className="sticky">{release.title}</div>
+                </Accordion.Title>
                 <Accordion.Content active className="stretched">
                     {
                         activities.map((activity, k) => {
-                            return <div className="activity item" key={k}>
+                            return <div className="activity item" key={k} data-activity={activity.id.toString()}>
                                 <div className="task sortable list stretched">
                                     {
                                         activity.details ? activity.details.map(task => {
@@ -22,7 +24,9 @@ class Schedule extends React.Component {
                                                 taskid={task.id}
                                                 list={task.plans ? task.plans[release.id.toString()] : null}
                                             />
-                                        }) : null
+                                        }) : <FeatureList
+                                            releaseid={release.id}
+                                        />
                                     }
                                 </div>
                             </div>
@@ -33,7 +37,7 @@ class Schedule extends React.Component {
             </Placeholder> :
             <Placeholder>
                 <Accordion.Title active>
-                    Unscheduled features
+                    <div className="sticky">Unscheduled features</div>
                 </Accordion.Title>
                 <Accordion.Content active className="stretched">
                     {

@@ -28,7 +28,12 @@ body {
 /* Not required for template or sticky footer method. */
 
 #gstack-console > .container {
-    padding: 60px 15px 0;
+    padding: 60px 0 0;
+    margin: 0 0 60px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    overflow: auto;
 }
 
 .footer > .container {
@@ -88,14 +93,24 @@ body {
 /**************************************
 Sortable List CSS
 ***************************************/
+.sortable.list {
+}
 .sortable.list > .item {
     display: inline-block;
+    background: transparent;
 }
 
 .activity.sortable.list {
-    display: inline-block;
     font-size: 0em;
     min-height: 180px;
+    background: #fff;
+
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    border-bottom: #0d71bb 1px solid;
+    width: max-content;
+    min-width: 100%;
 }
 
 .sortable.list .card {
@@ -114,7 +129,7 @@ Sortable List CSS
 
 .activity.sortable.list > .item,
 .activity.item {
-    border-right: 1px solid #8a8a8a;
+    border-right: 1px solid #eee;
     margin: 0;
     padding: 0 4px;
     min-width: 137px;
@@ -136,10 +151,10 @@ Sortable List CSS
     min-width: 128px;
     min-height: 86px;
     position: relative;
+    background: transparent;
 }
 
 .task.sortable.list {
-    display: block;
     font-size: 0em;
     min-height: 86px;
     margin: 0 -4px -12px -5px;
@@ -147,9 +162,11 @@ Sortable List CSS
 }
 
 .feature.list {
-    display: inline-block;
 }
 
+.feature.list > .item {
+    display: block;
+}
 .ui-sortable-placeholder.card,
 .ui-sortable-placeholder > .card {
     border: dashed 1px #8a8a8a !important;
@@ -160,6 +177,11 @@ Sortable List CSS
     display: none !important;
 }
 
+.drag-activity {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}
 .drag-activity > .card,
 .drag-task > .card,
 .drag-feature > .card {
@@ -172,6 +194,7 @@ Sortable List CSS
     padding: 0;
 }
 
+
 .feature.sortable.list:after {
     content: '';
     display: block;
@@ -183,42 +206,40 @@ Sortable List CSS
 }
 
 .stretched {
-    display: flex !important;
+    display: flex;
 }
 
 .stretched > div {
-    display: inline-flex !important;
+    display: inline-flex;
     align-self: stretch;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     flex-direction: column;
+    flex-shrink: 0;
 }
 
-.schedules > .title {
+.ui.accordion.schedules {
+    width: max-content;
+    max-width: max-content !important;
+    min-width: 100%;
+}
+
+.ui.accordion.schedules > .title {
     background: #eee;
 }
 
-.schedules > .content {
+.ui.accordion.schedules > .title > .sticky {
+    display: inline-block;
+    position: sticky;
+    left: 0;
+}
+
+.ui.accordion:not(.styled) .title ~ .content:not(.ui),
+.ui.accordion:not(.styled) .accordion .title ~ .content:not(.ui) {
     margin: 0;
-    padding: 0 !important;
+    padding: 0;
 }
 
-.red-border {
-    border: 1px solid red;
-    box-sizing: border-box;
-}
-
-.purple-border {
-    border: 1px solid purple;
-    box-sizing: border-box;
-}
-
-.blue-border {
-    border: 1px solid blue;
-    box-sizing: border-box;
-}
-
-.orange-border {
-    border: 1px solid orange;
-    box-sizing: border-box;
+.ui.accordion.schedules > .content {
+    display: flex;
 }

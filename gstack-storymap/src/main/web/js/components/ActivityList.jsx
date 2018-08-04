@@ -7,7 +7,7 @@ class ActivityList extends React.Component {
     render() {
         const {activities} = this.props
         const onClone = e => {
-            $(e.clone).remove()
+            // $(e.clone).remove()
         }
 
         return <Sortable className="activity sortable list stretched"
