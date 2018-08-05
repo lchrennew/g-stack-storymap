@@ -794,7 +794,7 @@
 
 					if (_onMove(rootEl, el, dragEl, dragRect, target, targetRect, evt) !== false) {
 						if (!dragEl.contains(el)) {
-							el.appendChild(dragEl);
+                            el.appendChild(dragEl);
 							parentEl = el; // actualization
 						}
 
@@ -826,12 +826,18 @@
 						var elTop = dragEl.offsetTop,
 							tgTop = target.offsetTop;
 
-						if (elTop === tgTop) {
-							after = (target.previousElementSibling === dragEl) && !isWide || halfway && isWide;
+                        if (elTop === tgTop) {
+                           // after = (target.previousElementSibling === dragEl) && !isWide || halfway && isWide;
+                            after = halfway
 						}
-						else if (target.previousElementSibling === dragEl || dragEl.previousElementSibling === target) {
+                        // @@@ Patched by lichun
+                        else if ($(target).siblings().index(dragEl) < 0) {
+                            after = halfway
+                        }
+                        else if (target.previousElementSibling === dragEl || dragEl.previousElementSibling === target) {
 							after = (evt.clientY - targetRect.top) / height > 0.5;
-						} else {
+                        }
+                        else {
 							after = tgTop > elTop;
 						}
 						} else if (!isMovingBetweenSortable) {
@@ -854,21 +860,28 @@
 							if (after && !nextSibling) {
 								el.appendChild(dragEl);
 							} else {
-								target.parentNode.insertBefore(dragEl, after ? nextSibling : target);
+                                // target.parentNode.insertBefore(dragEl, after ? nextSibling : target);
+                                // @@@ Patched by lichun
+                                if (!after) {
+                                    target.parentNode.insertBefore(dragEl, target)
+                                }
+                                else {
+                                    target.parentNode.insertBefore(dragEl, nextSibling)
+                                }
 							}
 						}
 
 						parentEl = dragEl.parentNode; // actualization
 
-						this._animate(dragRect, dragEl);
-						this._animate(targetRect, target);
+                        this._animate(dragRect, dragEl);
+                        this._animate(targetRect, target);
 					}
 				}
 			}
 		},
 
 		_animate: function (prevRect, target) {
-			var ms = this.options.animation;
+            var ms = this.options.animation;
 
 			if (ms) {
 				var currentRect = target.getBoundingClientRect();
