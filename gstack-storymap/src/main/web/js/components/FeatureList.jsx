@@ -1,8 +1,8 @@
 import React from 'react'
 import Card from "./Card";
-import {Sortable, getMoveOptions, getUpdateOptions} from './Sortable'
 import {moveUpdateCard} from "../actions";
 import {connect} from "react-redux";
+import {getMoveOptions, SortableCards} from "./SortableCards";
 
 
 const mapStateToProps = (state, props) => {
@@ -21,33 +21,23 @@ class FeatureList extends React.Component {
         const onMove = e => {
                 console.log('[Feature]')
                 console.log(getMoveOptions(e))
-            },
-            onUpdate = e => {
-                moveCard(getUpdateOptions(e))
-            },
-            onAdd = e => {
-                let opt = getUpdateOptions(e)
-                e.from.appendChild(e.item)
-                moveCard(opt)
             }
 
 
-        return <Sortable className={`feature sortable list${release ? ' release' : ''}`}
-                         ghostClass="ui-sortable-placeholder"
-                         dragClass="drag-feature"
-                         chosenClass="chosen-feature"
-                         onMove={onMove.bind(this)}
-                         onUpdate={onUpdate.bind(this)}
-                         onAdd={onAdd.bind(this)}
-                         data={{card: task, release}}
-                         id={`${task ? task.id : ''}`}
+        return <SortableCards className={`feature sortable list${release ? ' release' : ''}`}
+                              ghostClass="ui-sortable-placeholder"
+                              dragClass="drag-feature"
+                              chosenClass="chosen-feature"
+                              onMove={onMove.bind(this)}
+                              data={{card: task, release}}
+                              id={`${task ? task.id : ''}`}
         >
             {
                 list ? list.map(feature => (
                     <Card key={feature.id} card={feature}/>
                 )) : null
             }
-        </Sortable>
+        </SortableCards>
 
     }
 

@@ -964,6 +964,7 @@
 						newIndex = _index(dragEl, options.draggable);
 
 						if (newIndex >= 0) {
+
 							// Add event
 							_dispatchEvent(null, parentEl, 'add', dragEl, parentEl, rootEl, oldIndex, newIndex);
 

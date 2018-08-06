@@ -1,9 +1,9 @@
 import React from 'react'
-import {Sortable, getMoveOptions, getUpdateOptions} from './Sortable'
 import Card from "./Card";
 import {jsonPath} from "../utils";
 import {moveUpdateCard} from "../actions";
 import {connect} from "react-redux";
+import {getMoveOptions, SortableCards} from "./SortableCards";
 
 const mapStateToProps = (state, props) => {
     return {}
@@ -19,7 +19,7 @@ class TaskList extends React.Component {
 
     render() {
         const {activity: {details}, activity, moveCard} = this.props
-        const onStart = e => {
+        const onChoose = e => {
                 const opt = getMoveOptions(e)
                 $(`.feature.list[data-id="${opt.card.id}"]`).addClass('dragging')
 
@@ -29,7 +29,9 @@ class TaskList extends React.Component {
                 }
                 // 如果task有plans，不能成为activity
                 if (jsonPath(opt.card, '$..plans..id')) {
-                    $('.activity.list')[0].option("disabled", true)
+                    // $('.activity.list')[0].option("disabled", true)
+                    $('.activity.list')[0].option('group', {put: false})
+                    console.log('disabled')
                 }
             },
             onMove = e => {
@@ -52,41 +54,27 @@ class TaskList extends React.Component {
                 //     })
                 // }
             },
-            onUpdate = e => {
-                moveCard(getUpdateOptions(e))
-            },
-            onAdd = e => {
-                let opt = getUpdateOptions(e)
-                e.from.appendChild(e.item)
-                moveCard(opt)
-            },
-            onRemove = e => {
-                e.preventDefault()
-            },
             onEnd = e => {
                 const opt = getMoveOptions(e)
                 $(`.dragging`).removeClass('dragging')
-                $('.activity.list')[0].option("disabled", false)
+                $('.activity.list')[0].option('group', {put: true})
             }
-        return <Sortable className="task sortable list"
-                         ghostClass="ui-sortable-placeholder"
-                         dragClass="drag-task"
-                         chosenClass="chosen-task"
-                         onMove={onMove.bind(this)}
-                         onStart={onStart.bind(this)}
-                         onUpdate={onUpdate.bind(this)}
-                         onAdd={onAdd.bind(this)}
-                         onRemove={onRemove.bind(this)}
-                         onEnd={onEnd.bind(this)}
-                         data={{card: activity}}
-                         id={`${activity.id}`}
+        return <SortableCards className="task sortable list"
+                              ghostClass="ui-sortable-placeholder"
+                              dragClass="drag-task"
+                              chosenClass="chosen-task"
+                              onMove={onMove.bind(this)}
+                              onChoose={onChoose.bind(this)}
+                              onEnd={onEnd.bind(this)}
+                              data={{card: activity}}
+                              id={`${activity.id}`}
         >
             {
                 details ? details.map(task => (
                     <Card key={task.id} card={task}/>
                 )) : null
             }
-        </Sortable>
+        </SortableCards>
     }
 }
 

@@ -68,6 +68,7 @@ const cards = (state = {list: null}, action) => {
             let {option: {card, direction, target, after, release}} = action
             if (card && target) {
                 let list = $.extend(true, [], state.list)
+                //let list = [...state.list]
                 // detach card
                 card = CardHelper.detach(list, CardHelper.path(list, card.id))
                 switch (direction) {

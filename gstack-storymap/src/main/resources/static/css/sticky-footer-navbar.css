@@ -28,8 +28,8 @@ body {
 /* Not required for template or sticky footer method. */
 
 #gstack-console > .container {
-    padding: 60px 0 0;
-    margin: 0 0 60px;
+    padding: 0;
+    margin: 60px 0;
     position: fixed;
     top: 0;
     bottom: 0;
@@ -129,8 +129,6 @@ Sortable List CSS
     font-size: 1rem;
     overflow: hidden;
     margin: 4px;
-    border: solid 1px #8a8a8a;
-    background-color: #fff;
 }
 
 .activity.sortable.list > .item,
@@ -177,7 +175,7 @@ Sortable List CSS
 }
 .ui-sortable-placeholder.card,
 .ui-sortable-placeholder > .card {
-    border: dashed 1px #8a8a8a !important;
+    background: #ffffff !important;
 }
 
 .ui-sortable-placeholder > .sortable.list,
@@ -274,4 +272,18 @@ DRAGGING RELATED
 .schedules .activity.item .feature.list {
     display: inline-flex;
     flex-direction: column;
+}
+
+.schedules .card {
+    background: #99e6ff;
+    border: none;
+}
+
+.activity.list .card {
+    background: #ff9999;
+
+}
+
+.task.list .card {
+    background: #fff799;
 }

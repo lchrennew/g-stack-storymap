@@ -3,7 +3,7 @@ import $ from 'jquery'
 class Card extends React.Component {
     bindCard(el) {
         const {card} = this.props
-        $(el).data('card',card)
+        $(el).data('card', card)
     }
 
     render() {

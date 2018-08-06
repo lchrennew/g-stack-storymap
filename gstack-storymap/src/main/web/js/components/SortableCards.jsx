@@ -1,6 +1,8 @@
 import React from 'react'
-import sort from "sortablejs"
+import Sortable from "sortablejs"
 import $ from 'jquery'
+import {moveUpdateCard} from "../actions";
+import {connect} from 'react-redux'
 
 const getDirection = (e) => {
     //console.log(`related = ${$(e.related).data('card').title} @ ${$(e.related).index()}`)
@@ -66,14 +68,23 @@ export const getUpdateOptions = e => {
     return {direction, card, target, release}
 }
 
-export class Sortable extends React.Component {
+const mapStateToProps = (state, props) => {
+    return {}
+}
 
+const mapDispatchToProps = dispatch => {
+    return {
+        moveCard: (option) => dispatch(moveUpdateCard(option))
+    }
+}
+const eventHandler = e => {
+}
 
+class _SortableCards extends React.Component {
 
     init(el) {
         if (el) {
-            const eventHandler = e => {
-            }
+
             const {
                 group = 'cards',
                 dragClass = '',
@@ -82,26 +93,24 @@ export class Sortable extends React.Component {
                 filter = '.placeholder',
                 animation = 0,
                 scroll = $('#gstack-console > .container')[0],
-                scrollSensitivity = 300,
+                scrollSensitivity = 120,
                 scrollSpeed = 10,
-                // scrollFn = (offsetX, offsetY, originalEvent, touchEvt, hoverTargetEl) => {
-                //
-                // },
                 handle = '.card',
                 forceFallback = false,
                 delay = 0,
                 onStart = eventHandler,
                 onEnd = eventHandler,
-                onAdd = eventHandler,
-                onUpdate = eventHandler,
                 onSort = eventHandler,
                 onRemove = eventHandler,
                 onFilter = eventHandler,
                 onMove = eventHandler,
                 onClone = eventHandler,
-                data = {}
+                onChoose = eventHandler,
+                data = {},
+                moveCard,
             } = this.props
-            const s = sort.create(el, {
+
+            const s = Sortable.create(el, {
                 group,
                 dragClass,
                 ghostClass,
@@ -114,16 +123,27 @@ export class Sortable extends React.Component {
                 handle,
                 forceFallback,
                 delay,
-                onStart: e => onStart(e),
-                onEnd: e => onEnd(e),
-                onAdd: e => onAdd(e),
-                onUpdate: e => onUpdate(e),
+                onStart,
+                onEnd,
+                onAdd: e => {
+                    const opt = getUpdateOptions(e)
+                    //e.from.append(e.item)
+                    if (e.from.contains(e.item) || e.to.contains(e.from) || e.to != e.from)
+                        e.from.append(e.item)
+                    moveCard(opt)
+                },
+                onUpdate: e => {
+                    const opt = getUpdateOptions(e)
+                    moveCard(opt)
+                },
+                onChoose,
                 // onSort: e => console.log(`onSort->`) || console.log(e) || onSort(e),
-                onRemove: e => onRemove(e),
+                onRemove,
                 // onFilter: e => console.log(`onFilter->`) || console.log(e) || onFilter(e),
-                onMove: e => onMove(e),
+                onMove,
                 // onClone: e => console.log(`onClone->`) || console.log(e) || onClone(e),
             })
+
             $(el).data(data)
             el.option = s.option.bind(s)
         }
@@ -131,9 +151,10 @@ export class Sortable extends React.Component {
 
     render() {
         const {className, id} = this.props
-
         return <div {...{className}} ref={this.init.bind(this)} data-id={id}>
             {this.props.children}
         </div>
     }
 }
+
+export const SortableCards = connect(mapStateToProps, mapDispatchToProps)(_SortableCards)

@@ -1,10 +1,10 @@
 import React from 'react'
-import {Sortable, getMoveOptions, getUpdateOptions} from "./Sortable";
 import TaskList from "./TaskList";
 import Card from "./Card";
 import {jsonPath} from "../utils";
 import {moveUpdateCard} from "../actions";
 import {connect} from 'react-redux'
+import {getMoveOptions, SortableCards} from "./SortableCards";
 
 const mapStateToProps = (state, props) => {
     return {}
@@ -54,34 +54,20 @@ class ActivityList extends React.Component {
                 //     })
                 // }
             },
-            onUpdate = e => {
-                moveCard(getUpdateOptions(e))
-            },
-            onAdd = e => {
-                let opt = getUpdateOptions(e)
-                e.from.appendChild(e.item)
-                moveCard(opt)
-            },
-            onRemove = e => {
-                e.preventDefault()
-            },
             onEnd = e => {
                 //const opt = getMoveOptions(e)
                 $(`.dragging`).removeClass('dragging')
         }
 
-        return <Sortable className="activity sortable list stretched"
-                         ghostClass="ui-sortable-placeholder"
-                         chosenClass="chosen-activity"
-                         dragClass="drag-activity"
-                         onMove={onMove.bind(this)}
-                         onStart={onStart.bind(this)}
-                         onUpdate={onUpdate.bind(this)}
-                         onAdd={onAdd.bind(this)}
-                         onRemove={onRemove.bind(this)}
-                         onEnd={onEnd.bind(this)}
-                         data={{card: activities[0]}}
-                         id="_"
+        return <SortableCards className="activity sortable list stretched"
+                              ghostClass="ui-sortable-placeholder"
+                              chosenClass="chosen-activity"
+                              dragClass="drag-activity"
+                              onMove={onMove.bind(this)}
+                              onStart={onStart.bind(this)}
+                              onEnd={onEnd.bind(this)}
+                              data={{card: activities[0]}}
+                              id="_"
         >
             {
                 activities.map((activity) => (
@@ -91,7 +77,7 @@ class ActivityList extends React.Component {
                     />
                 ))
             }
-        </Sortable>
+        </SortableCards>
     }
 }
 
