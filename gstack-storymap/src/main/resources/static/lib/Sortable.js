@@ -827,17 +827,11 @@
 							tgTop = target.offsetTop;
 
                         if (elTop === tgTop) {
-                           // after = (target.previousElementSibling === dragEl) && !isWide || halfway && isWide;
-                            after = halfway
-						}
-                        // @@@ Patched by lichun
-                        else if ($(target).siblings().index(dragEl) < 0) {
-                            after = halfway
+                            after = (target.previousElementSibling === dragEl) && !isWide || halfway && isWide;
                         }
                         else if (target.previousElementSibling === dragEl || dragEl.previousElementSibling === target) {
 							after = (evt.clientY - targetRect.top) / height > 0.5;
-                        }
-                        else {
+                        } else {
 							after = tgTop > elTop;
 						}
 						} else if (!isMovingBetweenSortable) {
@@ -860,14 +854,7 @@
 							if (after && !nextSibling) {
 								el.appendChild(dragEl);
 							} else {
-                                // target.parentNode.insertBefore(dragEl, after ? nextSibling : target);
-                                // @@@ Patched by lichun
-                                if (!after) {
-                                    target.parentNode.insertBefore(dragEl, target)
-                                }
-                                else {
-                                    target.parentNode.insertBefore(dragEl, nextSibling)
-                                }
+                                target.parentNode.insertBefore(dragEl, after ? nextSibling : target);
 							}
 						}
 
@@ -1333,11 +1320,12 @@
 		evt.oldIndex = startIndex;
 		evt.newIndex = newIndex;
 
-		rootEl.dispatchEvent(evt);
+        var cancelled = !rootEl.dispatchEvent(evt);
 
-		if (options[onName]) {
+        if (options[onName]) {
 			options[onName].call(sortable, evt);
 		}
+		return cancelled
 	}
 
 

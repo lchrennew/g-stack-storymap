@@ -1,123 +1,44 @@
 [
   {
-    "file": ".\\example.spec",
-    "spec": {
-      "title": "Specification Heading",
-      "lineNumber": 1,
-      "tags": [
-        "A",
-        "B",
-        "C"
-      ],
-      "scenarios": [
-        {
-          "title": "Scenario Heading",
-          "lineNumber": 10,
-          "tags": [
-            "X",
-            "Y",
-            "Z"
-          ]
-        }
-      ]
-    }
-  },
-  {
-    "file": ".\\example1.spec",
-    "spec": {
-      "title": "Specification Heading",
-      "lineNumber": 1,
-      "tags": [
-        "A",
-        "B",
-        "C"
-      ],
-      "scenarios": [
-        {
-          "title": "Scenario Heading",
-          "lineNumber": 10,
-          "tags": [
-            "X",
-            "Y",
-            "Z"
-          ]
-        }
-      ]
-    }
-  },
-  {
-    "file": ".\\tags.spec",
-    "spec": {
-      "title": "Test tags",
-      "lineNumber": 1,
-      "tags": [
-        "tag1",
-        "tag2"
-      ],
-      "scenarios": [
-        {
-          "title": "s1",
-          "lineNumber": 4,
-          "tags": [
-            "tag3",
-            "tag4"
+    "id": 5,
+    "title": "A1",
+    "details": [
+      {
+        "id": 7,
+        "title": "T1"
+      },
+      {
+        "id": 4,
+        "title": "T2",
+        "plans": {
+          "1": [
+            {
+              "id": 11,
+              "title": "F3"
+            },
+            {
+              "id": 9,
+              "title": "F1"
+            }
           ]
         },
-        {
-          "title": "s2",
-          "lineNumber": 8,
-          "tags": [
-            "tag4",
-            "tag5"
-          ]
-        }
-      ]
-    }
+        "details": [
+          {
+            "id": 10,
+            "title": "F2"
+          }
+        ]
+      }
+    ]
   },
   {
-    "file": ".\\demo\\example.spec",
-    "spec": {
-      "title": "Specification Heading",
-      "lineNumber": 1,
-      "tags": [
-        "A",
-        "B",
-        "C"
-      ],
-      "scenarios": [
-        {
-          "title": "Scenario Heading",
-          "lineNumber": 10,
-          "tags": [
-            "X",
-            "Y",
-            "Z"
-          ]
-        }
-      ]
-    }
-  },
-  {
-    "file": ".\\demo\\example1.spec",
-    "spec": {
-      "title": "Specification Heading",
-      "lineNumber": 1,
-      "tags": [
-        "A",
-        "B",
-        "C"
-      ],
-      "scenarios": [
-        {
-          "title": "Scenario Heading",
-          "lineNumber": 10,
-          "tags": [
-            "X",
-            "Y",
-            "Z"
-          ]
-        }
-      ]
-    }
+    "id": 6,
+    "title": "A2",
+    "details": [
+      {
+        "id": 8,
+        "title": "T3"
+      }
+    ]
   }
 ]

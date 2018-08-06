@@ -2,106 +2,14 @@ import React from 'react'
 import Placeholder from "./Placeholder";
 import ActivityList from "./ActivityList";
 import ScheduleList from "./ScheduleList";
-import {Sticky} from "semantic-ui-react";
-import $ from 'jquery'
+import {connect} from 'react-redux'
 
-const getCards = () => {
-    return [
-        {
-            "id": 5,
-            "title": "A1",
-            "details": [
-                {
-                    "id": 7,
-                    "title": "T1"
-                },
-                {
-                    "id": 4,
-                    "title": "T2",
-                    "plans": {
-                        "1": [
-                            {
-                                "id": 11,
-                                "title": "F3"
-                            },
-                            {
-                                "id": 9,
-                                "title": "F1"
-                            }
-                        ]
-                    },
-                    "details": [
-                        {
-                            "id": 10,
-                            "title": "F2"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": 6,
-            "title": "A2",
-            "details": [
-                {
-                    "id": 8,
-                    "title": "T3"
-                }
-            ]
-        },
-        // {
-        //     id: 100,
-        //     title: 'A3'
-        // },
-        // {
-        //     id: 101,
-        //     title: 'A3'
-        // }, {
-        //     id: 102,
-        //     title: 'A3'
-        // }, {
-        //     id: 103,
-        //     title: 'A3'
-        // }, {
-        //     id: 104,
-        //     title: 'A3'
-        // }, {
-        //     id: 105,
-        //     title: 'A3'
-        // }, {
-        //     id: 106,
-        //     title: 'A3'
-        // }, {
-        //     id: 107,
-        //     title: 'A3'
-        // },
-        // {
-        //     id: 108,
-        //     title: 'A3'
-        // },
-        // {
-        //     id: 109,
-        //     title: 'A4'
-        // },
-    ]
+const mapStateToProps = (state, props) => {
+    return {
+        cards: state.cards.list,
+        releases: state.releases.list,
+    }
 }
-const getReleases = () => {
-    return [
-        {
-            "id": 2,
-            "title": "r2"
-        },
-        {
-            "id": 3,
-            "title": "r3"
-        },
-        {
-            "id": 1,
-            "title": "r1"
-        }
-    ]
-}
-
 
 class ProjectIndex extends React.Component{
     constructor(props) {
@@ -110,7 +18,7 @@ class ProjectIndex extends React.Component{
     }
 
     render() {
-        const {cards = getCards(), releases = getReleases()} = this.props
+        const {cards = [], releases = []} = this.props
         return <Placeholder ref={this.contextRef}>
             <ActivityList activities={cards}/>
             <ScheduleList activities={cards} releases={releases}/>
@@ -118,4 +26,4 @@ class ProjectIndex extends React.Component{
     }
 }
 
-export default ProjectIndex
+export default connect(mapStateToProps)(ProjectIndex)

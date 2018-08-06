@@ -103,21 +103,27 @@ Sortable List CSS
 .activity.sortable.list {
     font-size: 0em;
     min-height: 180px;
-    background: #fff;
-
+    z-index: 2;
     position: sticky;
     top: 0;
-    z-index: 1;
     border-bottom: #0d71bb 1px solid;
     width: max-content;
     min-width: 100%;
 }
 
+.activity.sortable.list:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+}
+
 .sortable.list .card {
     width: 120px;
     height: 78px;
-    position: relative;
-    cursor: pointer;
+    /*position: relative;*/
+    cursor: grab;
     padding: 3px;
     box-sizing: border-box;
     font-size: 1rem;
@@ -133,7 +139,8 @@ Sortable List CSS
     margin: 0;
     padding: 0 4px;
     min-width: 137px;
-    position: relative;
+    z-index: 1;
+    /*position: relative;*/
 }
 
 .activity.sortable.list > .item:last-child,
@@ -150,18 +157,19 @@ Sortable List CSS
     display: inline-block;
     min-width: 128px;
     min-height: 86px;
-    position: relative;
+    /*position: relative;*/
     background: transparent;
 }
 
 .task.sortable.list {
     font-size: 0em;
     min-height: 86px;
-    margin: 0 -4px -12px -5px;
-    padding: 0 4px 12px 5px;
+    margin: 0 -6px -12px;
+    padding: 0 6px 12px;
 }
 
 .feature.list {
+    min-height: 86px;
 }
 
 .feature.list > .item {
@@ -184,7 +192,10 @@ Sortable List CSS
 }
 .drag-activity > .card,
 .drag-task > .card,
-.drag-feature > .card {
+.drag-feature > .card,
+.chosen-activity > .card,
+.chosen-task > .card,
+.chosen-feature > .card {
     box-shadow: 1px 1px 5px #888888;
 }
 
@@ -242,4 +253,16 @@ Sortable List CSS
 
 .ui.accordion.schedules > .content {
     display: flex;
+}
+
+/*****
+DRAGGING RELATED
+******/
+.activity.item.dragging .task.list {
+    display: none;
+}
+
+.task.list.dragging,
+.feature.list.dragging {
+    visibility: hidden !important;
 }

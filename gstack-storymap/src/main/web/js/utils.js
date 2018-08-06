@@ -4,6 +4,11 @@
  * Licensed under the MIT (MIT-LICENSE.txt) licence.
  */
 export const jsonPath = (obj, expr, arg) => {
+    if (expr === '$') {
+        if (arg && arg.resultType === 'PATH') {
+            return ['$']
+        } else return [obj]
+    }
     var P = {
         resultType: arg && arg.resultType || "VALUE",
         result: [],

@@ -18,7 +18,7 @@ const ProjectMenuItems = withRouter(props => {
 class Header extends React.Component {
     render() {
         return <Menu fixed='top' inverted as="header">
-            <Container>
+            <Container fluid>
                 <Menu.Item as='a' header>
                     <Image size='mini' src='/img/logo.png' style={{marginRight: '1.5em'}}/>
                     Project Name

@@ -62,3 +62,86 @@ export const createProject = project => (dispatch, getState) => {
     return dispatch(_createProject(project))
 }
 
+/*************************
+ 获取卡片
+ *************************/
+
+const requestCards = (project) => ({
+    type: 'FETCH_CARDS',
+    project,
+})
+
+const receiveCards = (project, list) => ({
+    type: 'RECEIVE_CARDS',
+    project,
+    list,
+})
+
+const _fetchCards = (project) => async dispatch => {
+    dispatch(requestCards(project))
+    let response = await api(`projects/${project}/cards`, {credentials: 'include'})(dispatch)
+    if (response.ok) {
+        let list = await  response.json()
+        return dispatch(receiveCards(project, list))
+    }
+    return null
+}
+
+const cardsNotFetching = state => !state.cards.fetch
+
+export const fetchCards = (project) => (dispatch, getState) => {
+    let state = getState()
+    if (cardsNotFetching(state)) {
+        return dispatch(_fetchCards(project))
+    }
+    else return Promise.resolve()
+}
+
+/****
+ 版本
+ *********/
+
+const requestReleases = (project) => ({
+    type: 'FETCH_RELEASES',
+    project,
+})
+
+const receiveReleases = (project, list) => ({
+    type: 'RECEIVE_RELEASES',
+    project,
+    list,
+})
+
+const _fetchReleases = (project) => async dispatch => {
+    dispatch(requestReleases(project))
+    let response = await api(`projects/${project}/releases`, {credentials: 'include'})(dispatch)
+    if (response.ok) {
+        let list = await  response.json()
+        return dispatch(receiveReleases(project, list))
+    }
+    return null
+}
+
+const releasesNotFetching = state => !state.releases.fetch
+
+export const fetchReleases = (project) => (dispatch, getState) => {
+    let state = getState()
+    if (releasesNotFetching(state)) {
+        return dispatch(_fetchReleases(project))
+    }
+    else return Promise.resolve()
+}
+
+/****
+ 卡片移动
+ */
+const moveCard = (option) => {
+    return {
+        type: 'MOVE_CARD',
+        option
+    }
+}
+
+export const moveUpdateCard = (option) => (dispatch, getState) => {
+    return dispatch(moveCard(option))
+}
