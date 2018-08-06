@@ -39,7 +39,6 @@ class FeatureList extends React.Component {
                          onMove={onMove.bind(this)}
                          onUpdate={onUpdate.bind(this)}
                          onAdd={onAdd.bind(this)}
-                         scrollSensitivity={240}
                          data={{card: task, release}}
                          id={`${task ? task.id : ''}`}
         >

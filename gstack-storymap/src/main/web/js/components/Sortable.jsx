@@ -1,5 +1,6 @@
 import React from 'react'
 import sort from "sortablejs"
+import $ from 'jquery'
 
 const getDirection = (e) => {
     //console.log(`related = ${$(e.related).data('card').title} @ ${$(e.related).index()}`)
@@ -78,10 +79,14 @@ export class Sortable extends React.Component {
                 dragClass = '',
                 ghostClass = 'ui-sortable-placeholder',
                 chosenClass = 'ui-sortable-placeholder',
-                scroll = true,
                 filter = '.placeholder',
                 animation = 0,
-                scrollSensitivity = 180,
+                scroll = $('#gstack-console > .container')[0],
+                scrollSensitivity = 300,
+                scrollSpeed = 10,
+                // scrollFn = (offsetX, offsetY, originalEvent, touchEvt, hoverTargetEl) => {
+                //
+                // },
                 handle = '.card',
                 forceFallback = false,
                 delay = 0,
@@ -105,6 +110,7 @@ export class Sortable extends React.Component {
                 filter,
                 animation,
                 scrollSensitivity,
+                scrollSpeed,
                 handle,
                 forceFallback,
                 delay,

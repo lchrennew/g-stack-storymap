@@ -266,3 +266,12 @@ DRAGGING RELATED
 .feature.list.dragging {
     visibility: hidden !important;
 }
+
+.schedules .activity.item {
+    flex-direction: row;
+}
+
+.schedules .activity.item .feature.list {
+    display: inline-flex;
+    flex-direction: column;
+}

@@ -17,20 +17,18 @@ class Schedule extends React.Component {
                             return <div className="activity item"
                                         key={k}
                                         data-id={`${activity.id}`}>
-                                <div className="task sortable list stretched">
-                                    {
-                                        activity.details ? activity.details.map(task => {
-                                            return <FeatureList
-                                                key={task.id}
-                                                release={release}
-                                                task={task}
-                                                list={task.plans ? task.plans[release.id.toString()] : null}
-                                            />
-                                        }) : <FeatureList
+                                {
+                                    activity.details ? activity.details.map(task => {
+                                        return <FeatureList
+                                            key={task.id}
                                             release={release}
+                                            task={task}
+                                            list={task.plans ? task.plans[release.id.toString()] : null}
                                         />
-                                    }
-                                </div>
+                                    }) : <FeatureList
+                                        release={release}
+                                    />
+                                }
                             </div>
                         })
                     }
@@ -47,15 +45,13 @@ class Schedule extends React.Component {
                             return <div className="activity item"
                                         key={k}
                                         data-id={`${activity.id}`}>
-                                <div className="task sortable list stretched">
-                                    {
-                                        activity.details ? activity.details.map(task =>
-                                            <FeatureList
-                                                key={task.id}
-                                                list={task.details}
-                                                task={task}/>) : null
-                                    }
-                                </div>
+                                {
+                                    activity.details ? activity.details.map(task =>
+                                        <FeatureList
+                                            key={task.id}
+                                            list={task.details}
+                                            task={task}/>) : null
+                                }
                             </div>
                         })
                     }

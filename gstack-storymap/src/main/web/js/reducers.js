@@ -43,18 +43,18 @@ class CardHelper {
     }
 
     static detail(list = [], path, card) {
-        const general = jsonPath(list, path)
+        const general = jsonPath(list, path)[0]
         if (general.details) {
             general.details.splice(0, 0, card)
         }
         else general.details = [card]
     }
 
-    static release(list = [], path, release, card) {
-        const general = jsonPath(list, path)
-        general.releases = general.releases || {}
-        general.releases[release] = general.releases[release] || []
-        general.releases[release].splice(0, 0, card)
+    static plan(list = [], path, release, card) {
+        const general = jsonPath(list, path)[0]
+        general.plans = general.plans || {}
+        general.plans[release] = general.plans[release] || []
+        general.plans[release].splice(0, 0, card)
     }
 }
 
@@ -81,7 +81,7 @@ const cards = (state = {list: null}, action) => {
                         CardHelper.detail(list, CardHelper.path(list, target.id), card)
                         break
                     case 'Release':
-                        CardHelper.release(list, CardHelper.path(list, target.id), release, card)
+                        CardHelper.plan(list, CardHelper.path(list, target.id), release, card)
                         break;
                     default:
                         return state
