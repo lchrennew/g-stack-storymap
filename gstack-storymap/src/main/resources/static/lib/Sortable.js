@@ -189,13 +189,12 @@
 				} else {
 					return function (to, from) {
 						var fromGroup = from.options.group.name;
-
-						return pull
-							? value
-							: value && (value.join
-								? value.indexOf(fromGroup) > -1
-								: (fromGroup == value)
-							);
+                        return pull
+                        	? value
+                        	: value && (value.join
+                        		? value.indexOf(fromGroup) > -1
+                        		: (fromGroup == value)
+                        	);
 					};
 				}
 			}

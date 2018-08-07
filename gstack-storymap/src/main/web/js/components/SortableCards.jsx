@@ -86,7 +86,7 @@ class _SortableCards extends React.Component {
         if (el) {
 
             const {
-                group = 'cards',
+                group = {name: 'cards', pull: true, put: (from, to) => !$(from.el).hasClass('dragging')},
                 dragClass = '',
                 ghostClass = 'ui-sortable-placeholder',
                 chosenClass = 'ui-sortable-placeholder',

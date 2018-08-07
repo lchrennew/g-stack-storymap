@@ -19,7 +19,7 @@ const mapDispatchToProps = dispatch => {
 class ActivityList extends React.Component {
     render() {
         const {activities, moveCard} = this.props,
-            onStart = e => {
+            onChoose = e => {
                 const opt = getMoveOptions(e)
                 $(`.activity.item[data-id="${opt.card.id}"]`).addClass('dragging')
 
@@ -64,7 +64,7 @@ class ActivityList extends React.Component {
                               chosenClass="chosen-activity"
                               dragClass="drag-activity"
                               onMove={onMove.bind(this)}
-                              onStart={onStart.bind(this)}
+                              onChoose={onChoose.bind(this)}
                               onEnd={onEnd.bind(this)}
                               data={{card: activities[0]}}
                               id="_"

@@ -30,8 +30,8 @@ class TaskList extends React.Component {
                 // 如果task有plans，不能成为activity
                 if (jsonPath(opt.card, '$..plans..id')) {
                     // $('.activity.list')[0].option("disabled", true)
-                    $('.activity.list')[0].option('group', {put: false})
-                    console.log('disabled')
+                    $('.activity.list').addClass('dragging')
+                    console.log('activity')
                 }
             },
             onMove = e => {
@@ -57,7 +57,6 @@ class TaskList extends React.Component {
             onEnd = e => {
                 const opt = getMoveOptions(e)
                 $(`.dragging`).removeClass('dragging')
-                $('.activity.list')[0].option('group', {put: true})
             }
         return <SortableCards className="task sortable list"
                               ghostClass="ui-sortable-placeholder"

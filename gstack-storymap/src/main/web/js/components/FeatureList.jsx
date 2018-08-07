@@ -18,17 +18,16 @@ class FeatureList extends React.Component {
     render() {
         const {task, release, list, moveCard} = this.props
 
+
         const onMove = e => {
                 console.log('[Feature]')
                 console.log(getMoveOptions(e))
             }
 
-
         return <SortableCards className={`feature sortable list${release ? ' release' : ''}`}
                               ghostClass="ui-sortable-placeholder"
                               dragClass="drag-feature"
                               chosenClass="chosen-feature"
-                              onMove={onMove.bind(this)}
                               data={{card: task, release}}
                               id={`${task ? task.id : ''}`}
         >

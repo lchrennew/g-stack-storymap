@@ -123,7 +123,6 @@ Sortable List CSS
     width: 120px;
     height: 78px;
     /*position: relative;*/
-    cursor: grab;
     padding: 3px;
     box-sizing: border-box;
     font-size: 1rem;
