@@ -100,8 +100,11 @@ public class CardService {
     public Card plan(Long id, Long release, Card plan) {
         plan = repository.save(plan);
         Card oldPlan = repository.plan(id, release, plan.getId());
-        plan.setNext(oldPlan);
-        return repository.save(plan);
+        if (oldPlan != null) {
+            plan.setNext(oldPlan);
+            repository.save(oldPlan);
+        }
+        return plan;
     }
 
     @Transactional

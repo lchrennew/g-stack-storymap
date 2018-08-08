@@ -50,7 +50,7 @@ public class Card {
 
     @Relationship(type = "PLAN")
     @JsonIgnore
-    private Collection<Card> plans;
+    private Set<Card> plans;
 
     @Relationship(type = "PLAN", direction = INCOMING)
     @JsonIgnore
@@ -201,7 +201,7 @@ public class Card {
 
     private void addPlan(Card plan) {
         if (this.plans == null)
-            this.plans = new ArrayList<>();
+            this.plans = new HashSet<>();
         this.plans.add(plan);
     }
 
