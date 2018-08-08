@@ -220,6 +220,7 @@ Sortable List CSS
 
 .feature.list > .body {
     min-height: 86px;
+    height: 100%;
 }
 
 .feature.list > .body > .item {
