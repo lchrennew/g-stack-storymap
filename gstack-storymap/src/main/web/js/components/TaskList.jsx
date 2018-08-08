@@ -6,7 +6,7 @@ class TaskList extends React.Component {
     render() {
         const {activity: {details}, activity} = this.props
 
-        return <SortableCards className="task sortable list"
+        return <SortableCards className="task"
                               ghostClass="ui-sortable-placeholder"
                               dragClass="drag-task"
                               chosenClass="chosen-task"

@@ -35,4 +35,12 @@ public class MoveOptions {
 
     @JsonProperty
     private Long release;
+
+    public static MoveOptions plan(Long id, Long release){
+        MoveOptions options= new MoveOptions();
+        options.id = id;
+        options.release = release;
+        options.direction = MoveDirection.Plan;
+        return options;
+    }
 }

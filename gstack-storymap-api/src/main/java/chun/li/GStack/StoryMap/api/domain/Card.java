@@ -207,12 +207,17 @@ public class Card {
 
     private boolean hasPlan(Release release) {
         return this.plans != null
-                && asEnumerable(this.plans).any(plan -> Objects.equals(plan.release.getId(), release.getId()));
+                && asEnumerable(this.plans).any(
+                plan -> plan.release == null
+                        || Objects.equals(plan.release.getId(), release.getId()));
     }
 
     public Card getPlan(Long release) {
         return this.plans != null ?
-                asEnumerable(this.plans).firstOrDefault(plan -> Objects.equals(plan.release.getId(), release)) :
+                asEnumerable(this.plans)
+                        .firstOrDefault(plan ->
+                                plan.release == null
+                                        || Objects.equals(plan.release.getId(), release)) :
                 null;
     }
 

@@ -5,6 +5,7 @@ import {endDragCard, moveUpdateCard, startDragCard} from "../actions";
 import {connect} from 'react-redux'
 import {CardHelper} from "../utils";
 import Card from "./Card";
+import AddDetailButton from "./AddDetailButton";
 
 export const getUpdateOptions = e => {
     const card = $(e.item).data('card'),
@@ -54,7 +55,7 @@ class _SortableCards extends React.Component {
         this.state = {dragging: false}
     }
 
-    shouldComponentUpdate() {
+    shouldComponentUpdate(nextProps, nextState) {
         return !this.state.dragging
     }
 
@@ -65,7 +66,6 @@ class _SortableCards extends React.Component {
             const {startDrag, endDrag} = this.props
 
             const {
-                group = {name: 'cards', pull: true, put: (from, to) => !$(from.el).hasClass('dragging')},
                 dragClass = '',
                 ghostClass = 'ui-sortable-placeholder',
                 chosenClass = 'ui-sortable-placeholder',
@@ -74,12 +74,11 @@ class _SortableCards extends React.Component {
             } = this.props
 
             const s = Sortable.create(el, {
-                group,
+                group: {name: 'cards', pull: true, put: (from, to) => !$(from.el).hasClass('dragging')},
                 dragClass,
                 ghostClass,
                 chosenClass,
                 scroll: $('#gstack-console > .container')[0],
-                filter: '.placeholder',
                 animation: 0,
                 scrollSensitivity: 120,
                 scrollSpeed: 10,
@@ -114,7 +113,7 @@ class _SortableCards extends React.Component {
                 // onSort: e => console.log(`onSort->`) || console.log(e) || onSort(e),
                 onMoved: e => {
                     const opt = getUpdateOptions(e)
-                    moveCard(opt)
+                    // moveCard(opt)
                 },
             })
 
@@ -158,18 +157,21 @@ class _SortableCards extends React.Component {
     }
 
     render() {
-        const {className, id, cards = [], nested, dragging} = this.props
+        const {className, id, cards = [], nested, dragging, stretched = false} = this.props
 
-        return <div className={`${className}${this.acceptable() ? '' : ' dragging'}`}
-                    ref={this.init.bind(this)}
-                    data-id={id}>
-            {
-                cards && cards.map(card => !dragging || dragging.id != card.id ?
-                    <Card nested={nested ? nested(card) : null}
-                          key={card.id}
-                          card={card}
-                    /> : null)
-            }
+        return <div className={`${className} sortable list`}>
+            <div className="head">{this.props.children}</div>
+            <div className={`body${this.acceptable() ? '' : ' dragging'}${stretched ? ' stretched' : ''}`}
+                 ref={this.init.bind(this)}
+                 data-id={id}>
+                {
+                    cards && cards.map(card => !dragging || dragging.id !== card.id ?
+                        <Card nested={nested ? nested(card) : null}
+                              key={card.id}
+                              card={card}
+                        /> : null)
+                }
+            </div>
         </div>
     }
 }

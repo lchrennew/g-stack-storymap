@@ -167,3 +167,65 @@ export const startDragCard = (card) => (dispatch, getState) => {
 export const endDragCard = (card) => (dispatch, getState) => {
     return dispatch(_endDragCard())
 }
+
+
+/************DETAIL*************/
+const requestDetail = (id, detail) => {
+    return {
+        type: 'REQUEST_DETAIL',
+        id, detail
+    }
+}
+
+const receiveDetail = (id, detail) => {
+    return {
+        type: 'RECEIVE_DETAIL',
+        id, detail
+    }
+}
+
+const _setDetail = (id, detail) => async dispatch => {
+    dispatch(requestDetail(id, detail))
+    let response = await api(`cards/${id}/detail`, json(detail, {credentials: 'include'}))(dispatch)
+    if (response.ok) {
+        detail = await response.json()
+        return dispatch(receiveDetail(id, detail))
+    }
+    return null
+}
+
+export const setDetail = (id, detail) => (dispatch, getState) => {
+    let state = getState()
+    return dispatch(_setDetail(id, detail))
+}
+
+/**************RELEASE***************/
+
+const requestPlan = (id, release, plan) => {
+    return {
+        type: 'REQUEST_PLAN',
+        id, release, plan
+    }
+}
+
+const receivePlan = (id, release, plan) => {
+    return {
+        type: 'RECEIVE_PLAN',
+        id, release, plan
+    }
+}
+
+const _setPlan = (id, release, plan) => async dispatch => {
+    dispatch(requestPlan(id, release, plan))
+    let response = await api(`cards/${id}/plan/${release}`, json(plan, {credentials: 'include'}))(dispatch)
+    if (response.ok) {
+        plan = await response.json()
+        return dispatch(receivePlan(id, release, plan))
+    }
+    return null
+}
+
+export const setPlan = (id, release, detail) => (dispatch, getState) => {
+    let state = getState()
+    return dispatch(_setPlan(id, release, detail))
+}

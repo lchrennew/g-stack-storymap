@@ -8,6 +8,7 @@ import chun.li.GStack.StoryMap.api.repositories.ReleaseRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
@@ -29,8 +30,16 @@ public class CardService {
         return repository.save(card);
     }
 
+    public Iterable<Card> save(Iterable<Card> cards, int depth) {
+        return repository.save(cards, depth);
+    }
+
     public Optional<Card> findById(Long id) {
         return repository.findById(id);
+    }
+
+    public Collection<Card> findAllByIdAndRelease(Long id, Long release) {
+        return repository.findAllByIdAndRelease(id, release);
     }
 
     @Transactional
@@ -85,6 +94,14 @@ public class CardService {
             save(target);
             save(original);
         }
+    }
+
+    @Transactional
+    public Card plan(Long id, Long release, Card plan) {
+        plan = repository.save(plan);
+        Card oldPlan = repository.plan(id, release, plan.getId());
+        plan.setNext(oldPlan);
+        return repository.save(plan);
     }
 
     @Transactional

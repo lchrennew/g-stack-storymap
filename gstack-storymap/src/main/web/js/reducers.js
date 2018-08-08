@@ -21,15 +21,26 @@ const projects = (state = {list: null}, action) => {
 
 
 const cards = (state = {list: null}, action) => {
+    let list = $.extend(true, [], state.list)
+
     switch (action.type) {
         case 'FETCH_CARDS':
             return {fetch: true, project: action.project}
         case 'RECEIVE_CARDS':
             return {fetch: false, list: action.list, project: action.project}
+        case 'REQUEST_DETAIL':
+            return state
+        case 'RECEIVE_DETAIL':
+            CardHelper.detail(list, CardHelper.path(list, action.id), action.detail)
+            return {fetch: false, list, project: state.project}
+        case 'REQUEST_PLAN':
+            return state
+        case 'RECEIVE_PLAN':
+            CardHelper.plan(list, CardHelper.path(list, action.id), action.release, action.plan)
+            return {fetch: false, list, projects: state.project}
         case 'MOVE_CARD':
-            let {option: {card, direction, target, after, release}} = action
+            let {option: {card, direction, target, release}} = action
             if (card && target) {
-                let list = $.extend(true, [], state.list)
                 //let list = [...state.list]
                 // detach card
                 card = CardHelper.detach(list, CardHelper.path(list, card.id))

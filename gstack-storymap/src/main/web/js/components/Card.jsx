@@ -1,5 +1,7 @@
 import React from 'react'
 import $ from 'jquery'
+import AddDetailButton from "./AddDetailButton";
+import Icon from "./Icon";
 
 
 class Card extends React.Component {
@@ -13,6 +15,14 @@ class Card extends React.Component {
         return <div className="item" ref={this.bindCard.bind(this)}>
             <div className="card">
                 {title}#{id}
+                <div className="action bottom">
+                    <AddDetailButton id={id}/>
+                </div>
+                <div className="action right">
+                    <a href="#">
+                        <Icon name="arrow-right-circle"/>
+                    </a>
+                </div>
             </div>
             {nested}
         </div>

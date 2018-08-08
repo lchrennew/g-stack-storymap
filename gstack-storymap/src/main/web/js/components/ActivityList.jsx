@@ -7,7 +7,8 @@ class ActivityList extends React.Component {
     render() {
         const {activities} = this.props
 
-        return <SortableCards className="activity sortable list stretched"
+        return <SortableCards className="activity"
+                              stretched
                               ghostClass="ui-sortable-placeholder"
                               chosenClass="chosen-activity"
                               dragClass="drag-activity"

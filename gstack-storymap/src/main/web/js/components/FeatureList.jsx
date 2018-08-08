@@ -1,12 +1,13 @@
 import React from 'react'
-import Card from "./Card";
 import {SortableCards} from "./SortableCards";
+import AddDetailButton from "./AddDetailButton";
+import AddPlanButton from "./AddPlanButton";
 
 class FeatureList extends React.Component {
     render() {
         const {task, release, list} = this.props
 
-        return <SortableCards className={`feature sortable list${release ? ' release' : ''}`}
+        return <SortableCards className={`feature ${release ? ' release' : ''}`}
                               ghostClass="ui-sortable-placeholder"
                               dragClass="drag-feature"
                               chosenClass="chosen-feature"
@@ -14,6 +15,11 @@ class FeatureList extends React.Component {
                               id={`${task ? task.id : ''}`}
                               cards={list}
         >
+            {
+                release
+                    ? <AddPlanButton id={task.id} release={release.id}/>
+                    : <AddDetailButton id={task.id}/>
+            }
         </SortableCards>
 
     }
