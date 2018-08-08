@@ -255,13 +255,13 @@ Sortable List CSS
 /*****
 DRAGGING RELATED
 ******/
-.activity.item.dragging .task.list {
-    display: none;
+.activity.item.dragging .task.list,
+.activity.item.dragging .feature.list {
+    display: none !important;
 }
 
 .task.list.dragging,
 .feature.list.dragging {
-    visibility: hidden !important;
 }
 
 .schedules .activity.item {

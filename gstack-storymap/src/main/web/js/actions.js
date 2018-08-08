@@ -142,6 +142,28 @@ const moveCard = (option) => {
     }
 }
 
+const _startDragCard = card => {
+    return {
+        type: 'START_DRAG_CARD',
+        card,
+    }
+}
+
+const _endDragCard = () => {
+    return {
+        type: 'END_DRAG_CARD'
+    }
+}
+
 export const moveUpdateCard = (option) => (dispatch, getState) => {
     return dispatch(moveCard(option))
+}
+
+export const startDragCard = (card) => (dispatch, getState) => {
+    return dispatch(_startDragCard(card))
+}
+
+
+export const endDragCard = (card) => (dispatch, getState) => {
+    return dispatch(_endDragCard())
 }

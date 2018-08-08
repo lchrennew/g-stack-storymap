@@ -10,8 +10,7 @@ const mapStateToProps = (state, props) => {
         releases: state.releases.list,
     }
 }
-
-class ProjectIndex extends React.Component{
+class _ProjectIndex extends React.Component {
     constructor(props) {
         super(props)
         this.contextRef = React.createRef()
@@ -26,4 +25,4 @@ class ProjectIndex extends React.Component{
     }
 }
 
-export default connect(mapStateToProps)(ProjectIndex)
+export const ProjectIndex = connect(mapStateToProps)(_ProjectIndex)

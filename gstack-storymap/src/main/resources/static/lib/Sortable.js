@@ -800,6 +800,7 @@
 						this._animate(dragRect, dragEl);
 						target && this._animate(targetRect, target);
 					}
+                    _dispatchEvent(this, rootEl, 'moved', dragEl, el, rootEl)
 				}
 				else if (target && !target.animated && target !== dragEl && (target.parentNode[expando] !== void 0)) {
 					if (lastEl !== target) {
@@ -862,6 +863,8 @@
                         this._animate(dragRect, dragEl);
                         this._animate(targetRect, target);
 					}
+
+					_dispatchEvent(this, rootEl, 'moved', dragEl, el, rootEl)
 				}
 			}
 		},

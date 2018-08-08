@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux'
 import $ from 'jquery'
-import {jsonPath} from "./utils";
+import {CardHelper} from "./utils";
+
 
 const projects = (state = {list: null}, action) => {
     switch (action.type) {
@@ -17,46 +18,7 @@ const projects = (state = {list: null}, action) => {
     }
 }
 
-class CardHelper {
-    static path(list = [], id) {
-        const result = jsonPath(list, `$..[?(@.id==${id})]`, {resultType: 'PATH'})
-        if (result && result.length)
-            return result[0]
-        else return null
-    }
 
-    static detach(list = [], path = '') {
-        const parent = jsonPath(list, path.substr(0, path.lastIndexOf('[')))[0],
-            card = jsonPath(list, path)[0]
-        parent.splice(parent.indexOf(card), 1)
-        return card
-    }
-
-    static after(list = [], path, card) {
-        const parent = jsonPath(list, path.substr(0, path.lastIndexOf('[')))[0],
-            before = jsonPath(list, path)[0]
-        parent.splice(parent.indexOf(before) + 1, 0, card)
-    }
-
-    static root(list = [], card) {
-        list.splice(0, 0, card)
-    }
-
-    static detail(list = [], path, card) {
-        const general = jsonPath(list, path)[0]
-        if (general.details) {
-            general.details.splice(0, 0, card)
-        }
-        else general.details = [card]
-    }
-
-    static plan(list = [], path, release, card) {
-        const general = jsonPath(list, path)[0]
-        general.plans = general.plans || {}
-        general.plans[release] = general.plans[release] || []
-        general.plans[release].splice(0, 0, card)
-    }
-}
 
 const cards = (state = {list: null}, action) => {
     switch (action.type) {
@@ -105,4 +67,15 @@ const releases = (state = {list: null}, action) => {
     }
 }
 
-export default combineReducers({projects, cards, releases})
+const dragging = (state = {dragging: false}, action) => {
+    switch (action.type) {
+        case 'START_DRAG_CARD':
+            return {card: action.card}
+        case 'END_DRAG_CARD':
+            return {card: false}
+        default:
+            return state
+    }
+}
+
+export default combineReducers({projects, cards, releases, dragging})

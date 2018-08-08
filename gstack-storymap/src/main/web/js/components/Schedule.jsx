@@ -25,9 +25,7 @@ class Schedule extends React.Component {
                                             task={task}
                                             list={task.plans ? task.plans[release.id.toString()] : null}
                                         />
-                                    }) : <FeatureList
-                                        release={release}
-                                    />
+                                    }) : null
                                 }
                             </div>
                         })

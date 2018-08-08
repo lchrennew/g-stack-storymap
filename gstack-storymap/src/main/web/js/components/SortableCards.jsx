@@ -1,52 +1,15 @@
 import React from 'react'
 import Sortable from "sortablejs"
 import $ from 'jquery'
-import {moveUpdateCard} from "../actions";
+import {endDragCard, moveUpdateCard, startDragCard} from "../actions";
 import {connect} from 'react-redux'
-
-const getDirection = (e) => {
-    //console.log(`related = ${$(e.related).data('card').title} @ ${$(e.related).index()}`)
-    //console.log(`to = ${$(e.to).data('card').title}`)
-    //console.log(`from = ${$(e.from).data('card').title}`)
-    //console.log(e.willInsertAfter)
-    if (e.related) {
-        return e.willInsertAfter || (!e.willInsertAfter && $(e.related).index() > 0)
-            ? 'Next'
-            : $(e.to).hasClass('activity')
-                ? 'Root'
-                : $(e.to).hasClass('feature release')
-                    ? 'Release'
-                    : 'Detail'
-    }
-    else return 'NoChange'
-}
-
-const getLevel = e => {
-    return $(e.to).hasClass('activity')
-        ? 'activity'
-        : $(e.to).hasClass('task')
-            ? 'task'
-            : $(e.to).hasClass('feature')
-                ? 'feature'
-                : ''
-}
-
-export const getMoveOptions = (e) => {
-    const card = $(e.item || e.dragged).data('card'),
-        direction = getDirection(e),
-        target = direction === 'NoChange'
-            ? null
-            : direction === 'Next' || direction === 'Root'
-                ? $(e.related).data('card')
-                : $(e.to).data('card'),
-        level = getLevel(e),
-        after = e.willInsertAfter
-    return {card, direction, target, level, after}
-}
+import {CardHelper} from "../utils";
+import Card from "./Card";
 
 export const getUpdateOptions = e => {
     const card = $(e.item).data('card'),
-        direction = $(e.item).index() === 0
+        index = $(e.item).parent().children(':visible').index(e.item),
+        direction = index === 0
             ? $(e.to).hasClass('activity')
                 ? 'Root'
                 : $(e.to).data('release')
@@ -54,9 +17,9 @@ export const getUpdateOptions = e => {
                     : 'Detail'
             : 'Next',
         target = direction === 'Root'
-            ? $(e.item).next().data('card')
+            ? $(e.item).next(':visible').data('card')
             : direction === 'Next'
-                ? $(e.item).prev().data('card')
+                ? $(e.item).prev(':visible').data('card')
                 : direction === 'Detail'
                     ? $(e.to).data('card')
                     : direction === 'Release'
@@ -65,47 +28,47 @@ export const getUpdateOptions = e => {
         release = direction === 'Release'
             ? `${$(e.to).data('release').id}`
             : null
-    return {direction, card, target, release}
+    return {direction, card, target, release, index}
 }
 
 const mapStateToProps = (state, props) => {
-    return {}
+    return {
+        dragging: state.dragging.card,
+        storedCards: state.cards.list,
+    }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        moveCard: (option) => dispatch(moveUpdateCard(option))
+        moveCard: (option) => dispatch(moveUpdateCard(option)),
+        startDrag: card => dispatch(startDragCard(card)),
+        endDrag: card => dispatch(endDragCard(card)),
     }
 }
 const eventHandler = e => {
 }
 
 class _SortableCards extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {dragging: false}
+    }
+
+    shouldComponentUpdate() {
+        return !this.state.dragging
+    }
+
 
     init(el) {
         if (el) {
+
+            const {startDrag, endDrag} = this.props
 
             const {
                 group = {name: 'cards', pull: true, put: (from, to) => !$(from.el).hasClass('dragging')},
                 dragClass = '',
                 ghostClass = 'ui-sortable-placeholder',
                 chosenClass = 'ui-sortable-placeholder',
-                filter = '.placeholder',
-                animation = 0,
-                scroll = $('#gstack-console > .container')[0],
-                scrollSensitivity = 120,
-                scrollSpeed = 10,
-                handle = '.card',
-                forceFallback = false,
-                delay = 0,
-                onStart = eventHandler,
-                onEnd = eventHandler,
-                onSort = eventHandler,
-                onRemove = eventHandler,
-                onFilter = eventHandler,
-                onMove = eventHandler,
-                onClone = eventHandler,
-                onChoose = eventHandler,
                 data = {},
                 moveCard,
             } = this.props
@@ -115,33 +78,44 @@ class _SortableCards extends React.Component {
                 dragClass,
                 ghostClass,
                 chosenClass,
-                scroll,
-                filter,
-                animation,
-                scrollSensitivity,
-                scrollSpeed,
-                handle,
-                forceFallback,
-                delay,
-                onStart,
-                onEnd,
+                scroll: $('#gstack-console > .container')[0],
+                filter: '.placeholder',
+                animation: 0,
+                scrollSensitivity: 120,
+                scrollSpeed: 10,
+                handle: '.card',
+                forceFallback: false,
+                delay: 0,
+                onStart: e => {
+                },
+                onEnd: e => {
+                },
                 onAdd: e => {
                     const opt = getUpdateOptions(e)
-                    //e.from.append(e.item)
-                    if (e.from.contains(e.item) || e.to.contains(e.from) || e.to != e.from)
-                        e.from.append(e.item)
+                    if (e.from.childElementCount <= e.oldIndex) e.from.appendChild(e.item)
+                    else $(e.item).insertBefore($(e.from).children(':visible').get(e.oldIndex))
                     moveCard(opt)
                 },
                 onUpdate: e => {
                     const opt = getUpdateOptions(e)
                     moveCard(opt)
                 },
-                onChoose,
+                onChoose: e => {
+                    this.setState({dragging: true})
+                    const opt = getUpdateOptions(e)
+                    startDrag(opt.card)
+                },
+                onUnchoose: e => {
+                    SortableCards.dragged()
+                    endDrag()
+                    this.setState({dragging: false})
+                },
+                // onUnchoose: e => $('.dragging').removeClass('dragging'),
                 // onSort: e => console.log(`onSort->`) || console.log(e) || onSort(e),
-                onRemove,
-                // onFilter: e => console.log(`onFilter->`) || console.log(e) || onFilter(e),
-                onMove,
-                // onClone: e => console.log(`onClone->`) || console.log(e) || onClone(e),
+                onMoved: e => {
+                    const opt = getUpdateOptions(e)
+                    moveCard(opt)
+                },
             })
 
             $(el).data(data)
@@ -149,10 +123,53 @@ class _SortableCards extends React.Component {
         }
     }
 
+    acceptable() {
+        const {dragging, id, storedCards} = this.props
+        if (!dragging) return true
+        else {
+            return SortableCards.buffer(
+                id,
+                () => {
+                    console.log(`check ${id}`)
+
+                    return CardHelper.accept(
+                        storedCards,
+                        SortableCards.dragging(storedCards, dragging),
+                        id)
+                })
+        }
+    }
+
+    static dragging(cards, dragging) {
+        this.draggingOption = this.draggingOption || CardHelper.dragging(cards, dragging)
+        return this.draggingOption
+    }
+
+    static buffer(id, getResult) {
+        this.results = this.results || {}
+        if (this.results[id] === undefined)
+            this.results[id] = getResult()
+        return this.results[id]
+    }
+
+    static dragged() {
+        this.results = {}
+        this.draggingOption = null
+    }
+
     render() {
-        const {className, id} = this.props
-        return <div {...{className}} ref={this.init.bind(this)} data-id={id}>
-            {this.props.children}
+        const {className, id, cards = [], nested, dragging} = this.props
+
+        return <div className={`${className}${this.acceptable() ? '' : ' dragging'}`}
+                    ref={this.init.bind(this)}
+                    data-id={id}>
+            {
+                cards && cards.map(card => !dragging || dragging.id != card.id ?
+                    <Card nested={nested ? nested(card) : null}
+                          key={card.id}
+                          card={card}
+                    /> : null)
+            }
         </div>
     }
 }
