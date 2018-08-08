@@ -2,14 +2,15 @@ import React from 'react'
 import Placeholder from "./Placeholder";
 import FeatureList from "./FeatureList";
 import {Accordion} from 'semantic-ui-react'
+import Icon from "./Icon";
 
 class Schedule extends React.Component {
     render() {
         const {activities, release} = this.props
         return release ?
-            <Placeholder>
+            <Placeholder className="schedule">
                 <Accordion.Title active>
-                    <div className="sticky">{release.title}</div>
+                    <div className="sticky"><Icon name="chevron-down"/> {release.title}</div>
                 </Accordion.Title>
                 <Accordion.Content active className="stretched">
                     {
@@ -33,9 +34,9 @@ class Schedule extends React.Component {
 
                 </Accordion.Content>
             </Placeholder> :
-            <Placeholder>
+            <Placeholder className="not schedule">
                 <Accordion.Title active>
-                    <div className="sticky">Unscheduled features</div>
+                    <div className="sticky"><Icon name="chevron-down"/> Unscheduled features</div>
                 </Accordion.Title>
                 <Accordion.Content active className="stretched">
                     {

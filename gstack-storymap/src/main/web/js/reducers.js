@@ -60,7 +60,7 @@ const cards = (state = {list: null}, action) => {
                     case 'Detail':
                         CardHelper.detail(list, CardHelper.path(list, target.id), card)
                         break
-                    case 'Release':
+                    case 'Plan':
                         CardHelper.plan(list, CardHelper.path(list, target.id), release, card)
                         break;
                     default:

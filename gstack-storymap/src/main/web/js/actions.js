@@ -159,6 +159,15 @@ export const moveUpdateCard = (option) => (dispatch, getState) => {
     return dispatch(moveCard(option))
 }
 
+
+export const saveCardMovement = option => async dispatch => {
+    const {direction, card, target, release} = option
+    api(`cards/${card.id}/move`,
+        json({id:target.id, direction, release}, {credentials: 'include'})
+    )(dispatch)
+    return dispatch(moveCard(option))
+}
+
 export const startDragCard = (card) => (dispatch, getState) => {
     return dispatch(_startDragCard(card))
 }

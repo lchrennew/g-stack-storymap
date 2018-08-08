@@ -1,11 +1,10 @@
 import React from 'react'
 import Sortable from "sortablejs"
 import $ from 'jquery'
-import {endDragCard, moveUpdateCard, startDragCard} from "../actions";
+import {endDragCard, moveUpdateCard, startDragCard, saveCardMovement} from "../actions";
 import {connect} from 'react-redux'
 import {CardHelper} from "../utils";
 import Card from "./Card";
-import AddDetailButton from "./AddDetailButton";
 
 export const getUpdateOptions = e => {
     const card = $(e.item).data('card'),
@@ -14,7 +13,7 @@ export const getUpdateOptions = e => {
             ? $(e.to).hasClass('activity')
                 ? 'Root'
                 : $(e.to).data('release')
-                    ? 'Release'
+                    ? 'Plan'
                     : 'Detail'
             : 'Next',
         target = direction === 'Root'
@@ -23,10 +22,10 @@ export const getUpdateOptions = e => {
                 ? $(e.item).prev(':visible').data('card')
                 : direction === 'Detail'
                     ? $(e.to).data('card')
-                    : direction === 'Release'
+                    : direction === 'Plan'
                         ? $(e.to).data('card')
                         : null,
-        release = direction === 'Release'
+        release = direction === 'Plan'
             ? `${$(e.to).data('release').id}`
             : null
     return {direction, card, target, release, index}
@@ -41,7 +40,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        moveCard: (option) => dispatch(moveUpdateCard(option)),
+        moveCard: (option, save = false) => dispatch((save ? saveCardMovement : moveUpdateCard)(option)),
         startDrag: card => dispatch(startDragCard(card)),
         endDrag: card => dispatch(endDragCard(card)),
     }
@@ -93,11 +92,11 @@ class _SortableCards extends React.Component {
                     const opt = getUpdateOptions(e)
                     if (e.from.childElementCount <= e.oldIndex) e.from.appendChild(e.item)
                     else $(e.item).insertBefore($(e.from).children(':visible').get(e.oldIndex))
-                    moveCard(opt)
+                    moveCard(opt, true)
                 },
                 onUpdate: e => {
                     const opt = getUpdateOptions(e)
-                    moveCard(opt)
+                    moveCard(opt, true)
                 },
                 onChoose: e => {
                     this.setState({dragging: true})

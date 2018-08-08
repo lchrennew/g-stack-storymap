@@ -286,6 +286,7 @@ Sortable List CSS
 
 .ui.accordion.schedules > .title {
     background: #eee;
+    cursor: default;
 }
 
 .ui.accordion.schedules > .title > .sticky {

@@ -250,7 +250,12 @@ public class Card {
     @JsonProperty("plans")
     public Map<Long, Iterable<Card>> getPlans() {
         if (this.plans != null) {
-            return asEnumerable(this.plans).toMap(plan -> plan.release.getId(), Card::toList);
+            if (asEnumerable(this.plans).any(plan -> plan.release == null)) {
+                System.out.println("'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'");
+            }
+            return asEnumerable(this.plans)
+                    .where(plan -> plan.release != null)
+                    .toMap(plan -> plan.release.getId(), Card::toList);
         } else return null;
     }
 }
