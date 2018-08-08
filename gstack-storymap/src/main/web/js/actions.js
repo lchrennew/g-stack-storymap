@@ -229,3 +229,35 @@ export const setPlan = (id, release, detail) => (dispatch, getState) => {
     let state = getState()
     return dispatch(_setPlan(id, release, detail))
 }
+
+
+/*************NEXT**********/
+
+const requestNext = (id, next) => {
+    return {
+        type: 'REQUEST_NEXT',
+        id, next
+    }
+}
+
+const receiveNext = (id, next) => {
+    return {
+        type: 'RECEIVE_NEXT',
+        id, next
+    }
+}
+
+const _setNext = (id, next) => async dispatch => {
+    dispatch(requestNext(id, next))
+    let response = await api(`cards/${id}/next`, json(next, {credentials: 'include'}))(dispatch)
+    if (response.ok) {
+        next = await response.json()
+        return dispatch(receiveNext(id, next))
+    }
+    return null
+}
+
+export const setNext = (id, next) => (dispatch, getState) => {
+    let state = getState()
+    return dispatch(_setNext(id, next))
+}

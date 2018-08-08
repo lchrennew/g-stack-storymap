@@ -13,6 +13,7 @@ class TaskList extends React.Component {
                               data={{card: activity}}
                               id={`${activity.id}`}
                               cards={details}
+                              horizontal
         >
         </SortableCards>
     }

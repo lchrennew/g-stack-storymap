@@ -15,6 +15,7 @@ class ActivityList extends React.Component {
                               data={{card: activities[0]}}
                               id={-1}
                               cards={activities}
+                              horizontal
                               nested={activity => <TaskList activity={activity}/>}
         >
         </SortableCards>

@@ -157,7 +157,7 @@ class _SortableCards extends React.Component {
     }
 
     render() {
-        const {className, id, cards = [], nested, dragging, stretched = false} = this.props
+        const {className, id, cards = [], nested, dragging, stretched = false, horizontal = false} = this.props
 
         return <div className={`${className} sortable list`}>
             <div className="head">{this.props.children}</div>
@@ -167,6 +167,7 @@ class _SortableCards extends React.Component {
                 {
                     cards && cards.map(card => !dragging || dragging.id !== card.id ?
                         <Card nested={nested ? nested(card) : null}
+                              horizontal={horizontal}
                               key={card.id}
                               card={card}
                         /> : null)
