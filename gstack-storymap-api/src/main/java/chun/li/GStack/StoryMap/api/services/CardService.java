@@ -60,6 +60,13 @@ public class CardService {
         repository.next(id, to);
     }
 
+    @Transactional
+    public Card createNext(Card next, Long to) {
+        next = repository.save(next);
+        repository.next(next.getId(), to);
+        return next;
+    }
+
     /**
      * @param id new root card's id
      * @param to project's id
@@ -70,7 +77,7 @@ public class CardService {
     }
 
     @Transactional
-    public Card root(Card root, Long to) {
+    public Card createRoot(Card root, Long to) {
         root = repository.save(root);
         repository.root(root.getId(), to);
         return root;
@@ -83,6 +90,13 @@ public class CardService {
     @Transactional
     public void detail(Long id, Long to) {
         repository.detail(id, to);
+    }
+
+    @Transactional
+    public Card createDetail(Card detail, Long to) {
+        detail = repository.save(detail);
+        repository.detail(detail.getId(), to);
+        return detail;
     }
 
     /**
@@ -102,7 +116,7 @@ public class CardService {
      * @return card planned
      */
     @Transactional
-    public Card plan(Card plan, Long to, Long release) {
+    public Card createPlan(Card plan, Long to, Long release) {
         plan = repository.save(plan);
         Long id = plan.getId();
         plan(id, to, release);

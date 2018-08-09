@@ -6,30 +6,6 @@ import {connect} from 'react-redux'
 import {CardHelper} from "../utils";
 import Card from "./Card";
 
-export const getUpdateOptions = e => {
-    const card = $(e.item).data('card'),
-        index = $(e.item).parent().children(':visible').index(e.item),
-        direction = index === 0
-            ? $(e.to).hasClass('activity')
-                ? 'Root'
-                : $(e.to).data('release')
-                    ? 'Plan'
-                    : 'Detail'
-            : 'Next',
-        target = direction === 'Root'
-            ? $(e.item).next(':visible').data('project')
-            : direction === 'Next'
-                ? $(e.item).prev(':visible').data('card')
-                : direction === 'Detail'
-                    ? $(e.to).data('card')
-                    : direction === 'Plan'
-                        ? $(e.to).data('card')
-                        : null,
-        release = direction === 'Plan'
-            ? `${$(e.to).data('release').id}`
-            : null
-    return {direction, card, target, release, index}
-}
 
 const mapStateToProps = (state, props) => {
     return {
@@ -46,9 +22,6 @@ const mapDispatchToProps = dispatch => {
         endDrag: card => dispatch(endDragCard(card)),
     }
 }
-const eventHandler = e => {
-}
-
 class _SortableCards extends React.Component {
     constructor(props) {
         super(props)
@@ -66,7 +39,6 @@ class _SortableCards extends React.Component {
             return SortableCards.buffer(
                 id,
                 () => {
-                    console.log(`check ${id}`)
                     return CardHelper.accept(
                         storedCards,
                         SortableCards.dragging(storedCards, dragging),
@@ -79,7 +51,7 @@ class _SortableCards extends React.Component {
     init(el) {
         if (el) {
 
-            const {startDrag, endDrag, project} = this.props
+            const {startDrag, endDrag} = this.props
 
             const {
                 dragClass = '',
@@ -106,18 +78,18 @@ class _SortableCards extends React.Component {
                 onEnd: e => {
                 },
                 onAdd: e => {
-                    const opt = getUpdateOptions(e)
+                    const opt = this.getUpdateOptions(e)
                     if (e.from.childElementCount <= e.oldIndex) e.from.appendChild(e.item)
                     else $(e.item).insertBefore($(e.from).children(':visible').get(e.oldIndex))
                     moveCard(opt, true)
                 },
                 onUpdate: e => {
-                    const opt = getUpdateOptions(e)
+                    const opt = this.getUpdateOptions(e)
                     moveCard(opt, true)
                 },
                 onChoose: e => {
                     this.setState({dragging: true})
-                    const opt = getUpdateOptions(e)
+                    const opt = this.getUpdateOptions(e)
                     startDrag(opt.card)
                 },
                 onUnchoose: e => {
@@ -128,11 +100,10 @@ class _SortableCards extends React.Component {
                 // onUnchoose: e => $('.dragging').removeClass('dragging'),
                 // onSort: e => console.log(`onSort->`) || console.log(e) || onSort(e),
                 onMoved: e => {
-                    const opt = getUpdateOptions(e)
+                    const opt = this.getUpdateOptions(e)
                     // moveCard(opt)
                 },
             })
-            data.project = {id: project}
             $(el).data(data)
             el.option = s.option.bind(s)
         }
@@ -154,6 +125,33 @@ class _SortableCards extends React.Component {
         this.results = {}
         this.draggingOption = null
     }
+
+    getUpdateOptions(e) {
+        const card = $(e.item).data('card'),
+            index = $(e.item).parent().children(':visible').index(e.item),
+            direction = index === 0
+                ? $(e.to).parent().hasClass('activity')
+                    ? 'Root'
+                    : $(e.to).data('release')
+                        ? 'Plan'
+                        : 'Detail'
+                : 'Next',
+            target = direction === 'Root'
+                ? {id: this.props.project}
+                : direction === 'Next'
+                    ? $(e.item).prev(':visible').data('card')
+                    : direction === 'Detail'
+                        ? $(e.to).data('card')
+                        : direction === 'Plan'
+                            ? $(e.to).data('card')
+                            : null,
+            release = direction === 'Plan'
+                ? `${$(e.to).data('release').id}`
+                : null
+        console.log(direction)
+        return {direction, card, target, release, index}
+    }
+
 
     render() {
         const {className, id, cards = [], nested, dragging, stretched = false, horizontal = false} = this.props

@@ -36,7 +36,10 @@ public interface CardRepository extends Neo4jRepository<Card, Long> {
                     CREATE_NEW_NEXT_RELATIONSHIPS +
                     // 7. CREATE c's new relationships  [NOTICE: according to which relationship to be replaced]
                     " CREATE (to)-[:NEXT]->(c)\n" +
-                    " CREATE (c)-[:NEXT]->(to_next)")
+                    " FOREACH (o IN CASE WHEN to_next IS NOT NULL THEN [to_next] ELSE [] END |" +
+                    " CREATE (c)-[:NEXT]->(to_next)" +
+                    " )"
+    )
     void next(@Param("id") Long id, @Param("to") Long to);
 
 
@@ -96,25 +99,15 @@ public interface CardRepository extends Neo4jRepository<Card, Long> {
             "MATCH (c:Card), (to:Card), (rel:Release)\n" +
                     " WHERE id(c)=$id AND id(to)=$to AND id(rel)=$release\n" +
                     // 2. c's relationships
-                    " OPTIONAL MATCH (c_prev:Card)-[r_prev:NEXT]->(c)\n" + // prev to c
-                    " OPTIONAL MATCH (c)-[r_next:NEXT]->(c_next:Card)\n" + // next to c
-                    " OPTIONAL MATCH (c_general:Card)-[r_general:DETAIL]->(c)\n" + // general to c
-                    " OPTIONAL MATCH (c_root:Project)-[r_root:DETAIL]->(c)\n" + // root to c
-                    " OPTIONAL MATCH (c_for:Card)-[r_for:PLAN]->(c)\n" + // c's plan for
-                    " OPTIONAL MATCH (c)-[r_rel:PLANNED_IN]->(c_rel:Release)\n" + // c's planned in
+                    OPTIONAL_MATCH_CS_RELATIONSHIPS +
                     // 3. to's relationships [NOTICE: according to which relationship to be replaced]
-                    " OPTIONAL MATCH (to)-[r_to:PLAN]->(to_plan:Card)\n" + // to's plan
-                    " OPTIONAL MATCH (to_plan)-[r_to_rel:PLANNED_IN]->(rel)\n" + // to's plan's release
+                    " OPTIONAL MATCH (to)-[r_to:PLAN]->(to_plan:Card)-[r_to_rel:PLANNED_IN]->(rel)\n" + // to's plan
                     // 4. DELETE c's relationships
                     " DELETE r_prev, r_next, r_general, r_root, r_for, r_rel\n" +
                     // 5. DELETE to's relationships
                     " DELETE r_to, r_to_rel\n" +
                     // 6. CREATE c's next's new relationships
-                    " CREATE (c_prev)-[:NEXT]->(c_next)\n" +
-                    " CREATE (c_general)-[:DETAIL]->(c_next)\n" +
-                    " CREATE (c_root)-[:DETAIL]->(c_next)\n" +
-                    " CREATE (c_for)-[:PLAN]->(c_next)\n" +
-                    " CREATE (c_next)-[:PLANNED_IN]->(c_rel)\n" +
+                    CREATE_NEW_NEXT_RELATIONSHIPS +
                     // 7. CREATE c's new relationships  [NOTICE: according to which relationship to be replaced]
                     " CREATE (to)-[:PLAN]->(c)\n" +
                     " CREATE (c)-[:PLANNED_IN]->(rel)\n" +
