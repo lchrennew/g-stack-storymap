@@ -26,9 +26,9 @@ class AddNextButton extends React.Component {
         const {horizontal} = this.props
         return <a
             href="#"
-            title="Add below"
+            title={horizontal ? 'Add after' : 'Add below'}
             onClick={this.addNext.bind(this)}>
-            <Icon name={horizontal ? 'arrow-right-circle' : 'arrow-down-circle'}/>
+            <Icon name={'plus-circle'}/>
         </a>
     }
 }

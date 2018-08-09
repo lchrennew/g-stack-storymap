@@ -23,7 +23,7 @@ class AddDetailButton extends React.Component {
     }
 
     render() {
-        return <a href="#" title="Add below" onClick={this.addDetail.bind(this)}><Icon name="arrow-down-circle"/></a>
+        return <a href="#" title="Add below" onClick={this.addDetail.bind(this)}><Icon name="plus-circle"/></a>
     }
 }
 
