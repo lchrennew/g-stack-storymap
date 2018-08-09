@@ -211,13 +211,23 @@ Sortable List CSS
     background: transparent;
 }
 
-.task.sortable.list > .body {
+.task.sortable.list {
     font-size: 0em;
+    margin: -4px 0 0;
+    padding: 0;
     min-height: 86px;
-    margin: 0 -6px -12px;
-    padding: 0 6px 12px;
 }
 
+.task.sortable.list > .body {
+    margin: 0 -6px -16px;
+    padding: 0 6px 16px;
+    min-height: 86px;
+    box-sizing: content-box;
+}
+
+.task.sortable.list > .head {
+    display: none;
+}
 .feature.list > .body {
     min-height: 86px;
     height: 100%;
