@@ -44,7 +44,8 @@ export const openSidebar = sidebar => sidebarRef.current && sidebarRef.current.o
 class SidebarComponent extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {visible: false, component: null}
+        const {visible = false} = props
+        this.state = {visible, component: null}
     }
 
     open(component) {
@@ -60,30 +61,21 @@ class SidebarComponent extends React.Component {
     }
     render() {
         const {visible} = this.state
-        return <Sidebar.Pushable as={Main}>
-            <Sidebar
-                as={Segment}
-                animation='overlay'
-                direction='right'
-                onHide={this.close.bind(this)}
-                visible={visible}
-                width='very wide'
-                duration={1000}
-                className="side-bar"
-            >
-                {this.state.component}
-            </Sidebar>
+        const {
+            className = '',
+        } = this.props
 
-            <Sidebar.Pusher>
-                {this.props.children}
-            </Sidebar.Pusher>
-        </Sidebar.Pushable>
+
+        return <div
+            className={`ui sidebar menu vertical very wide right${visible ? ' visible' : ''} ${className}`}>
+            {this.state.component || this.props.children}
+        </div>
     }
 }
 
 export class SidebarContext extends React.Component {
     render() {
-        return <SidebarComponent ref={sidebarRef}>
+        return <SidebarComponent ref={sidebarRef} {...this.props}>
             {this.props.children}
         </SidebarComponent>
     }

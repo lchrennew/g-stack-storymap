@@ -32,6 +32,7 @@ class Index extends React.Component {
                         <Route path="/" component={Projects}/>
                     </Switch>
                 </ProjectsProvider>
+                <SidebarContext></SidebarContext>
             </Main>
             <Footer/>
         </Placeholder>

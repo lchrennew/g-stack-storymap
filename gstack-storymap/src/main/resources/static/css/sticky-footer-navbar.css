@@ -33,7 +33,7 @@ body {
     position: fixed;
     top: 0;
     bottom: 0;
-    overflow: auto;
+    overflow: hidden;
 }
 
 .footer > .container {
@@ -118,7 +118,7 @@ Sortable List CSS
     opacity: 0.7;
 }
 
-.activity.sortable.list > .body {
+.activity.sortable.list {
     font-size: 0em;
     min-height: 180px;
     z-index: 2;
@@ -127,6 +127,9 @@ Sortable List CSS
     border-bottom: #0d71bb 1px solid;
     width: max-content;
     min-width: 100%;
+}
+.activity.sortable.list > .body {
+    height: 100%;
 }
 
 .activity.sortable.list > .body:after {
@@ -150,6 +153,16 @@ Sortable List CSS
     font-size: 1rem;
     overflow: visible;
     margin: 4px;
+}
+
+.drag-activity > .card .action,
+.drag-task > .card .action,
+.drag-feature > .card .action,
+.chosen-activity > .card .action,
+.chosen-task > .card .action,
+.chosen-feature > .card .action,
+.ui-sortable-placeholder .action {
+    display: none !important;
 }
 
 .sortable.list .card .action {
@@ -350,3 +363,35 @@ DRAGGING RELATED
 .task.list .card {
     background: #fff799;
 }
+
+/*******Side bar********/
+#gstack-console > .container {
+    display: flex;
+}
+
+#gstack-console > .container > .ui.sidebar {
+    transition-property: width;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-in-out;
+    position: relative;
+}
+
+#gstack-console > .container > .ui.sidebar:not(.visible) {
+    width: 0;
+    opacity: 0;
+    border: none;
+}
+
+#gstack-console > .container > .ui.sidebar.visible {
+    /*display: block;*/
+    /*flex-shrink: 0;*/
+}
+
+#gstack-console > .container > .body {
+    overflow: auto;
+    max-width: 100%;
+    width: 100%;
+    flex: 1;
+}
+
+

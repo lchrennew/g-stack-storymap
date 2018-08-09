@@ -22,10 +22,10 @@ class _ProjectIndex extends React.Component {
     render() {
         const {cards = [], releases = []} = this.props
         if (cards.length) {
-            return <Placeholder ref={this.contextRef}>
+            return <div className="body" ref={this.contextRef}>
                 <ActivityList activities={cards}/>
                 <ScheduleList activities={cards} releases={releases}/>
-            </Placeholder>
+            </div>
         }
         else {
             return <div className="ui popup visible bottom left fluid" style={{position: 'static'}}>
