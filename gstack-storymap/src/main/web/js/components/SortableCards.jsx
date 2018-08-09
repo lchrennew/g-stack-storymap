@@ -58,6 +58,22 @@ class _SortableCards extends React.Component {
         return !this.state.dragging
     }
 
+    putCheck(to, from) {
+        const {dragging, id, storedCards} = this.props
+        if (!dragging) return true
+        else{
+            return SortableCards.buffer(
+                id,
+                () => {
+                    console.log(`check ${id}`)
+                    return CardHelper.accept(
+                        storedCards,
+                        SortableCards.dragging(storedCards, dragging),
+                        id)
+                })
+        }
+        //return !$(to.el).hasClass('dragging')
+    }
 
     init(el) {
         if (el) {
@@ -73,7 +89,7 @@ class _SortableCards extends React.Component {
             } = this.props
 
             const s = Sortable.create(el, {
-                group: {name: 'cards', pull: true, put: (from, to) => !$(from.el).hasClass('dragging')},
+                group: {name: 'cards', pull: true, put: this.putCheck.bind(this)},
                 dragClass,
                 ghostClass,
                 chosenClass,
@@ -121,23 +137,6 @@ class _SortableCards extends React.Component {
         }
     }
 
-    acceptable() {
-        const {dragging, id, storedCards} = this.props
-        if (!dragging) return true
-        else {
-            return SortableCards.buffer(
-                id,
-                () => {
-                    console.log(`check ${id}`)
-
-                    return CardHelper.accept(
-                        storedCards,
-                        SortableCards.dragging(storedCards, dragging),
-                        id)
-                })
-        }
-    }
-
     static dragging(cards, dragging) {
         this.draggingOption = this.draggingOption || CardHelper.dragging(cards, dragging)
         return this.draggingOption
@@ -160,7 +159,7 @@ class _SortableCards extends React.Component {
 
         return <div className={`${className} sortable list`}>
             <div className="head">{this.props.children}</div>
-            <div className={`body${this.acceptable() ? '' : ' dragging'}${stretched ? ' stretched' : ''}`}
+            <div className={`body${stretched ? ' stretched' : ''}`}
                  ref={this.init.bind(this)}
                  data-id={id}>
                 {
