@@ -1,6 +1,5 @@
 import React from 'react'
 import TaskList from "./TaskList";
-import Card from "./Card";
 import {SortableCards} from "./SortableCards";
 
 class ActivityList extends React.Component {

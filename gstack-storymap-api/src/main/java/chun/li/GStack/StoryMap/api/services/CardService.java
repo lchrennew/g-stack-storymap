@@ -2,18 +2,12 @@ package chun.li.GStack.StoryMap.api.services;
 
 import chun.li.GStack.StoryMap.api.MoveOptions;
 import chun.li.GStack.StoryMap.api.domain.Card;
-import chun.li.GStack.StoryMap.api.domain.Release;
 import chun.li.GStack.StoryMap.api.repositories.CardRepository;
 import chun.li.GStack.StoryMap.api.repositories.ReleaseRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.Map;
 import java.util.Optional;
-
-import static java.util.Arrays.asList;
-import static org.apache.calcite.linq4j.Linq4j.asEnumerable;
 
 @Service
 public class CardService {
@@ -38,72 +32,80 @@ public class CardService {
         return repository.findById(id);
     }
 
-    public Collection<Card> findAllByIdAndRelease(Long id, Long release) {
-        return repository.findAllByIdAndRelease(id, release);
-    }
-
     @Transactional
     public void move(Long id, MoveOptions options) {
-        Map<Long, Card> cards =
-                asEnumerable(
-                        repository.findAllById(
-                                asList(id, options.getId()), 2)
-                ).toMap(Card::getId);
-        Card card = cards.get(id),
-                target = cards.get(options.getId());
-        if (card != null && target != null) {
-            Card original;
-            if (card.hasPrev()) { // 不是第一个
-                original = card.getPrev();
-                original.setNext(card.getNext());
-            } else if (card.hasGeneral()) { // 不是root
-                original = card.getGeneral();
-                original.setDetail(card.getNext());
-            } else if (card.hasProject() && card.hasNext()) { // project root with next
-                original = card.getNext();
-                original.setProject(card.getProject());
-            } else if (card.planned()) { // release without next
-                original = card.getPlanFor();
-                original.setPlan(card.getRelease(), card.getNext());
-            } else return;
-
-            switch (options.getDirection()) {
-                case Next:
-                    card.setNext(target.getNext());
-                    target.setNext(card);
-                    break;
-                case Detail:
-                    card.setNext(target.getDetail());
-                    target.setDetail(card);
-                    break;
-                case Root: // target->root
-                    card.setProject(target.getProject());
-                    card.setNext(target);
-                    break;
-                case Plan:
-                    if (card.hasDetail() || !target.withDepth(2))
-                        return;
-                    Card oldPlan = target.getPlan(options.getRelease());
-                    Release release = oldPlan == null
-                            ? releaseRepository.findById(options.getRelease()).orElse(null)
-                            : oldPlan.getRelease();
-                    target.setPlan(release, card);
-                    card.setNext(oldPlan);
-                    break;
-            }
-            save(target);
-            save(original);
+        switch (options.getDirection()) {
+            case Next:
+                repository.next(id, options.getId());
+                break;
+            case Detail:
+                repository.detail(id, options.getId());
+                break;
+            case Root:
+                repository.root(id, options.getId());
+                break;
+            case Plan:
+                repository.plan(id, options.getId(), options.getRelease());
+                break;
         }
     }
 
+
+    /**
+     * @param id card to be inserted's id
+     * @param to card after which to insert's id
+     */
     @Transactional
-    public Card plan(Long id, Long release, Card plan) {
+    public void next(Long id, Long to) {
+        repository.next(id, to);
+    }
+
+    /**
+     * @param id new root card's id
+     * @param to project's id
+     */
+    @Transactional
+    public void root(Long id, Long to) {
+        repository.root(id, to);
+    }
+
+    @Transactional
+    public Card root(Card root, Long to) {
+        root = repository.save(root);
+        repository.root(root.getId(), to);
+        return root;
+    }
+
+    /**
+     * @param id card's id
+     * @param to general's id
+     */
+    @Transactional
+    public void detail(Long id, Long to) {
+        repository.detail(id, to);
+    }
+
+    /**
+     * @param id      card's id
+     * @param to      card to be planned for's id
+     * @param release release to be planned in's id
+     */
+    @Transactional
+    public void plan(Long id, Long to, Long release) {
+        repository.plan(id, to, release);
+    }
+
+    /**
+     * @param plan    card to be planned
+     * @param to      card to be planned for's id
+     * @param release release to be planned in's id
+     * @return card planned
+     */
+    @Transactional
+    public Card plan(Card plan, Long to, Long release) {
         plan = repository.save(plan);
-        Card oldPlan = repository.plan(id, release, plan.getId());
-        if (oldPlan != null) {
-            plan.setNext(oldPlan);
-            repository.save(oldPlan);
-        }
+        Long id = plan.getId();
+        plan(id, to, release);
         return plan;
     }
 

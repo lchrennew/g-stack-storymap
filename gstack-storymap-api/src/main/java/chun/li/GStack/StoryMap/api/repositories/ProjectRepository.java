@@ -7,9 +7,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface ProjectRepository extends Neo4jRepository<Project, Long> {
 
-    @Query("MATCH (p:Project)-[r1:DETAIL|:NEXT|:PLAN*]->(c:Card)" +
-            " OPTIONAL MATCH (c)-[r2:PLANNED_IN]->(r:Release)" +
+    @Query("MATCH (p:Project)" +
             " WHERE id(p)=$project" +
+            " OPTIONAL MATCH (p)-[r1:DETAIL|:NEXT|:PLAN*]->(c:Card)" +
+            " OPTIONAL MATCH (c)-[r2:PLANNED_IN]->(r:Release)" +
             " RETURN p, r1, c, r2, r")
     Project findAllCards(@Param("project") Long project);
 

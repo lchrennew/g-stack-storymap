@@ -3,6 +3,9 @@ import Placeholder from "./Placeholder";
 import ActivityList from "./ActivityList";
 import ScheduleList from "./ScheduleList";
 import {connect} from 'react-redux'
+import {Header, Message} from "semantic-ui-react";
+import AddRootButton from "./AddRootButton";
+import Icon from "./Icon";
 
 const mapStateToProps = (state, props) => {
     return {
@@ -18,10 +21,22 @@ class _ProjectIndex extends React.Component {
 
     render() {
         const {cards = [], releases = []} = this.props
-        return <Placeholder ref={this.contextRef}>
-            <ActivityList activities={cards}/>
-            <ScheduleList activities={cards} releases={releases}/>
-        </Placeholder>
+        if (cards.length) {
+            return <Placeholder ref={this.contextRef}>
+                <ActivityList activities={cards}/>
+                <ScheduleList activities={cards} releases={releases}/>
+            </Placeholder>
+        }
+        else {
+            return <div className="ui popup visible bottom left fluid" style={{position: 'static'}}>
+                <Header as="h1">Welcome!</Header>
+                <p>
+                    <AddRootButton className="ui massive green button">
+                      <Icon name="arrow-right-circle" size={32} />  Start with my first card
+                    </AddRootButton>
+                </p>
+            </div>
+        }
     }
 }
 

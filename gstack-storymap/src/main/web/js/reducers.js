@@ -38,11 +38,15 @@ const cards = (state = {list: null}, action) => {
         case 'RECEIVE_PLAN':
             CardHelper.plan(list, CardHelper.path(list, action.id), action.release, action.plan)
             return {fetch: false, list, projects: state.project}
-
         case 'REQUEST_NEXT':
             return state
         case 'RECEIVE_NEXT':
             CardHelper.after(list, CardHelper.path(list, action.id), action.next)
+            return {fetch: false, list, projects: state.project}
+        case 'REQUEST_ROOT':
+            return state
+        case 'RECEIVE_ROOT':
+            CardHelper.root(list, action.root)
             return {fetch: false, list, projects: state.project}
         case 'MOVE_CARD':
             let {option: {card, direction, target, release}} = action

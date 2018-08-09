@@ -17,7 +17,7 @@ export const getUpdateOptions = e => {
                     : 'Detail'
             : 'Next',
         target = direction === 'Root'
-            ? $(e.item).next(':visible').data('card')
+            ? $(e.item).next(':visible').data('project')
             : direction === 'Next'
                 ? $(e.item).prev(':visible').data('card')
                 : direction === 'Detail'
@@ -35,6 +35,7 @@ const mapStateToProps = (state, props) => {
     return {
         dragging: state.dragging.card,
         storedCards: state.cards.list,
+        project: state.cards.project,
     }
 }
 
@@ -78,7 +79,7 @@ class _SortableCards extends React.Component {
     init(el) {
         if (el) {
 
-            const {startDrag, endDrag} = this.props
+            const {startDrag, endDrag, project} = this.props
 
             const {
                 dragClass = '',
@@ -131,7 +132,7 @@ class _SortableCards extends React.Component {
                     // moveCard(opt)
                 },
             })
-
+            data.project = {id: project}
             $(el).data(data)
             el.option = s.option.bind(s)
         }

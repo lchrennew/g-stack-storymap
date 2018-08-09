@@ -49,8 +49,8 @@ public class CardController {
 
     @PostMapping("{id}/plan/{releaseid}")
     @ResponseBody
-    public Card setPlan(@PathVariable Long id, @PathVariable Long releaseid, @RequestBody Card plan) {
-        return cardService.plan(id, releaseid, plan);
+    public Card setPlan(@RequestBody Card plan, @PathVariable("id") Long to, @PathVariable Long releaseid) {
+        return cardService.plan(plan, to, releaseid);
     }
 
     @DeleteMapping("{id}")
@@ -64,22 +64,22 @@ public class CardController {
     @ResponseStatus(NO_CONTENT)
     public void sandbox() {
         Project project = new Project("DEMO");
-        Card a1 = new Card("A1"),
-                t1 = new Card("T1"),
-                f1 = new Card("F1"),
-                a2 = new Card("A2"),
-                t2 = new Card("T2"),
-                t3 = new Card("T3"),
-                f2 = new Card("F2"),
-                f3 = new Card("F3");
-        project.setDetail(a1);
-        a1.setNext(a2);
-        a1.setDetail(t1);
-        t1.setNext(t2);
-        a2.setDetail(t3);
-        t1.setDetail(f1);
-        f1.setNext(f2);
-        f2.setNext(f3);
+//        Card a1 = new Card("A1"),
+//                t1 = new Card("T1"),
+//                f1 = new Card("F1"),
+//                a2 = new Card("A2"),
+//                t2 = new Card("T2"),
+//                t3 = new Card("T3"),
+//                f2 = new Card("F2"),
+//                f3 = new Card("F3");
+//        project.setDetail(a1);
+//        a1.setNext(a2);
+//        a1.setDetail(t1);
+//        t1.setNext(t2);
+//        a2.setDetail(t3);
+//        t1.setDetail(f1);
+//        f1.setNext(f2);
+//        f2.setNext(f3);
 
         Release r1 = new Release("r1"),
                 r2 = new Release("r2"),
@@ -100,6 +100,12 @@ public class CardController {
             cardService.save(next);
         });
         return next;
+    }
+
+    @PostMapping("root/{project}")
+    @ResponseBody
+    public Card root(@RequestBody Card root, @PathVariable Long project) {
+        return cardService.root(root, project);
     }
 
     @PostMapping("{id}/move")

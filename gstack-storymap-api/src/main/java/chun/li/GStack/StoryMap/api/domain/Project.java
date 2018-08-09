@@ -66,7 +66,7 @@ public class Project {
     }
 
     public Iterable<Card> getDetails() {
-        return detail != null ? detail.toList() : null;
+        return detail != null ? detail.toList() : new ArrayList<>();
     }
 
     public Iterable<Release> getReleases() {

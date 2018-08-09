@@ -5,23 +5,121 @@ import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Collection;
+import static chun.li.GStack.StoryMap.api.CypherUtils.CREATE_NEW_NEXT_RELATIONSHIPS;
+import static chun.li.GStack.StoryMap.api.CypherUtils.OPTIONAL_MATCH_CS_RELATIONSHIPS;
 
 public interface CardRepository extends Neo4jRepository<Card, Long> {
-    @Query("MATCH (g:Card)" +
-            " WHERE id(g)=$id" +
-            " OPTIONAL MATCH (g)-[r1:PLAN]->(plan:Card)-[r2:PLANNED_IN]->(r:Release)" +
-            " WHERE id(r)=$release" +
-            " RETURN plan, r2, r, r1, g")
-    Collection<Card> findAllByIdAndRelease(@Param("id") Long id, @Param("release") Long release);
 
-    @Query("MATCH (g:Card), (rel:Release)" +
-            " WHERE id(g)=$id AND id(rel)=$release" +
-            " MATCH (new:Card)" +
-            " WHERE id(new)=$planId" +
-            " OPTIONAL MATCH (g)-[r:PLAN]->(old:Card)-[planin:PLANNED_IN]->(rel)" +
-            " CREATE (g)-[:PLAN]->(new)-[:PLANNED_IN]->(rel)" +
-            " DELETE r, planin" +
-            " RETURN old")
-    Card plan(@Param("id") Long id, @Param("release") Long release, @Param("planId") Long planId);
+//    @Query("MATCH (g:Card), (rel:Release)\n" +
+//            " WHERE id(g)=$id AND id(rel)=$release\n" +
+//            " MATCH (new:Card)\n" +
+//            " WHERE id(new)=$planId\n" +
+//            " OPTIONAL MATCH (g)-[r:PLAN]->(old:Card)-[planin:PLANNED_IN]->(rel)\n" +
+//            " CREATE (g)-[:PLAN]->(new)-[:PLANNED_IN]->(rel)\n" +
+//            " DELETE r, planin\n" +
+//            " RETURN old")
+//    Card plan(@Param("id") Long id, @Param("release") Long release, @Param("planId") Long planId);
+
+    @Query(
+            // 1. cs & to
+            "MATCH (c:Card), (to:Card)\n" +
+                    " WHERE id(c)=$id AND id(to)=$to\n" +
+                    // 2. c's relationships
+                    OPTIONAL_MATCH_CS_RELATIONSHIPS +
+                    // 3. to's relationships [NOTICE: according to which relationship to be replaced]
+                    " OPTIONAL MATCH (to)-[r_to:NEXT]->(to_next:Card)\n" + // to's next
+                    // 4. DELETE c's relationships
+                    " DELETE r_prev, r_next, r_general, r_root, r_for, r_rel\n" +
+                    // 5. DELETE to's relationships
+                    " DELETE r_to\n" +
+                    // 6. CREATE c's next's new relationships
+                    CREATE_NEW_NEXT_RELATIONSHIPS +
+                    // 7. CREATE c's new relationships  [NOTICE: according to which relationship to be replaced]
+                    " CREATE (to)-[:NEXT]->(c)\n" +
+                    " CREATE (c)-[:NEXT]->(to_next)")
+    void next(@Param("id") Long id, @Param("to") Long to);
+
+
+    // DONE
+    @Query(
+            // 1. cs & to
+            "MATCH (c:Card), (to:Project)\n" +
+                    " WHERE id(c)=$id AND id(to)=$to\n" +
+                    // 2. c's relationships
+                    OPTIONAL_MATCH_CS_RELATIONSHIPS +
+                    // 3. to's relationships [NOTICE: according to which relationship to be replaced]
+                    " OPTIONAL MATCH (to:Project)-[r_to:DETAIL]->(to_root:Card)\n" + // to's root
+                    // 4. DELETE c's relationships
+                    " DELETE r_prev, r_next, r_general, r_root, r_for, r_rel\n" +
+                    // 5. DELETE to's relationships
+                    " DELETE r_to\n" +
+                    // 6. CREATE c's next's new relationships
+                    CREATE_NEW_NEXT_RELATIONSHIPS +
+
+
+                    // 7. CREATE c's new relationships  [NOTICE: according to which relationship to be replaced]
+                    " CREATE (to)-[:DETAIL]->(c)\n" +
+                    (
+                            " FOREACH (o1 IN CASE WHEN to_root IS NOT NULL THEN [1] ELSE [] END|\n" +
+                                    " CREATE (c)-[:NEXT]->(to_root)\n" +
+                                    " )\n"
+                    )
+
+    )
+    void root(@Param("id") Long id, @Param("to") Long to);
+
+
+    @Query(
+            // 1. cs & to
+            "MATCH (c:Card), (to:Card)\n" +
+                    " WHERE id(c)=$id AND id(to)=$to\n" +
+                    // 2. c's relationships
+                    OPTIONAL_MATCH_CS_RELATIONSHIPS +
+                    // 3. to's relationships [NOTICE: according to which relationship to be replaced]
+                    " OPTIONAL MATCH (to)-[r_to:DETAIL]->(to_detail:Card)\n" + // to's detail
+                    // 4. DELETE c's relationships
+                    " DELETE r_prev, r_next, r_general, r_root, r_for, r_rel\n" +
+                    // 5. DELETE to's relationships
+                    " DELETE r_to\n" +
+                    // 6. CREATE c's next's new relationships
+                    CREATE_NEW_NEXT_RELATIONSHIPS +
+                    // 7. CREATE c's new relationships  [NOTICE: according to which relationship to be replaced]
+                    " FOREACH (o IN CASE WHEN to_detail IS NOT NULL THEN [1] ELSE [] END |\n" +
+                    " CREATE (c)-[:NEXT]->(to_detail)\n" +
+                    ")\n" +
+                    " CREATE (to)-[:DETAIL]->(c)")
+    void detail(@Param("id") Long id, @Param("to") Long to);
+
+
+    @Query(
+            // 1. cs & to & rel
+            "MATCH (c:Card), (to:Card), (rel:Release)\n" +
+                    " WHERE id(c)=$id AND id(to)=$to AND id(rel)=$release\n" +
+                    // 2. c's relationships
+                    " OPTIONAL MATCH (c_prev:Card)-[r_prev:NEXT]->(c)\n" + // prev to c
+                    " OPTIONAL MATCH (c)-[r_next:NEXT]->(c_next:Card)\n" + // next to c
+                    " OPTIONAL MATCH (c_general:Card)-[r_general:DETAIL]->(c)\n" + // general to c
+                    " OPTIONAL MATCH (c_root:Project)-[r_root:DETAIL]->(c)\n" + // root to c
+                    " OPTIONAL MATCH (c_for:Card)-[r_for:PLAN]->(c)\n" + // c's plan for
+                    " OPTIONAL MATCH (c)-[r_rel:PLANNED_IN]->(c_rel:Release)\n" + // c's planned in
+                    // 3. to's relationships [NOTICE: according to which relationship to be replaced]
+                    " OPTIONAL MATCH (to)-[r_to:PLAN]->(to_plan:Card)\n" + // to's plan
+                    " OPTIONAL MATCH (to_plan)-[r_to_rel:PLANNED_IN]->(rel)\n" + // to's plan's release
+                    // 4. DELETE c's relationships
+                    " DELETE r_prev, r_next, r_general, r_root, r_for, r_rel\n" +
+                    // 5. DELETE to's relationships
+                    " DELETE r_to, r_to_rel\n" +
+                    // 6. CREATE c's next's new relationships
+                    " CREATE (c_prev)-[:NEXT]->(c_next)\n" +
+                    " CREATE (c_general)-[:DETAIL]->(c_next)\n" +
+                    " CREATE (c_root)-[:DETAIL]->(c_next)\n" +
+                    " CREATE (c_for)-[:PLAN]->(c_next)\n" +
+                    " CREATE (c_next)-[:PLANNED_IN]->(c_rel)\n" +
+                    // 7. CREATE c's new relationships  [NOTICE: according to which relationship to be replaced]
+                    " CREATE (to)-[:PLAN]->(c)\n" +
+                    " CREATE (c)-[:PLANNED_IN]->(rel)\n" +
+                    " FOREACH (o IN CASE WHEN to_plan IS NOT NULL THEN [1] ELSE [] END |\n" +
+                    " CREATE (c)-[:NEXT]->(to_plan)\n" +
+                    " )")
+    void plan(@Param("id") Long id, @Param("to") Long to, @Param("release") Long release);
 }

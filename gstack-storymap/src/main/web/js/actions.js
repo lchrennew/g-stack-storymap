@@ -270,3 +270,38 @@ export const setNext = (id, next) => (dispatch, getState) => {
     let state = getState()
     return dispatch(_setNext(id, next))
 }
+
+/**********ROOT************/
+
+
+const requestRoot = (id, root) => {
+    return {
+        type: 'REQUEST_ROOT',
+        id, root
+    }
+}
+
+const receiveRoot = (id, root) => {
+    return {
+        type: 'RECEIVE_ROOT',
+        id, root
+    }
+}
+
+const _setRoot = (id, root) => async dispatch => {
+    dispatch(requestRoot(id, root))
+    let response = await api(`cards/root/${id}`, json(root, {credentials: 'include'}))(dispatch)
+    if (response.ok) {
+        root = await response.json()
+        return dispatch(receiveRoot(id, root))
+    }
+    return null
+}
+
+export const setRoot = (id, root) => (dispatch, getState) => {
+    let state = getState()
+    if (state.cards.list && state.cards.list.length)
+        return Promise.resolve()
+    else
+        return dispatch(_setRoot(id, root))
+}
