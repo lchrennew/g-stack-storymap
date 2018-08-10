@@ -87,8 +87,14 @@ public class CardController {
 
     @GetMapping("{id}")
     @ResponseBody
-    Card get(@PathVariable Long id) {
+    public Card get(@PathVariable Long id) {
         return cardService.findById(id).orElse(null);
+    }
+
+    @PutMapping("{id}/title")
+    @ResponseStatus(NO_CONTENT)
+    public void updateTitle(@PathVariable Long id, @RequestBody String title) {
+        cardService.updateTitle(id, title);
     }
 
 }

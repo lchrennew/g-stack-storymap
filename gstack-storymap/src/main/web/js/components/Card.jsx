@@ -34,9 +34,15 @@ class Card extends React.Component {
             <div className="card">
                 {
                     editing
-                        ? <CardTitleEditing value={title} onBlur={this.stopEdit.bind(this)}/>
-                        : <CardTitle value={title} onDoubleClick={this.startEdit.bind(this)}/>
+                        ? <CardTitleEditing value={title} onBlur={this.stopEdit.bind(this)} id={id}/>
+                        : <CardTitle value={title}/>
                 }
+
+                <div className="action left">
+                    <a href="#" onClick={this.startEdit.bind(this)} title="Edit title">
+                        <Icon name="edit-3" size={16}/>
+                    </a>
+                </div>
                 <div className="action bottom">
                     {
                         horizontal

@@ -315,4 +315,11 @@ export class CardHelper {
         general.plans[release] = general.plans[release] || []
         general.plans[release].splice(0, 0, card)
     }
+
+    static get(list = [], id) {
+        const result = jsonPath(list, `$..[?(@.id==${id})]`)
+        if (result && result.length)
+            return result[0]
+        else return null
+    }
 }

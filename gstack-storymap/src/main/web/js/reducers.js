@@ -71,7 +71,12 @@ const cards = (state = {list: null}, action) => {
                         return state
                 }
                 return {fetch: false, list, project: state.project}
-            }
+            } else return state
+        case 'REQUEST_UPDATE_CARD_TITLE':
+            CardHelper.get(list, action.id).title = action.title
+            return {fetch: false, list, project: state.project}
+        case 'RECEIVE_UPDATE_CARD_TITLE':
+            return state
         default:
             return state
     }

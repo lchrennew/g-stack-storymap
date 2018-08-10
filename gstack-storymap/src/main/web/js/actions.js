@@ -5,11 +5,17 @@ import SockJS from 'sockjs-client'
 const webApi = 'localhost:8085'
 const api = (endpoint, ...args) => async (dispatch) => await fetch(`//${webApi}/${endpoint}`, ...args)
 
-const json = (body, opt) => Object.assign({}, opt, {
+const json = (body, opt) => Object.assign({}, {
     method: 'POST',
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify(body),
-})
+}, opt)
+
+const text = (body, opt) => Object.assign({}, {
+    method: 'POST',
+    headers: {"Content-Type": "html/text"},
+    body,
+}, opt)
 /*************************
  项目
  ***************************/
@@ -304,4 +310,32 @@ export const setRoot = (id, root) => (dispatch, getState) => {
         return Promise.resolve()
     else
         return dispatch(_setRoot(id, root))
+}
+
+/***********CARD TITLE*********/
+const requestUpdateCardTitle = (id, title) => {
+    return {
+        type: "REQUEST_UPDATE_CARD_TITLE",
+        id, title
+    }
+}
+
+const receiveUpdateCardTitle = (id, title) => {
+    return {
+        type: "RECEIVE_UPDATE_CARD_TITLE",
+        id, title
+    }
+}
+
+const _updateCardTitle = (id, title) => async dispatch => {
+    dispatch(requestUpdateCardTitle(id, title))
+    let response = await api(`cards/${id}/title`, text(title, {method: 'PUT', credentials: 'include'}))(dispatch)
+    if (response.ok)
+        return dispatch(receiveUpdateCardTitle(id, title))
+    else
+        return null
+}
+
+export const updateCardTitle = (id, title) => (dispatch, getState) => {
+    return dispatch(_updateCardTitle(id, title))
 }

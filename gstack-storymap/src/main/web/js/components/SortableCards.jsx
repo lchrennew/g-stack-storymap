@@ -66,6 +66,7 @@ class _SortableCards extends React.Component {
                 dragClass,
                 ghostClass,
                 chosenClass,
+                filter: '.edit',
                 scroll: $('#gstack-console > .container')[0],
                 animation: 0,
                 scrollSensitivity: 120,

@@ -1,12 +1,18 @@
 import React from 'react'
-import Icon from "./Icon";
+import Placeholder from "./Placeholder";
 
 class CardTitle extends React.Component {
     render() {
-        const {value, onDoubleClick} = this.props
-        return <div className="card-title" onDoubleClick={onDoubleClick}>
-            <a href="" onClick={onDoubleClick}><Icon name="edit" size={16}/></a>
-            {value}
+        const {value} = this.props
+        return <div className="card-title">
+            {
+                value.split('\n').map(
+                    (line, k) =>
+                        <Placeholder key={k}>
+                            {line}<br/>
+                        </Placeholder>
+                )
+            }
         </div>
     }
 }

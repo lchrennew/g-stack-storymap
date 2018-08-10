@@ -140,4 +140,10 @@ public class CardService {
             repository.deleteById(id);
         });
     }
+
+
+    @Transactional
+    public void updateTitle(Long id, String title) {
+        repository.updateTitle(id, title);
+    }
 }
