@@ -43,6 +43,7 @@ class CardTitleEditing extends React.Component {
     render() {
 
         return <textarea className="card-title edit"
+                         placeholder="Enter a title"
                          value={this.state.value}
                          ref={this.init}
                          onKeyPress={this.onKeyPress.bind(this)}
