@@ -19,7 +19,7 @@ class AddPlanButton extends React.Component {
     addPlan(e) {
         e.preventDefault()
         const {id, release, setPlan} = this.props
-        setPlan(id, release, {title: ''})
+        setPlan(id, release, {title: null})
     }
 
     render() {

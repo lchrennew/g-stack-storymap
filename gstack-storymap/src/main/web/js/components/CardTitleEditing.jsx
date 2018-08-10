@@ -15,7 +15,7 @@ const mapDispatchToProps = dispatch => {
 class CardTitleEditing extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {value: props.value}
+        this.state = {value: props.value || ''}
         this.ref = React.createRef()
     }
 

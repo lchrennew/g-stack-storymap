@@ -19,7 +19,7 @@ class AddNextButton extends React.Component {
     addNext(e) {
         e.preventDefault()
         const {id, setNext} = this.props
-        setNext(id, {title: ''})
+        setNext(id, {title: null})
     }
 
     render() {

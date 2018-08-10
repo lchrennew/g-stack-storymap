@@ -34,7 +34,7 @@ class Card extends React.Component {
         return <div className="item" ref={this.bindCard.bind(this)}>
             <div className="card">
                 {
-                    editing || !title
+                    editing || title == null
                         ? <CardTitleEditing value={title} onBlur={this.stopEdit.bind(this)} id={id}/>
                         : <CardTitle value={title}/>
                 }

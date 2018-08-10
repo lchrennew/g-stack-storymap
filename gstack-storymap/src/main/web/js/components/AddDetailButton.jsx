@@ -19,7 +19,7 @@ class AddDetailButton extends React.Component {
     addDetail(e) {
         e.preventDefault()
         const {id, setDetail} = this.props
-        setDetail(id, {title: ''})
+        setDetail(id, {title: null})
     }
 
     render() {
