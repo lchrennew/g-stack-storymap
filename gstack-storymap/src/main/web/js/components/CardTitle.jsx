@@ -6,12 +6,14 @@ class CardTitle extends React.Component {
         const {value} = this.props
         return <div className="card-title">
             {
-                value.split('\n').map(
+                value
+                    ? value.split('\n').map(
                     (line, k) =>
                         <Placeholder key={k}>
                             {line}<br/>
                         </Placeholder>
                 )
+                    : '<Empty>'
             }
         </div>
     }

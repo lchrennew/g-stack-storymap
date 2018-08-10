@@ -10,7 +10,8 @@ import CardTitle from "./CardTitle";
 class Card extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {editing: false}
+        const {editing = false} = this.props
+        this.state = {editing}
     }
 
     bindCard(el) {

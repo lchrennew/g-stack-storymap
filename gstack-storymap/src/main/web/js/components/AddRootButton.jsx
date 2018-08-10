@@ -21,7 +21,7 @@ class AddRootButton extends React.Component {
         e.preventDefault()
         // id : project id
         const {id, setRoot} = this.props
-        setRoot(id, {title: 'Empty'})
+        setRoot(id, {title: ''})
     }
 
     render() {
