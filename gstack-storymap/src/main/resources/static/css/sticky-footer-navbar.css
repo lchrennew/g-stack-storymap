@@ -98,7 +98,7 @@ Sortable List CSS
 }
 
 .sortable.list > .body > .item {
-    display: inline-block;
+    display: inline-flex;
     background: transparent;
 }
 
@@ -198,12 +198,18 @@ Sortable List CSS
 }
 
 .sortable.list .card .action.left {
-    left: -16px;
+    left: 0;
     top: 0;
     bottom: 0;
     width: 16px;
     display: flex;
     text-align: center;
+}
+
+.sortable.list .card .action.left > a {
+    position: relative;
+    left: -12px;
+    height: min-content;
 }
 
 .activity.sortable.list > .body > .item,
@@ -246,6 +252,7 @@ Sortable List CSS
     padding: 0 6px 16px;
     min-height: 86px;
     box-sizing: content-box;
+    display: flex;
 }
 
 .task.sortable.list > .head {

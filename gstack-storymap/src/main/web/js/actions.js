@@ -329,7 +329,15 @@ const receiveUpdateCardTitle = (id, title) => {
 
 const _updateCardTitle = (id, title) => async dispatch => {
     dispatch(requestUpdateCardTitle(id, title))
-    let response = await api(`cards/${id}/title`, text(title, {method: 'PUT', credentials: 'include'}))(dispatch)
+    let response = await api(
+        `cards/${id}/title`,
+        json(
+            {id, title},
+            {
+                method: 'PUT',
+                credentials: 'include'
+            }
+        ))(dispatch)
     if (response.ok)
         return dispatch(receiveUpdateCardTitle(id, title))
     else

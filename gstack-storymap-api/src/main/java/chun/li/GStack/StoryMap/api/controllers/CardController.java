@@ -93,8 +93,8 @@ public class CardController {
 
     @PutMapping("{id}/title")
     @ResponseStatus(NO_CONTENT)
-    public void updateTitle(@PathVariable Long id, @RequestBody String title) {
-        cardService.updateTitle(id, title);
+    public void updateTitle(@PathVariable Long id, @RequestBody Card card) {
+        cardService.updateTitle(id, card.getTitle());
     }
 
 }
