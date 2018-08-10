@@ -43,6 +43,12 @@ class Card extends React.Component {
                     <a href="#" onClick={this.startEdit.bind(this)} title="Edit title">
                         <Icon name="edit-3" size={16}/>
                     </a>
+                    <a href="#" title={'Show details'}>
+                        <Icon name="maximize" size={16}/>
+                    </a>
+                    <a href="" title={'Delete card'}>
+                        <Icon name="trash" size={16} />
+                    </a>
                 </div>
                 <div className="action bottom">
                     {

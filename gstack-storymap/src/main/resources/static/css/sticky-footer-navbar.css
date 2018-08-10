@@ -204,12 +204,14 @@ Sortable List CSS
     width: 16px;
     display: flex;
     text-align: center;
+    flex-direction: column;
 }
 
 .sortable.list .card .action.left > a {
     position: relative;
     left: -12px;
     height: min-content;
+    display: inline-flex;
 }
 
 .activity.sortable.list > .body > .item,
