@@ -157,7 +157,7 @@ class _SortableCards extends React.Component {
         const {className, id, cards = [], nested, dragging, stretched = false, horizontal = false} = this.props
 
         return <div className={`${className} sortable list`}>
-            <div className="head">{this.props.children}</div>
+            {this.state.dragging ? null : <div className="head">{this.props.children}</div>}
             <div className={`body${stretched ? ' stretched' : ''}`}
                  ref={this.init.bind(this)}
                  data-id={id}>
