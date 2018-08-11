@@ -88,7 +88,7 @@ class _SortableCards extends React.Component {
                     const opt = this.getUpdateOptions(e)
                     moveCard(opt, true)
                 },
-                onChoose: e => {
+                onStart: e => {
                     this.setState({dragging: true})
                     const opt = this.getUpdateOptions(e)
                     startDrag(opt.card)

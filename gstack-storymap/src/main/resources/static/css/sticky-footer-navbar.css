@@ -120,8 +120,8 @@ Sortable List CSS
 
 .activity.sortable.list {
     font-size: 0em;
-    /*min-height: 180px;*/
-    min-height: 168px;
+    min-height: 180px;
+    /*min-height: 168px;*/
     z-index: 2;
     position: sticky;
     top: 0;
@@ -156,15 +156,9 @@ Sortable List CSS
     margin: 4px;
 }
 
-/*.drag-activity > .card .action,*/
-/*.drag-task > .card .action,*/
-/*.drag-feature > .card .action,*/
-/*.chosen-activity > .card .action,*/
-/*.chosen-task > .card .action,*/
-/*.chosen-feature > .card .action,*/
-/*.ui-sortable-placeholder .action {*/
-    /*display: none !important;*/
-/*}*/
+.ui-sortable-placeholder > .card > .action {
+    display: none !important;
+}
 
 .sortable.list .card .action {
     position: absolute;
@@ -218,7 +212,7 @@ Sortable List CSS
 .activity.item {
     border-right: 1px solid #eee;
     margin: 0;
-    padding: 0 4px;
+    padding: 4px;
     min-width: 137px;
     z-index: 1;
     /*position: relative;*/
@@ -244,7 +238,7 @@ Sortable List CSS
 
 .task.sortable.list {
     font-size: 0em;
-    margin: -4px 0 0;
+    margin: 0;
     padding: 0;
     min-height: 86px;
 }
@@ -266,7 +260,7 @@ Sortable List CSS
 }
 
 .feature.list > .body > .item {
-    display: block;
+    display: flex;
 }
 .ui-sortable-placeholder.card,
 .ui-sortable-placeholder > .card {
@@ -286,9 +280,7 @@ Sortable List CSS
 .drag-activity > .card,
 .drag-task > .card,
 .drag-feature > .card,
-.chosen-activity > .card,
-.chosen-task > .card,
-.chosen-feature > .card {
+.ui-sortable-placeholder > .card {
     box-shadow: 1px 1px 5px #888888;
 }
 
@@ -327,7 +319,7 @@ Sortable List CSS
     min-width: 100%;
 }
 
-.ui.accordion.schedules > .title {
+.ui.accordion.schedules > .title, .ui.accordion.schedules > .title * {
     background: #eee;
     cursor: default;
 }
