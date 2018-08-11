@@ -5,6 +5,7 @@ import Icon from "./Icon";
 import AddNextButton from "./AddNextButton";
 import CardTitleEditing from "./CardTitleEditing";
 import CardTitle from "./CardTitle";
+import DeleteButton from "./DeleteButton";
 
 
 class Card extends React.Component {
@@ -46,9 +47,7 @@ class Card extends React.Component {
                     <a href="#" title={'Show details'}>
                         <Icon name="maximize" size={16}/>
                     </a>
-                    <a href="" title={'Delete card'}>
-                        <Icon name="trash" size={16} />
-                    </a>
+                    <DeleteButton id={id}><Icon name="trash" size={16} /></DeleteButton>
                 </div>
                 <div className="action bottom">
                     {

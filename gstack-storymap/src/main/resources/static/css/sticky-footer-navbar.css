@@ -325,17 +325,6 @@ Sortable List CSS
     width: max-content;
     max-width: max-content !important;
     min-width: 100%;
-    flex: 1;
-    display: flex;
-    flex-flow: column;
-}
-
-.ui.accordion.schedules > div {
-    flex-shrink: 0;
-}
-
-.ui.accordion.schedules div.content:last-child {
-    flex: 1;
 }
 
 .ui.accordion.schedules > .title {
@@ -425,8 +414,7 @@ DRAGGING RELATED
     overflow: auto;
     max-width: 100%;
     width: 100%;
-    display: flex;
-    flex-flow: column;
+    flex: 1;
 }
 
 .card-title > a {

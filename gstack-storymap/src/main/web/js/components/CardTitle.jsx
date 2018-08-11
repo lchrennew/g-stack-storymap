@@ -13,7 +13,7 @@ class CardTitle extends React.Component {
                             {line}<br/>
                         </Placeholder>
                 )
-                    : '<Empty>'
+                    : <span className="text-muted">{'<Empty>'}</span>
             }
         </div>
     }

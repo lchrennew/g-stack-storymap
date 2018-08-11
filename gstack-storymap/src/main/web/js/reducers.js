@@ -28,13 +28,9 @@ const cards = (state = {list: null}, action) => {
             return {fetch: true, project: action.project}
         case 'RECEIVE_CARDS':
             return {fetch: false, list: action.list, project: action.project}
-        case 'REQUEST_DETAIL':
-            return state
         case 'RECEIVE_DETAIL':
             CardHelper.detail(list, CardHelper.path(list, action.id), action.detail)
             return {fetch: false, list, project: state.project}
-        case 'REQUEST_PLAN':
-            return state
         case 'RECEIVE_PLAN':
             CardHelper.plan(list, CardHelper.path(list, action.id), action.release, action.plan)
             return {fetch: false, list, projects: state.project}
@@ -43,8 +39,6 @@ const cards = (state = {list: null}, action) => {
         case 'RECEIVE_NEXT':
             CardHelper.after(list, CardHelper.path(list, action.id), action.next)
             return {fetch: false, list, projects: state.project}
-        case 'REQUEST_ROOT':
-            return state
         case 'RECEIVE_ROOT':
             CardHelper.root(list, action.root)
             return {fetch: false, list, projects: state.project}
@@ -75,8 +69,10 @@ const cards = (state = {list: null}, action) => {
         case 'REQUEST_UPDATE_CARD_TITLE':
             CardHelper.get(list, action.id).title = action.title
             return {fetch: false, list, project: state.project}
-        case 'RECEIVE_UPDATE_CARD_TITLE':
-            return state
+
+        case 'REQUEST_DEL_CARD':
+            CardHelper.detach(list,  CardHelper.path(list,  action.id))
+            return {fetch: false, list, project: state.project}
         default:
             return state
     }

@@ -278,8 +278,6 @@ export const setNext = (id, next) => (dispatch, getState) => {
 }
 
 /**********ROOT************/
-
-
 const requestRoot = (id, root) => {
     return {
         type: 'REQUEST_ROOT',
@@ -304,6 +302,7 @@ const _setRoot = (id, root) => async dispatch => {
     return null
 }
 
+
 export const setRoot = (id, root) => (dispatch, getState) => {
     let state = getState()
     if (state.cards.list && state.cards.list.length)
@@ -311,6 +310,38 @@ export const setRoot = (id, root) => (dispatch, getState) => {
     else
         return dispatch(_setRoot(id, root))
 }
+
+/**************DELETE CARD*************/
+const requestDelCard = id => {
+    return {
+        type: 'REQUEST_DEL_CARD',
+        id
+    }
+}
+
+const receiveDelCard = id => {
+    return {
+        type: 'RECEIVE_DEL_CARD',
+        id
+    }
+}
+
+const _delCard = id => async dispatch => {
+    dispatch(requestDelCard(id))
+    let response = await api(`cards/${id}`, {credentials: 'include', method: 'DELETE'})(dispatch)
+    if (response.ok) {
+        //await response.json()
+        return dispatch(receiveDelCard(id))
+    }
+    return null
+}
+
+
+export const delCard = id => (dispatch, getState) => {
+    let state = getState()
+    return dispatch(_delCard(id))
+}
+
 
 /***********CARD TITLE*********/
 const requestUpdateCardTitle = (id, title) => {

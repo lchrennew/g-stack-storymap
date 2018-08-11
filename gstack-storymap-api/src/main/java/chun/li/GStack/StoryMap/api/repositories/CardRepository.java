@@ -118,4 +118,11 @@ public interface CardRepository extends Neo4jRepository<Card, Long> {
 
     @Query("MATCH (c:Card) WHERE id(c)=$id SET c.title=$title")
     void updateTitle(@Param("id") Long id,@Param("title") String title);
+
+    @Query("MATCH (c:Card)\n" +
+            " WHERE id(c)=$id\n" +
+            OPTIONAL_MATCH_CS_RELATIONSHIPS +
+            " DETACH DELETE c\n" +
+            CREATE_NEW_NEXT_RELATIONSHIPS)
+    void delete(@Param("id") Long id);
 }
