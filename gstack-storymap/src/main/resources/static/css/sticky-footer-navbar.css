@@ -250,8 +250,8 @@ Sortable List CSS
 }
 
 .task.sortable.list > .body {
-    margin: 0 -6px -16px;
-    padding: 0 6px 16px;
+    margin: 0 -6px -8px;
+    padding: 0 6px 8px;
     min-height: 86px;
     box-sizing: content-box;
     display: flex;
@@ -325,6 +325,17 @@ Sortable List CSS
     width: max-content;
     max-width: max-content !important;
     min-width: 100%;
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+}
+
+.ui.accordion.schedules > div {
+    flex-shrink: 0;
+}
+
+.ui.accordion.schedules div.content:last-child {
+    flex: 1;
 }
 
 .ui.accordion.schedules > .title {
@@ -384,7 +395,7 @@ DRAGGING RELATED
 }
 
 .feature.sortable.list > .head {
-    top: -16px
+    top: -4px
 }
 
 /*******Side bar********/
@@ -414,7 +425,8 @@ DRAGGING RELATED
     overflow: auto;
     max-width: 100%;
     width: 100%;
-    flex: 1;
+    display: flex;
+    flex-flow: column;
 }
 
 .card-title > a {

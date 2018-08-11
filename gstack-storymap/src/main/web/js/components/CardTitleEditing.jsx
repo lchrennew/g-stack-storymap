@@ -34,8 +34,9 @@ class CardTitleEditing extends React.Component {
         this.setState({value: e.target.value})
     }
 
-    onKeyPress(e) {
-        if (e.ctrlKey && e.key === "\n") {
+    onKeyDown(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === "\n" || e.key === 's')) {
+            e.preventDefault()
             this.save(e)
         }
     }
@@ -46,7 +47,7 @@ class CardTitleEditing extends React.Component {
                          placeholder="Enter a title"
                          value={this.state.value}
                          ref={this.init}
-                         onKeyPress={this.onKeyPress.bind(this)}
+                         onKeyDown={this.onKeyDown.bind(this)}
                          onChange={this.syncValue.bind(this)}
                          onBlur={this.save.bind(this)}/>
     }
