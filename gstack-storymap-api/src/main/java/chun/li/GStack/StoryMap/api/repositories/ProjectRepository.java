@@ -14,6 +14,8 @@ public interface ProjectRepository extends Neo4jRepository<Project, Long> {
             " RETURN p, r1, c, r2, r")
     Project findAllCards(@Param("project") Long project);
 
-    @Query("MATCH (p:Project)-[r:PLAN|:NEXT*]->(n:Release) WHERE id(p) = $project RETURN p, r, n")
+    @Query("MATCH (p:Project) WHERE id(p) = $project" +
+            " OPTIONAL MATCH (p)-[r:PLAN|:NEXT*]->(n:Release)" +
+            " RETURN p, r, n")
     Project findAllReleases(@Param("project") Long project);
 }

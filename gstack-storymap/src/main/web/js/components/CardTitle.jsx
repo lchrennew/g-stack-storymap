@@ -4,7 +4,7 @@ import Placeholder from "./Placeholder";
 class CardTitle extends React.Component {
     render() {
         const {value} = this.props
-        return <div className="card-title">
+        return <div className="g-card-title">
             {
                 value
                     ? value.split('\n').map(

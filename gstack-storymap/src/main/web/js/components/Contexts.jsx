@@ -46,6 +46,8 @@ class SidebarComponent extends React.Component {
         super(props)
         const {visible = false} = props
         this.state = {visible, component: null}
+        this.onClickOutsideHandler = this.onClickOutsideHandler.bind(this)
+        this.domRef = React.createRef()
     }
 
     open(component) {
@@ -59,6 +61,20 @@ class SidebarComponent extends React.Component {
     toggle() {
         this.setState({visible: !this.state.visible})
     }
+
+    componentDidMount() {
+        window.addEventListener('click', this.onClickOutsideHandler);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('click', this.onClickOutsideHandler);
+    }
+
+    onClickOutsideHandler(event) {
+        if (this.state.visible && !this.domRef.current.contains(event.target)) {
+            this.setState({visible: false})
+        }
+    }
     render() {
         const {visible} = this.state
         const {
@@ -66,18 +82,23 @@ class SidebarComponent extends React.Component {
         } = this.props
 
 
-        return <div
-            className={`ui sidebar menu vertical very wide right${visible ? ' visible' : ''} ${className}`}>
-            {this.state.component || this.props.children}
+        return <div ref={this.domRef}
+                    className={`ui sidebar container fluid vertical very wide right${visible ? ' visible' : ''} ${className}`}>
+            {this.state.component}
         </div>
     }
 }
 
 export class SidebarContext extends React.Component {
     render() {
-        return <SidebarComponent ref={sidebarRef} {...this.props}>
-            {this.props.children}
-        </SidebarComponent>
+        return <Placeholder>
+            <div className="body">
+                {this.props.children}
+            </div>
+            <SidebarComponent
+                ref={sidebarRef}
+                {...this.props}/>
+        </Placeholder>
     }
 }
 

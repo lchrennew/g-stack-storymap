@@ -26,13 +26,14 @@ class Index extends React.Component {
         return <Placeholder>
             <Header/>
             <Main>
-                <ProjectsProvider>
-                    <Switch>
-                        <Route path="/:project" component={Project}/>
-                        <Route path="/" component={Projects}/>
-                    </Switch>
-                </ProjectsProvider>
-                <SidebarContext></SidebarContext>
+                <SidebarContext>
+                    <ProjectsProvider>
+                        <Switch>
+                            <Route path="/:project" component={Project}/>
+                            <Route path="/" component={Projects}/>
+                        </Switch>
+                    </ProjectsProvider>
+                </SidebarContext>
             </Main>
             <Footer/>
         </Placeholder>

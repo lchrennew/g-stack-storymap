@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card } from 'semantic-ui-react'
+import {Card, Container} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import CreateProjectCard from "./CreateProjectCard";
 import Placeholder from "./Placeholder";
@@ -18,7 +18,7 @@ const mapStateToProps = (state, props) => {
 class Projects extends React.Component {
     render() {
         let {projects: projects} = this.props
-        return <Placeholder>
+        return <Container>
             <h1 className="mt-5">Projects</h1>
             <div className="row">
                 <div className="col">
@@ -30,7 +30,7 @@ class Projects extends React.Component {
                     </Card.Group>
                 </div>
             </div>
-        </Placeholder>
+        </Container>
     }
 }
 

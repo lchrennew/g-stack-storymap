@@ -3,7 +3,7 @@ import Placeholder from "./Placeholder";
 import ActivityList from "./ActivityList";
 import ScheduleList from "./ScheduleList";
 import {connect} from 'react-redux'
-import {Header, Message} from "semantic-ui-react";
+import {Container, Header, Message} from "semantic-ui-react";
 import AddRootButton from "./AddRootButton";
 import Icon from "./Icon";
 
@@ -14,28 +14,27 @@ const mapStateToProps = (state, props) => {
     }
 }
 class _ProjectIndex extends React.Component {
-    constructor(props) {
-        super(props)
-        this.contextRef = React.createRef()
-    }
 
     render() {
         const {cards = [], releases = []} = this.props
         if (cards.length) {
-            return <div className="body" ref={this.contextRef}>
+            return <Placeholder>
                 <ActivityList activities={cards}/>
                 <ScheduleList activities={cards} releases={releases}/>
-            </div>
+            </Placeholder>
         }
         else {
-            return <div className="ui popup visible bottom left fluid" style={{position: 'static'}}>
-                <Header as="h1">Welcome!</Header>
+
+            return <Container as='h1' className='mt-5'>
+                <Message positive>
+                    <Message.Header>Welcome!</Message.Header>
                 <p>
                     <AddRootButton className="ui massive green button">
-                      <Icon name="arrow-right-circle" size={32} />  Start with my first card
+                        <Icon name="arrow-right-circle" size={32}/> Start with my first card
                     </AddRootButton>
                 </p>
-            </div>
+                </Message>
+            </Container>
         }
     }
 }

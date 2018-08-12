@@ -6,6 +6,7 @@ import AddNextButton from "./AddNextButton";
 import CardTitleEditing from "./CardTitleEditing";
 import CardTitle from "./CardTitle";
 import DeleteButton from "./DeleteButton";
+import CardDetailsEntry from "./CardDetailsEntry";
 
 
 class Card extends React.Component {
@@ -29,11 +30,23 @@ class Card extends React.Component {
         this.setState({editing: false})
     }
 
+    bindDetails(handler) {
+        this.openDetails = handler
+    }
+
+    onRightClick(e) {
+        e.preventDefault()
+        e.stopPropagation()
+        this.openDetails && this.openDetails()
+    }
+
     render() {
         const {card: {id, title}, nested, horizontal = false} = this.props
         const {editing} = this.state
         return <div className="item" ref={this.bindCard.bind(this)}>
-            <div className="card">
+            <div className="card"
+                 onDoubleClick={this.startEdit.bind(this)}
+                 onContextMenu={this.onRightClick.bind(this)}>
                 {
                     (editing || title == null)
                         ? <CardTitleEditing value={title} onBlur={this.stopEdit.bind(this)} id={id}/>
@@ -44,9 +57,9 @@ class Card extends React.Component {
                     <a href="#" onClick={this.startEdit.bind(this)} title="Edit title">
                         <Icon name="edit-3" size={16}/>
                     </a>
-                    <a href="#" title={'Show details'}>
+                    <CardDetailsEntry id={id} bindHandler={this.bindDetails.bind(this)}>
                         <Icon name="maximize" size={16}/>
-                    </a>
+                    </CardDetailsEntry>
                     <DeleteButton id={id}><Icon name="trash" size={16} /></DeleteButton>
                 </div>
                 <div className="action bottom">

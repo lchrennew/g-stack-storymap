@@ -21,7 +21,7 @@ class Header extends React.Component {
             <Container fluid>
                 <Menu.Item as='a' header>
                     <Image size='mini' src='/img/logo.png' style={{marginRight: '1.5em'}}/>
-                    Project Name
+                    G-Stack Story Mapping
                 </Menu.Item>
                 <Link className="item" to="/">Home</Link>
             </Container>

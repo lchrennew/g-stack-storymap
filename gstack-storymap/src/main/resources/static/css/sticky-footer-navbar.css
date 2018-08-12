@@ -50,6 +50,10 @@ body {
     vertical-align: text-bottom;
 }
 
+h1.mt-5 {
+    margin-top: 5rem;
+}
+
 .ui.card.create{
     box-shadow: none;
     border: 0.16em dashed rgba(0, 0, 0, 0.1);
@@ -72,11 +76,6 @@ body {
 
 *:hover > .hover.show .link {
     margin-left: 10px;
-}
-
-.side-bar {
-    background: #fff;
-    padding-top: 70px !important;
 }
 
 .text-overflow-hidden {
@@ -156,6 +155,9 @@ Sortable List CSS
     margin: 4px;
 }
 
+.sortable.list .card > * {
+    cursor: default;
+}
 .ui-sortable-placeholder > .card > .action {
     display: none !important;
 }
@@ -319,7 +321,7 @@ Sortable List CSS
     min-width: 100%;
 }
 
-.ui.accordion.schedules > .title, .ui.accordion.schedules > .title * {
+.ui.accordion.schedules > .title {
     background: #eee;
     cursor: default;
 }
@@ -400,6 +402,9 @@ DRAGGING RELATED
 #gstack-console > .container > .ui.sidebar.visible {
     /*display: block;*/
     /*flex-shrink: 0;*/
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
 }
 
 #gstack-console > .container > .body {
@@ -409,7 +414,29 @@ DRAGGING RELATED
     flex: 1;
 }
 
-.card-title > a {
+#gstack-console > .container > .body::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    background-color: transparent;
+}
+
+#gstack-console > .container > .body::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    transition: background-color 1s;
+}
+
+#gstack-console > .container > .body:hover::-webkit-scrollbar-thumb {
+    background-color: #96c8da;
+}
+
+#gstack-console > .container > .body::-webkit-scrollbar-track-piece,
+#gstack-console > .container > .body::-webkit-scrollbar-track {
+    width: 1px;
+    height: 1px;
+    background-color: transparent;
+    opacity: 0;
+}
+.g-card-title > a {
     opacity: 0;
     display: inline-block;
     position: absolute;
@@ -421,11 +448,11 @@ DRAGGING RELATED
     transition-property: opacity;
 }
 
-.card-title:hover > a {
+.g-card-title:hover > a {
     opacity: 1;
 }
 
-.card-title {
+.g-card-title {
     border: none;
     width: 100%;
     height: 100%;
@@ -436,14 +463,28 @@ DRAGGING RELATED
     word-wrap: break-word;
 }
 
-.card-title.edit {
+.g-card-title.edit {
     resize: none;
     font-size: 1rem;
     font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
 
-.card-title.edit:focus {
+.g-card-title.edit:focus {
     border: none;
     box-shadow: none;
     outline: none;
+}
+
+.sidebar > .title {
+
+}
+
+.sidebar > .content {
+    position: absolute;
+    top: 41px;
+    bottom: 0px;
+    overflow-y: auto;
+    left: 0;
+    right: 0;
+    padding: 1rem;
 }

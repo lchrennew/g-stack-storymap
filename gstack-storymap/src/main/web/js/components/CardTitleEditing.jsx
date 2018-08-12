@@ -21,6 +21,7 @@ class CardTitleEditing extends React.Component {
 
     init(el) {
         el && el.focus()
+        el && el.select()
     }
 
     save(e) {
@@ -28,6 +29,11 @@ class CardTitleEditing extends React.Component {
         const {value} = this.state
         onBlur(e)
         save(id, value)
+    }
+
+    cancel(e) {
+        const {onBlur} = this.props
+        onBlur(e)
     }
 
     syncValue(e) {
@@ -39,11 +45,15 @@ class CardTitleEditing extends React.Component {
             e.preventDefault()
             this.save(e)
         }
+        else if (e.key === 'Escape') {
+            e.preventDefault()
+            this.cancel(e)
+        }
     }
 
     render() {
 
-        return <textarea className="card-title edit"
+        return <textarea className="g-card-title edit"
                          placeholder="Enter a title"
                          value={this.state.value}
                          ref={this.init}

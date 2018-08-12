@@ -10,9 +10,9 @@ const projects = (state = {list: null}, action) => {
         case 'RECEIVE_PROJECTS':
             return {fetch: false, list: action.list}
         case 'CREATING_PROJECT':
-            return {fetch:false, list:[...state.list, action.suite]}
-        case 'CREATED_PROJECT':
             return state
+        case 'CREATED_PROJECT':
+            return {fetch:false, list:[...state.list, action.project]}
         default:
             return state
     }
