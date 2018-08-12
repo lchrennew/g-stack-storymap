@@ -64,6 +64,9 @@ public class Card {
     @JsonIgnore
     private Release release;
 
+    @JsonIgnore
+    private String description;
+
     // ------------------ GENERAL
     public boolean hasGeneral() {
         return general != null;
@@ -257,5 +260,14 @@ public class Card {
                     .where(plan -> plan.release != null)
                     .toMap(plan -> plan.release.getId(), Card::toList);
         } else return null;
+    }
+
+    @JsonProperty("description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

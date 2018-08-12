@@ -39,6 +39,7 @@
     "react-dom": "^16.4.1",
     "react-dragula": "^1.1.17",
     "react-loadable": "^5.4.0",
+    "react-mde": "^5.8.0",
     "react-mixin-sortablejs": "^0.1.2",
     "react-notification-system": "^0.2.17",
     "react-redux": "^5.0.7",

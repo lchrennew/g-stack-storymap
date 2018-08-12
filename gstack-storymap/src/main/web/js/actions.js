@@ -383,3 +383,64 @@ export const updateCardTitle = (id, title) => (dispatch, getState) => {
     }
     else return Promise.resolve()
 }
+
+/***卡片详情***/
+
+const fetchingCard = (id) => ({
+    type: 'FETCH_CARD',
+    id,
+})
+
+const fetchedCard = (card) => ({
+    type: 'RECEIVE_CARD',
+    card
+})
+
+const _fetchCard = (id) => async dispatch => {
+    dispatch(fetchingCard(id))
+    let response = await api(`cards/${id}`, {credentials: 'include'})(dispatch)
+    if (response.ok) {
+        let card = await  response.json()
+        return dispatch(fetchedCard(card))
+    }
+    return null
+}
+
+const cardNotFetching = state => !state.card.fetch
+const cardIsNotTheSame = (id, state) => state.card.id !== id
+export const fetchCard = (id) => (dispatch, getState) => {
+    let state = getState()
+    if (cardNotFetching(state) || cardIsNotTheSame(id, state)) {
+        return dispatch(_fetchCard(id))
+    }
+    else return Promise.resolve()
+}
+
+/***保存卡片详情***/
+
+
+const updatingCard = (id, card) => ({
+    type: 'UPDATING_CARD',
+    id, card
+})
+
+const updatedCard = (id, card) => ({
+    type: 'UPDATED_CARD',
+    id, card
+})
+
+const _updateCard = (id, card) => async dispatch => {
+    dispatch(updatingCard(id, card))
+    let response = await api(`cards/${id}`, json(card, {credentials: 'include', method: 'PUT'}))(dispatch)
+    if (response.ok) {
+        card = await response.json()
+        return dispatch(updatedCard(id, card))
+    }
+    return null
+}
+
+export const updateCard = (id, card) => (dispatch, getState) => {
+    let state = getState()
+    return dispatch(_updateCard(id, card))
+}
+

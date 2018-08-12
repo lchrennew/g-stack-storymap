@@ -73,6 +73,10 @@ const cards = (state = {list: null}, action) => {
         case 'REQUEST_DEL_CARD':
             CardHelper.detach(list,  CardHelper.path(list,  action.id))
             return {fetch: false, list, project: state.project}
+
+        case 'UPDATED_CARD':
+            Object.assign(CardHelper.get(list, action.id), action.card)
+            return {fetch: false, list, project: state.project}
         default:
             return state
     }
@@ -100,4 +104,17 @@ const dragging = (state = {dragging: false}, action) => {
     }
 }
 
-export default combineReducers({projects, cards, releases, dragging})
+const card = (state = {fetch: false, id: -1, card: null}, action) => {
+    switch (action.type) {
+        case 'FETCH_CARD':
+            return {fetch: true, id: action.id, card: null}
+        case 'RECEIVE_CARD':
+            return {fetch: false, id: action.id, card: action.card}
+        case 'UPDATED_CARD':
+            return {fetch: false, id: action.id, card: action.card}
+        default:
+            return state
+    }
+}
+
+export default combineReducers({projects, cards, releases, dragging, card})

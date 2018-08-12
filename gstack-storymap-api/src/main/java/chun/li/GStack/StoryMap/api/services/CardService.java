@@ -21,7 +21,7 @@ public class CardService {
     }
 
     public Card save(Card card) {
-        return repository.save(card);
+        return repository.save(card, 0);
     }
 
     public Iterable<Card> save(Iterable<Card> cards, int depth) {
@@ -29,7 +29,7 @@ public class CardService {
     }
 
     public Optional<Card> findById(Long id) {
-        return repository.findById(id);
+        return repository.findById(id, 0);
     }
 
     @Transactional
