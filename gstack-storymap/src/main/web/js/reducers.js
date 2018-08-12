@@ -98,7 +98,7 @@ const releases = (state = {list: null}, action) => {
         case 'DELETED_RELEASE':
             list.splice(list.findIndex(r => r.id === action.id), 1)
             return {fetch: false, list}
-        case 'MOVED_RELEASE':
+        case 'MOVING_RELEASE':
             let i = list.findIndex(r => r.id === action.id), r = list[i]
             switch (action.direction) {
                 case 'Previous':
