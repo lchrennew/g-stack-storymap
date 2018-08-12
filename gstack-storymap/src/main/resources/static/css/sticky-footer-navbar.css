@@ -473,6 +473,8 @@ DRAGGING RELATED
     border: none;
     box-shadow: none;
     outline: none;
+    cursor: text;
+    user-select: text;
 }
 
 .sidebar > .title {

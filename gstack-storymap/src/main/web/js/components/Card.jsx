@@ -43,7 +43,7 @@ class Card extends React.Component {
     render() {
         const {card: {id, title}, nested, horizontal = false} = this.props
         const {editing} = this.state
-        return <div className="item" ref={this.bindCard.bind(this)}>
+        return <div className={`item${editing || title == null?' edit':''}`} ref={this.bindCard.bind(this)}>
             <div className="card"
                  onDoubleClick={this.startEdit.bind(this)}
                  onContextMenu={this.onRightClick.bind(this)}>
