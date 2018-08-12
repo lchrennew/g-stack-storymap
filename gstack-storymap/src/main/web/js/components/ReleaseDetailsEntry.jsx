@@ -1,8 +1,8 @@
 import React from 'react'
 import {openSidebar} from "./Contexts";
-import CardDetails from "./CardDetails";
+import ReleaseDetails from "./ReleaseDetails";
 import {connect} from 'react-redux'
-import {fetchCard} from "../actions";
+import {fetchRelease} from "../actions";
 
 
 const mapStateToProps = (state, props) => {
@@ -11,11 +11,11 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        load: id => dispatch(fetchCard(id))
+        load: id => dispatch(fetchRelease(id))
     }
 }
 
-class CardDetailsEntry extends React.Component {
+class ReleaseDetailsEntry extends React.Component {
 
     onClick(e) {
         e.preventDefault()
@@ -25,7 +25,7 @@ class CardDetailsEntry extends React.Component {
 
     open() {
         const {id, load} = this.props
-        openSidebar(<CardDetails id={id}/>)
+        openSidebar(<ReleaseDetails id={id}/>)
         load(id)
     }
 
@@ -43,4 +43,4 @@ class CardDetailsEntry extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CardDetailsEntry)
+export default connect(mapStateToProps, mapDispatchToProps)(ReleaseDetailsEntry)

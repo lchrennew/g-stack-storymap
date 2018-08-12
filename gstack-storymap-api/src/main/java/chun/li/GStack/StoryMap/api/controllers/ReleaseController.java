@@ -4,12 +4,13 @@ import chun.li.GStack.StoryMap.api.MoveOptions;
 import chun.li.GStack.StoryMap.api.domain.Release;
 import chun.li.GStack.StoryMap.api.services.ProjectService;
 import chun.li.GStack.StoryMap.api.services.ReleaseService;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+
 @Controller
-@RequestMapping("")
+@RequestMapping("releases")
 public class ReleaseController {
     private final ReleaseService releaseService;
     private final ProjectService projectService;
@@ -18,6 +19,12 @@ public class ReleaseController {
                              ProjectService projectService) {
         this.releaseService = releaseService;
         this.projectService = projectService;
+    }
+
+    @GetMapping("{id}")
+    @ResponseBody
+    public Release getById(@PathVariable Long id) {
+        return releaseService.findById(id).orElse(null);
     }
 
 //    @PostMapping("projects/{project}/releases")
@@ -30,7 +37,14 @@ public class ReleaseController {
 //        return release;
 //    }
 
-    @PostMapping("releases/{id}/next")
+    @PutMapping("{id}")
+    @ResponseBody
+    public Release update(@PathVariable Long id, @RequestBody Release release) {
+        release.setId(id);
+        return releaseService.save(release);
+    }
+
+    @PostMapping("{id}/next")
     @ResponseBody
     public Release addNext(@PathVariable Long id, Release next) {
         releaseService.findById(id).ifPresent(release -> {
@@ -42,8 +56,8 @@ public class ReleaseController {
         return releaseService.save(next);
     }
 
-    @PostMapping("releases/{id}/move")
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    @PostMapping("{id}/move")
+    @ResponseStatus(code = NO_CONTENT)
     public void move(@PathVariable Long id, @RequestBody MoveOptions options) {
         releaseService.move(id, options);
     }

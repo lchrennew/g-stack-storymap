@@ -20,11 +20,11 @@ public class ReleaseService {
     }
 
     public Release save(Release release) {
-        return repository.save(release);
+        return repository.save(release, 0);
     }
 
     public Optional<Release> findById(Long id) {
-        return repository.findById(id);
+        return repository.findById(id, 0);
     }
 
     public void move(Long id, MoveOptions options) {

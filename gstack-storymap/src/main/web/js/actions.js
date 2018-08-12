@@ -444,3 +444,63 @@ export const updateCard = (id, card) => (dispatch, getState) => {
     return dispatch(_updateCard(id, card))
 }
 
+
+/***版本详情***/
+
+const fetchingRelease = (id) => ({
+    type: 'FETCH_RELEASE',
+    id,
+})
+
+const fetchedRelease = (release) => ({
+    type: 'RECEIVE_RELEASE',
+    release
+})
+
+const _fetchRelease = (id) => async dispatch => {
+    dispatch(fetchingRelease(id))
+    let response = await api(`releases/${id}`, {credentials: 'include'})(dispatch)
+    if (response.ok) {
+        let release = await  response.json()
+        return dispatch(fetchedRelease(release))
+    }
+    return null
+}
+
+const releaseNotFetching = state => !state.release.fetch
+const releaseIsNotTheSame = (id, state) => state.release.id !== id
+export const fetchRelease = (id) => (dispatch, getState) => {
+    let state = getState()
+    if (releaseNotFetching(state) || releaseIsNotTheSame(id, state)) {
+        return dispatch(_fetchRelease(id))
+    }
+    else return Promise.resolve()
+}
+
+
+/***保存版本详情***/
+
+
+const updatingRelease = (id, release) => ({
+    type: 'UPDATING_RELEASE',
+    id, release
+})
+
+const updatedRelease = (id, release) => ({
+    type: 'UPDATED_RELEASE',
+    id, release
+})
+
+const _updateRelease = (id, release) => async dispatch => {
+    dispatch(updatingRelease(id, release))
+    let response = await api(`releases/${id}`, json(release, {credentials: 'include', method: 'PUT'}))(dispatch)
+    if (response.ok) {
+        release = await response.json()
+        return dispatch(updatedRelease(id, release))
+    }
+    return null
+}
+export const updateRelease = (id, release) => (dispatch, getState) => {
+    let state = getState()
+    return dispatch(_updateRelease(id, release))
+}

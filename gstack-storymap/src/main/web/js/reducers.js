@@ -83,11 +83,15 @@ const cards = (state = {list: null}, action) => {
 }
 
 const releases = (state = {list: null}, action) => {
+    let list = $.extend(true, [], state.list)
     switch (action.type) {
         case 'FETCH_RELEASES':
             return {fetch: true}
         case 'RECEIVE_RELEASES':
             return {fetch: false, list: action.list,}
+        case 'UPDATED_RELEASE':
+            Object.assign(list.find(r=>r.id===action.id), action.release)
+            return {fetch: true, list}
         default:
             return state
     }
@@ -117,4 +121,17 @@ const card = (state = {fetch: false, id: -1, card: null}, action) => {
     }
 }
 
-export default combineReducers({projects, cards, releases, dragging, card})
+const release = (state = {fetch: false, id: -1, release: null}, action) => {
+    switch (action.type) {
+        case 'FETCH_RELEASE':
+            return {fetch: true, id: action.id, release: null}
+        case 'RECEIVE_RELEASE':
+            return {fetch: false, id: action.id, release: action.release}
+        case 'UPDATED_RELEASE':
+            return {fetch: false, id: action.id, release: action.release}
+        default:
+            return state
+    }
+}
+
+export default combineReducers({projects, cards, releases, dragging, card, release})
