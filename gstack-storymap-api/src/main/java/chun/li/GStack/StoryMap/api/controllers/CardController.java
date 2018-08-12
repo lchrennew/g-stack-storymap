@@ -1,6 +1,6 @@
 package chun.li.GStack.StoryMap.api.controllers;
 
-import chun.li.GStack.StoryMap.api.MoveOptions;
+import chun.li.GStack.StoryMap.api.CardMoveOptions;
 import chun.li.GStack.StoryMap.api.domain.Card;
 import chun.li.GStack.StoryMap.api.domain.Project;
 import chun.li.GStack.StoryMap.api.domain.Release;
@@ -81,7 +81,7 @@ public class CardController {
 
     @PostMapping("{id}/move")
     @ResponseStatus(NO_CONTENT)
-    public void move(@PathVariable Long id, @RequestBody MoveOptions options) {
+    public void move(@PathVariable Long id, @RequestBody CardMoveOptions options) {
         cardService.move(id, options);
     }
 

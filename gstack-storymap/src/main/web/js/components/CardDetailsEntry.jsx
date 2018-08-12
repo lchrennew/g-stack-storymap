@@ -1,8 +1,8 @@
 import React from 'react'
 import {openSidebar} from "./Contexts";
-import CardDetails from "./CardDetails";
 import {connect} from 'react-redux'
 import {fetchCard} from "../actions";
+import CardDetailsSidebar from "./CardDetailsSidebar";
 
 
 const mapStateToProps = (state, props) => {
@@ -25,7 +25,7 @@ class CardDetailsEntry extends React.Component {
 
     open() {
         const {id, load} = this.props
-        openSidebar(<CardDetails id={id}/>)
+        openSidebar(<CardDetailsSidebar id={id}/>)
         load(id)
     }
 

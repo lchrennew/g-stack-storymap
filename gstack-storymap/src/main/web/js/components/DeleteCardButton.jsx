@@ -12,7 +12,7 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-class DeleteButton extends React.Component {
+class DeleteCardButton extends React.Component {
 
     deleteCard(e) {
         e.preventDefault()
@@ -30,4 +30,4 @@ class DeleteButton extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeleteButton)
+export default connect(mapStateToProps, mapDispatchToProps)(DeleteCardButton)

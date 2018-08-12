@@ -1,6 +1,6 @@
 package chun.li.GStack.StoryMap.api.controllers;
 
-import chun.li.GStack.StoryMap.api.MoveOptions;
+import chun.li.GStack.StoryMap.api.ReleaseMoveOptions;
 import chun.li.GStack.StoryMap.api.domain.Release;
 import chun.li.GStack.StoryMap.api.services.ProjectService;
 import chun.li.GStack.StoryMap.api.services.ReleaseService;
@@ -56,9 +56,23 @@ public class ReleaseController {
         return releaseService.save(next);
     }
 
+    @PostMapping("project/{project}")
+    @ResponseBody
+    public Release create(@PathVariable Long project, @RequestBody Release release) {
+        release.setId(null);
+        release = releaseService.append(project, release);
+        return release;
+    }
+
     @PostMapping("{id}/move")
     @ResponseStatus(code = NO_CONTENT)
-    public void move(@PathVariable Long id, @RequestBody MoveOptions options) {
+    public void move(@PathVariable Long id, @RequestBody ReleaseMoveOptions options) {
         releaseService.move(id, options);
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseBody
+    public boolean delete(@PathVariable Long id) {
+        return releaseService.deleteById(id);
     }
 }

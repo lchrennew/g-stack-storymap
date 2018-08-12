@@ -11,6 +11,8 @@ class ScheduleList extends React.Component {
                     ? releases.map((release, i) =>
                         <Schedule
                             key={i}
+                            first={i === 0}
+                            last={i === releases.length}
                             {...{activities, release}}/>)
                     : null
             }

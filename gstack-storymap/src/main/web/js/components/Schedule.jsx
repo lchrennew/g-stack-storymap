@@ -6,6 +6,9 @@ import Icon from "./Icon";
 import {openSidebar} from "./Contexts";
 import ReleaseDetails from "./ReleaseDetails";
 import ReleaseDetailsEntry from "./ReleaseDetailsEntry";
+import DeleteReleaseButton from "./DeleteReleaseButton";
+import CreateReleaseButton from "./CreateReleaseButton";
+import ReleaseMoveButton from "./ReleaseMoveButton";
 
 class Schedule extends React.Component {
     constructor(props) {
@@ -30,7 +33,7 @@ class Schedule extends React.Component {
     }
 
     render() {
-        const {activities, release} = this.props
+        const {activities, release, first = false, last = false} = this.props
         const {fold} = this.state
         return <Placeholder className={`${release ? '' : 'not '}schedule`}>
             <Accordion.Title active={!fold}>
@@ -55,16 +58,38 @@ class Schedule extends React.Component {
                         {
                             release
                                 ? <Placeholder>
-                                    <a href="#" title="move up"><Icon name="arrow-up"/></a>
-                                    <a href="#" title="move down"><Icon name="arrow-down"/></a>
+                                    {
+                                        first
+                                            ? null
+                                            : <ReleaseMoveButton
+                                                title="move up"
+                                                id={release.id}
+                                                direction={'Previous'}
+                                            >
+                                                <Icon name="arrow-up"/>
+                                            </ReleaseMoveButton>
+                                    }
+                                    {
+                                        last
+                                            ? null
+                                            : <ReleaseMoveButton
+                                                title="move down"
+                                                direction={'Next'}
+                                                id={release.id}
+                                            >
+                                                <Icon name="arrow-down"/>
+                                            </ReleaseMoveButton>
+                                    }
                                     <ReleaseDetailsEntry id={release.id}>
                                         <Icon name="maximize"/>
                                     </ReleaseDetailsEntry>
-                                    <a href="#" title="remove details"><Icon name="trash"/></a>
+                                    <DeleteReleaseButton id={release.id}>
+                                        <Icon name="trash"/>
+                                    </DeleteReleaseButton>
                                 </Placeholder>
                                 : <Placeholder>
+                                    <CreateReleaseButton><Icon name="plus"/></CreateReleaseButton>
                                     <a href="#" title="show details"><Icon name="maximize"/></a>
-                                    <a href="#" title="add new release"><Icon name="plus"/></a>
                                 </Placeholder>
                         }
                     </div>

@@ -1,15 +1,12 @@
 package chun.li.GStack.StoryMap.api.services;
 
-import chun.li.GStack.StoryMap.api.MoveOptions;
+import chun.li.GStack.StoryMap.api.ReleaseMoveOptions;
 import chun.li.GStack.StoryMap.api.domain.Release;
 import chun.li.GStack.StoryMap.api.repositories.ReleaseRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
 import java.util.Optional;
-
-import static java.util.Arrays.asList;
-import static org.apache.calcite.linq4j.Linq4j.asEnumerable;
 
 @Service
 public class ReleaseService {
@@ -27,37 +24,32 @@ public class ReleaseService {
         return repository.findById(id, 0);
     }
 
-    public void move(Long id, MoveOptions options) {
-        Map<Long, Release> releases =
-                asEnumerable(
-                        repository.findAllById(asList(id, options.getId()))
-                ).toMap(Release::getId);
-        Release release = releases.get(id),
-                target = releases.get(options.getId());
-        if (release != null && target != null) {
-            Release original;
-            if (release.hasPrev()) {
-                original = release.getPrev();
-                original.setNext(release.getNext());
-            } else if (release.hasNext()) {
-                original = release.getNext();
-                original.setProject(release.getProject());
-            } else return;
-
-            switch (options.getDirection()) {
-                case Next:
-                    release.setNext(target.getNext());
-                    target.setNext(release);
-                    break;
-                case Root:
-                    release.setProject(target.getProject());
-                    release.setNext(target);
-                    break;
-                default:
-                    return;
-            }
-            repository.save(target);
-            repository.save(original);
+    @Transactional
+    public void move(Long id, ReleaseMoveOptions options) {
+        switch (options.getDirection()) {
+            case Next:
+                repository.moveNext(id);
+                break;
+            case Previous:
+                repository.movePrevious(id);
+                break;
         }
+    }
+
+    @Transactional
+    public boolean deleteById(Long id) {
+        if (repository.findByIdWithoutCard(id) != null)
+            return false;
+        else {
+            repository.deleteById(id);
+            return true;
+        }
+    }
+
+    @Transactional
+    public Release append(Long project, Release release) {
+        release = repository.save(release);
+        repository.appendTo(release.getId(), project);
+        return release;
     }
 }

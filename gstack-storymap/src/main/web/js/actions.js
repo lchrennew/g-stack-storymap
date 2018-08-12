@@ -504,3 +504,101 @@ export const updateRelease = (id, release) => (dispatch, getState) => {
     let state = getState()
     return dispatch(_updateRelease(id, release))
 }
+
+/**************DELETE RELEASE*************/
+const deletingRelease = id => {
+    return {
+        type: 'DELETING_RELEASE',
+        id
+    }
+}
+
+const deletedRelease = (id) => {
+    return {
+        type: 'DELETED_RELEASE',
+        id,
+    }
+}
+
+const _delRelease = id => async dispatch => {
+    dispatch(deletingRelease(id))
+    let response = await api(`releases/${id}`, {credentials: 'include', method: 'DELETE'})(dispatch)
+    if (response.ok) {
+        let result = await response.json()
+        if (result)
+            dispatch(deletedRelease(id))
+        return result
+    }
+    return null
+}
+
+
+export const delRelease = id => (dispatch, getState) => {
+    let state = getState()
+    return dispatch(_delRelease(id))
+}
+
+
+/**************CREATE RELEASE*************/
+const creatingRelease = () => {
+    return {
+        type: 'CREATING_RELEASE'
+    }
+}
+
+const createdRelease = release => {
+    return {
+        type: 'CREATED_RELEASE',
+        release,
+    }
+}
+
+const _createRelease = (project, release) => async dispatch => {
+    dispatch(creatingRelease())
+    let response = await api(`releases/project/${project}`, json(release, {credentials: 'include'}))(dispatch)
+    if (response.ok) {
+        release = await response.json()
+        dispatch(createdRelease(release))
+        return release
+    }
+    return null
+}
+
+
+export const createRelease = release => (dispatch, getState) => {
+    let state = getState()
+    let project = state.cards.project
+    return dispatch(_createRelease(project, release))
+}
+
+/**************MOVE RELEASE*************/
+const movingRelease = (id, direction) => {
+    return {
+        type: 'MOVING_RELEASE',
+        id, direction,
+    }
+}
+
+const movedRelease = (id, direction) => {
+    return {
+        type: 'MOVED_RELEASE',
+        id, direction
+    }
+}
+
+const _moveRelease = (id, direction) => async dispatch => {
+    dispatch(movingRelease(id, direction))
+    let response = await api(`releases/${id}/move`, json({direction}, {credentials: 'include'}))(dispatch)
+    if (response.ok) {
+        return dispatch(movedRelease(id, direction))
+    }
+    return null
+}
+
+
+export const moveRelease = (id, direction) => (dispatch, getState) => {
+    let state = getState()
+    return dispatch(_moveRelease(id, direction))
+}
+
+

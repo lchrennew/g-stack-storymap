@@ -217,6 +217,7 @@ Sortable List CSS
     padding: 4px;
     min-width: 137px;
     z-index: 1;
+    min-height: 94px;
     /*position: relative;*/
 }
 

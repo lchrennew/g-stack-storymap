@@ -2,7 +2,7 @@ package chun.li.GStack.StoryMap.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class MoveOptions {
+public class CardMoveOptions {
     public Long getId() {
         return id;
     }
@@ -36,8 +36,8 @@ public class MoveOptions {
     @JsonProperty
     private Long release;
 
-    public static MoveOptions plan(Long id, Long release){
-        MoveOptions options= new MoveOptions();
+    public static CardMoveOptions plan(Long id, Long release){
+        CardMoveOptions options= new CardMoveOptions();
         options.id = id;
         options.release = release;
         options.direction = MoveDirection.Plan;

@@ -1,8 +1,8 @@
 import React from 'react'
 import {openSidebar} from "./Contexts";
-import ReleaseDetails from "./ReleaseDetails";
 import {connect} from 'react-redux'
 import {fetchRelease} from "../actions";
+import ReleaseDetailsSidebar from "./ReleaseDetailsSidebar";
 
 
 const mapStateToProps = (state, props) => {
@@ -25,7 +25,7 @@ class ReleaseDetailsEntry extends React.Component {
 
     open() {
         const {id, load} = this.props
-        openSidebar(<ReleaseDetails id={id}/>)
+        openSidebar(<ReleaseDetailsSidebar id={id}/>)
         load(id)
     }
 

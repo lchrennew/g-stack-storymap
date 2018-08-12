@@ -1,6 +1,6 @@
 package chun.li.GStack.StoryMap.api.services;
 
-import chun.li.GStack.StoryMap.api.MoveOptions;
+import chun.li.GStack.StoryMap.api.CardMoveOptions;
 import chun.li.GStack.StoryMap.api.domain.Card;
 import chun.li.GStack.StoryMap.api.repositories.CardRepository;
 import chun.li.GStack.StoryMap.api.repositories.ReleaseRepository;
@@ -33,7 +33,7 @@ public class CardService {
     }
 
     @Transactional
-    public void move(Long id, MoveOptions options) {
+    public void move(Long id, CardMoveOptions options) {
         switch (options.getDirection()) {
             case Next:
                 repository.next(id, options.getId());
