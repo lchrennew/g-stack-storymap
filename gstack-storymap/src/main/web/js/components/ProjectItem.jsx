@@ -15,7 +15,9 @@ class ProjectItem extends React.Component {
             </Card.Content>
             <Card.Content extra>
                 <div className="ui two buttons">
-
+                    <Link to={id.toString()} className="ui basic large button">
+                        <Icon name="log-in" size={24}/> Come in
+                    </Link>
                 </div>
             </Card.Content>
         </Card>
