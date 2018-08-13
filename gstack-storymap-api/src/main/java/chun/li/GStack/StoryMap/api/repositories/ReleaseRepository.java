@@ -80,7 +80,7 @@ public interface ReleaseRepository extends Neo4jRepository<Release, Long> {
             " FOREACH(o IN CASE WHEN last IS NOT NULL THEN [1] ELSE [] END|\n" +
             " CREATE (last)-[:NEXT]->(r)\n" +
             " )\n" +
-            " FOREACH(o IN CAsE WHEN last IS NULL THEN [1] ELSE [] END|\n" +
+            " FOREACH(o IN CASE WHEN last IS NULL THEN [1] ELSE [] END|\n" +
             " CREATE (p)-[:PLAN]->(r)\n" +
             " )")
     void appendTo(@Param("id") Long id, @Param("project") Long project);
