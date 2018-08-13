@@ -3,7 +3,6 @@ package chun.li.GStack.StoryMap.api.services;
 import chun.li.GStack.StoryMap.api.CardMoveOptions;
 import chun.li.GStack.StoryMap.api.domain.Card;
 import chun.li.GStack.StoryMap.api.repositories.CardRepository;
-import chun.li.GStack.StoryMap.api.repositories.ReleaseRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,19 +12,13 @@ import java.util.Optional;
 public class CardService {
 
     private final CardRepository repository;
-    private final ReleaseRepository releaseRepository;
 
-    public CardService(CardRepository repository, ReleaseRepository releaseRepository) {
+    public CardService(CardRepository repository) {
         this.repository = repository;
-        this.releaseRepository = releaseRepository;
     }
 
     public Card save(Card card) {
         return repository.save(card, 0);
-    }
-
-    public Iterable<Card> save(Iterable<Card> cards, int depth) {
-        return repository.save(cards, depth);
     }
 
     public Optional<Card> findById(Long id) {
@@ -67,29 +60,11 @@ public class CardService {
         return next;
     }
 
-    /**
-     * @param id new root card's id
-     * @param to project's id
-     */
-    @Transactional
-    public void root(Long id, Long to) {
-        repository.root(id, to);
-    }
-
     @Transactional
     public Card createRoot(Card root, Long to) {
         root = repository.save(root);
         repository.root(root.getId(), to);
         return root;
-    }
-
-    /**
-     * @param id card's id
-     * @param to general's id
-     */
-    @Transactional
-    public void detail(Long id, Long to) {
-        repository.detail(id, to);
     }
 
     @Transactional

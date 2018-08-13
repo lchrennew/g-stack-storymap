@@ -6,7 +6,6 @@ import chun.li.GStack.StoryMap.api.domain.Project;
 import chun.li.GStack.StoryMap.api.domain.Release;
 import chun.li.GStack.StoryMap.api.services.CardService;
 import chun.li.GStack.StoryMap.api.services.ProjectService;
-import chun.li.GStack.StoryMap.api.services.ReleaseService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +16,10 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 public class CardController {
     private final CardService cardService;
     private final ProjectService projectService;
-    private final ReleaseService releaseService;
 
-    public CardController(CardService cardService, ProjectService projectService, ReleaseService releaseService) {
+    public CardController(CardService cardService, ProjectService projectService) {
         this.cardService = cardService;
         this.projectService = projectService;
-        this.releaseService = releaseService;
     }
 
 
@@ -40,10 +37,10 @@ public class CardController {
         return cardService.createDetail(detail, to);
     }
 
-    @PostMapping("{to}/plan/{releaseid}")
+    @PostMapping("{to}/plan/{release}")
     @ResponseBody
-    public Card createPlan(@RequestBody Card plan, @PathVariable Long to, @PathVariable Long releaseid) {
-        return cardService.createPlan(plan, to, releaseid);
+    public Card createPlan(@RequestBody Card plan, @PathVariable Long to, @PathVariable Long release) {
+        return cardService.createPlan(plan, to, release);
     }
 
     @DeleteMapping("{id}")

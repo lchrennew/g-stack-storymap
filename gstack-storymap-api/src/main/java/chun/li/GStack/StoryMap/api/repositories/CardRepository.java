@@ -10,16 +10,6 @@ import static chun.li.GStack.StoryMap.api.CypherUtils.OPTIONAL_MATCH_CS_RELATION
 
 public interface CardRepository extends Neo4jRepository<Card, Long> {
 
-//    @Query("MATCH (g:Card), (rel:Release)\n" +
-//            " WHERE id(g)=$id AND id(rel)=$release\n" +
-//            " MATCH (new:Card)\n" +
-//            " WHERE id(new)=$planId\n" +
-//            " OPTIONAL MATCH (g)-[r:PLAN]->(old:Card)-[planin:PLANNED_IN]->(rel)\n" +
-//            " CREATE (g)-[:PLAN]->(new)-[:PLANNED_IN]->(rel)\n" +
-//            " DELETE r, planin\n" +
-//            " RETURN old")
-//    Card plan(@Param("id") Long id, @Param("release") Long release, @Param("planId") Long planId);
-
     @Query(
             // 1. cs & to
             "MATCH (c:Card), (to:Card)\n" +

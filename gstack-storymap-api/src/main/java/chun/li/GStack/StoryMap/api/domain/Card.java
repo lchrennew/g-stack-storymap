@@ -67,50 +67,6 @@ public class Card {
     @JsonIgnore
     private String description;
 
-    // ------------------ GENERAL
-    public boolean hasGeneral() {
-        return general != null;
-    }
-
-    public Card getGeneral() {
-        return general;
-    }
-
-    // ------------------ DETAIL
-    public boolean hasDetail() {
-        return detail != null;
-    }
-
-    public Card getDetail() {
-        return detail;
-    }
-
-    public void setDetail(Card detail) {
-        if (detail != null) {
-            detail.general = this;
-            detail.prev = null;
-            detail.release = null;
-        } else if (this.detail != null) {
-            this.detail.general = null;
-        }
-        this.detail = detail;
-
-    }
-
-    // ------------------ PREVIOUS
-    public boolean hasPrev() {
-        return prev != null;
-    }
-
-    public Card getPrev() {
-        return prev;
-    }
-
-
-    // ------------------- NEXT
-    public boolean hasNext() {
-        return next != null;
-    }
 
     public Card getNext() {
         return next;
@@ -130,10 +86,6 @@ public class Card {
     // -------------------- TITLE
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     // -------------------- ID
@@ -182,80 +134,10 @@ public class Card {
         return release;
     }
 
-    public boolean hasProject() {
-        return project != null;
-    }
-
-
-    public void setPlan(Release release, Card plan) {
-        if (hasPlan(release)) {
-            Card oldPlan = this.getPlan(release.getId());
-            oldPlan.planFor = null;
-            plans.remove(oldPlan);
-        }
-        if (plan != null) {
-            plan.release = release;
-            plan.planFor = this;
-            plan.general = null;
-            plan.prev = null;
-            addPlan(plan);
-        }
-    }
-
-    private void addPlan(Card plan) {
-        if (this.plans == null)
-            this.plans = new HashSet<>();
-        this.plans.add(plan);
-    }
-
-    private boolean hasPlan(Release release) {
-        return this.plans != null
-                && asEnumerable(this.plans).any(
-                plan -> plan.release == null
-                        || Objects.equals(plan.release.getId(), release.getId()));
-    }
-
-    public Card getPlan(Long release) {
-        return this.plans != null ?
-                asEnumerable(this.plans)
-                        .firstOrDefault(plan ->
-                                plan.release == null
-                                        || Objects.equals(plan.release.getId(), release)) :
-                null;
-    }
-
-    public Card getPlanFor() {
-        return planFor;
-    }
-
-    public boolean withDepth(int depth) {
-        Card card = this.first();
-        int i = 1;
-        while (card.hasGeneral()) {
-            card = card.general.first();
-            i++;
-        }
-        return depth == i;
-    }
-
-    private Card first() {
-        Card first = this;
-        while (first.hasPrev()) {
-            first = first.prev;
-        }
-        return first;
-    }
-
-    public boolean planned() {
-        return planFor != null && release != null;
-    }
 
     @JsonProperty("plans")
     public Map<Long, Iterable<Card>> getPlans() {
         if (this.plans != null) {
-            if (asEnumerable(this.plans).any(plan -> plan.release == null)) {
-                System.out.println("'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'");
-            }
             return asEnumerable(this.plans)
                     .where(plan -> plan.release != null)
                     .toMap(plan -> plan.release.getId(), Card::toList);
@@ -267,7 +149,4 @@ public class Card {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

@@ -8,6 +8,7 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.neo4j.ogm.annotation.Relationship.INCOMING;
@@ -16,12 +17,10 @@ import static org.neo4j.ogm.annotation.Relationship.INCOMING;
 public class Release {
     @Id
     @GeneratedValue
-    private
-    Long id;
+    private Long id;
 
     @JsonProperty
-    private
-    String title;
+    private String title;
 
     @Relationship(type = "NEXT")
     @JsonIgnore
@@ -52,14 +51,6 @@ public class Release {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public Release getNext() {
         return next;
     }
@@ -72,10 +63,6 @@ public class Release {
             this.next.prev = null;
         }
         this.next = next;
-    }
-
-    public Release getPrev() {
-        return prev;
     }
 
     public Project getProject() {
@@ -102,10 +89,6 @@ public class Release {
         return next != null;
     }
 
-    public boolean hasPrev() {
-        return prev != null;
-    }
-
     public Iterable<Release> toList() {
         List<Release> list = new ArrayList<>();
         Release item = this;
@@ -114,5 +97,39 @@ public class Release {
             item = item.next;
         }
         return list;
+    }
+
+    @JsonProperty
+    private String objective;
+
+    @JsonProperty
+    private Date start;
+
+    @JsonProperty
+    private Date end;
+
+
+    public Date getStart() {
+        return start;
+    }
+
+    public void setStart(Date start) {
+        this.start = start;
+    }
+
+    public Date getEnd() {
+        return end;
+    }
+
+    public void setEnd(Date end) {
+        this.end = end;
+    }
+
+    public String getObjective() {
+        return objective;
+    }
+
+    public void setObjective(String objective) {
+        this.objective = objective;
     }
 }
