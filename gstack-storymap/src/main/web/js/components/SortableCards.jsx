@@ -5,6 +5,7 @@ import {endDragCard, moveUpdateCard, startDragCard, saveCardMovement} from "../a
 import {connect} from 'react-redux'
 import {CardHelper} from "../utils";
 import Card from "./Card";
+import {notify} from "./Contexts";
 
 
 const mapStateToProps = (state, props) => {
@@ -78,15 +79,25 @@ class _SortableCards extends React.Component {
                 },
                 onEnd: e => {
                 },
-                onAdd: e => {
+                onAdd: async e => {
                     const opt = this.getUpdateOptions(e)
                     if (e.from.childElementCount <= e.oldIndex) e.from.appendChild(e.item)
                     else $(e.item).insertBefore($(e.from).children(':visible').get(e.oldIndex))
-                    moveCard(opt, true)
+                    await  moveCard(opt, true)
+                    notify({
+                        title: 'Move card',
+                        level: 'success',
+                        message: 'Done!',
+                    })
                 },
-                onUpdate: e => {
+                onUpdate: async e => {
                     const opt = this.getUpdateOptions(e)
-                    moveCard(opt, true)
+                    await moveCard(opt, true)
+                    notify({
+                        title: 'Move card',
+                        level: 'success',
+                        message: 'Done!',
+                    })
                 },
                 onStart: e => {
                     this.setState({dragging: true})
@@ -97,12 +108,6 @@ class _SortableCards extends React.Component {
                     SortableCards.dragged()
                     endDrag()
                     this.setState({dragging: false})
-                },
-                // onUnchoose: e => $('.dragging').removeClass('dragging'),
-                // onSort: e => console.log(`onSort->`) || console.log(e) || onSort(e),
-                onMoved: e => {
-                    const opt = this.getUpdateOptions(e)
-                    // moveCard(opt)
                 },
             })
             $(el).data(data)

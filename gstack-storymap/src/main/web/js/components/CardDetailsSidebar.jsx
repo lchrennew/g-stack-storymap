@@ -3,11 +3,11 @@ import Placeholder from "./Placeholder";
 import {Button, Dimmer, Form, Loader, Menu, Segment} from "semantic-ui-react";
 import {connect} from 'react-redux'
 import {updateCard} from "../actions";
+import {notify} from "./Contexts";
 
 const mapStateToProps = (state, props) => {
     return {
-        card: state.card.card || {},
-        loading: state.card.fetch
+        card: state.card.card
     }
 }
 
@@ -21,23 +21,28 @@ class CardDetailsSidebar extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {}
+        const {card} = props
+        this.state = Object.assign({}, card)
+
+        this.titleRef = React.createRef()
+        this.descriptionRef = React.createRef()
     }
 
-    save(e) {
+    async save(e) {
         e.preventDefault()
-        const {save, id, card} = this.props
-        const {title = card.title, description = card.description} = this.state
-        save(id, {title, description})
-        this.setState({title: undefined, description: undefined})
-    }
-
-    bindChange() {
-        return (e) => this.setState({[e.target.name]: e.target.value})
+        const {save, id} = this.props
+        const title = this.titleRef.current.value,
+            description  = this.descriptionRef.current.value
+        await save(id, {title, description})
+        notify({
+            title: 'Update card',
+            level: 'success',
+            message: 'Done!',
+        })
     }
 
     render() {
-        const {id, card, loading} = this.props
+        const {id, card} = this.props
         return <Placeholder>
             <Menu fixed='top' borderless className="title">
                 <Menu.Item>
@@ -46,7 +51,7 @@ class CardDetailsSidebar extends React.Component {
             </Menu>
             <div className="content container">
                 {
-                    !loading
+                    card
                         ? <Form onSubmit={this.save.bind(this)}>
                             <Form.Field>
                                 <label>Title</label>
@@ -55,15 +60,16 @@ class CardDetailsSidebar extends React.Component {
                                        name="title"
                                        required
                                        autoComplete="off"
-                                       onChange={this.bindChange()}
+                                       ref={this.titleRef}
                                 />
                             </Form.Field>
                             <Form.Field>
                                 <label>Description</label>
                                 <textarea placeholder='Enter description'
-                                          defaultValue={card.description || ''}
+                                          defaultValue={card.description}
                                           name="description"
-                                          onChange={this.bindChange()}/>
+                                          ref={this.descriptionRef}
+                                />
                             </Form.Field>
                             <Button type='submit'>Update</Button>
                         </Form>

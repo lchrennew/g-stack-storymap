@@ -1,6 +1,7 @@
 import React from 'react'
 import {moveRelease} from "../actions";
 import {connect} from 'react-redux'
+import {notify} from "./Contexts";
 
 const mapStateToProps = (state, props) => {
     return {}
@@ -14,10 +15,15 @@ const mapDispatchToProps = dispatch => {
 
 class ReleaseMoveButton extends React.Component {
 
-    move(e) {
+    async move(e) {
         const {direction, id, move} = this.props
         e.preventDefault()
-        move(id, direction)
+        await move(id, direction)
+        notify({
+            title: 'Move release',
+            level: 'success',
+            message: 'Done!',
+        })
     }
 
     render() {

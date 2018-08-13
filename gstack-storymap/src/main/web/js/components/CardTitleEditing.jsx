@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {updateCardTitle} from "../actions";
+import {notify} from "./Contexts";
 
 const mapStateToProps = (state, props) => {
     return {}
@@ -24,11 +25,16 @@ class CardTitleEditing extends React.Component {
         el && el.select()
     }
 
-    save(e) {
+    async save(e) {
         const {onBlur, save, id} = this.props
         const {value} = this.state
         onBlur(e)
-        save(id, value)
+        await save(id, value)
+        notify({
+            title: 'Save card',
+            level: 'success',
+            message:'Done!'
+        })
     }
 
     cancel(e) {

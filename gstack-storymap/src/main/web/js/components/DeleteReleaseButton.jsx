@@ -26,6 +26,13 @@ class DeleteReleaseButton extends React.Component {
                 level: 'error',
             })
         }
+        else {
+            notify({
+                title: 'Delete release',
+                level: 'success',
+                message: 'Done!',
+            })
+        }
     }
 
     render() {

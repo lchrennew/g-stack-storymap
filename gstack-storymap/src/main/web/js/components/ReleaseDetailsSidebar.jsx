@@ -3,11 +3,11 @@ import Placeholder from "./Placeholder";
 import {Button, Dimmer, Form, Loader, Menu} from "semantic-ui-react";
 import {connect} from 'react-redux'
 import {updateRelease} from "../actions";
+import {notify} from "./Contexts";
 
 const mapStateToProps = (state, props) => {
     return {
         release: state.release.release || {},
-        loading: state.release.fetch
     }
 }
 
@@ -21,22 +21,23 @@ const mapDispatchToProps = dispatch => {
 class ReleaseDetailsSidebar extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {}
+        this.titleRef = React.createRef()
     }
 
-    save(e) {
+    async save(e) {
         e.preventDefault()
-        const {save, id, release} = this.props
-        const {title = release.title} = this.state
-        save(id, {title})
-        this.setState({title: undefined})
+        const {save, id} = this.props
+        const title = this.titleRef.current.value
+        await save(id, {title})
+        notify({
+            title: 'Update release',
+            level: 'success',
+            message: 'Done!',
+        })
     }
 
-    bindChange() {
-        return (e) => this.setState({[e.target.name]: e.target.value})
-    }
     render() {
-        const {id, release, loading} = this.props
+        const {id, release} = this.props
         return <Placeholder>
             <Menu fixed='top' borderless className="title">
                 <Menu.Item>
@@ -45,7 +46,7 @@ class ReleaseDetailsSidebar extends React.Component {
             </Menu>
             <div className="content container">
                 {
-                    !loading
+                    release
                         ? <Form onSubmit={this.save.bind(this)}>
                             <Form.Field>
                                 <label>Title</label>
@@ -54,7 +55,7 @@ class ReleaseDetailsSidebar extends React.Component {
                                        name="title"
                                        required
                                        autoComplete="off"
-                                       onChange={this.bindChange()}
+                                       ref={this.titleRef}
                                 />
                             </Form.Field>
                             <Button type='submit'>Update</Button>

@@ -1,6 +1,7 @@
 import React from 'react'
 import {setRoot} from "../actions";
 import {connect} from 'react-redux'
+import {notify} from "./Contexts";
 
 
 const mapStateToProps = (state, props) => {
@@ -17,11 +18,16 @@ const mapDispatchToProps = dispatch => {
 
 class AddRootButton extends React.Component {
 
-    addRoot(e) {
+    async addRoot(e) {
         e.preventDefault()
         // id : project id
         const {id, setRoot} = this.props
-        setRoot(id, {title: null})
+        await setRoot(id, {title: null})
+        notify({
+            title: 'Add card',
+            level: 'success',
+            message: 'Done!',
+        })
     }
 
     render() {

@@ -2,6 +2,7 @@ import React from 'react'
 import Icon from "./Icon";
 import {setNext} from "../actions";
 import {connect} from 'react-redux'
+import {notify} from "./Contexts";
 
 
 const mapStateToProps = (state, props) => {
@@ -16,10 +17,15 @@ const mapDispatchToProps = dispatch => {
 
 class AddNextButton extends React.Component {
 
-    addNext(e) {
+    async addNext(e) {
         e.preventDefault()
         const {id, setNext} = this.props
-        setNext(id, {title: null})
+        await setNext(id, {title: null})
+        notify({
+            title: 'Add card',
+            level: 'success',
+            message: 'Done!',
+        })
     }
 
     render() {

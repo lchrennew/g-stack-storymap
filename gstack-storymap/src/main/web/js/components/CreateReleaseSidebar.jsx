@@ -1,9 +1,9 @@
 import React from 'react'
 import Placeholder from "./Placeholder";
-import {Button, Dimmer, Form, Loader, Menu} from "semantic-ui-react";
+import {Button, Form, Menu} from "semantic-ui-react";
 import {connect} from 'react-redux'
 import {createRelease} from "../actions";
-import {openSidebar} from "./Contexts";
+import {notify, openSidebar} from "./Contexts";
 import ReleaseDetailsSidebar from "./ReleaseDetailsSidebar";
 
 const mapStateToProps = (state, props) => {
@@ -20,19 +20,20 @@ const mapDispatchToProps = dispatch => {
 class CreateReleaseSidebar extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {}
+        this.titleRef = React.createRef()
     }
 
     async save(e) {
         e.preventDefault()
         const {save} = this.props
-        const {title = ''} = this.state
+        const title = this.titleRef.current.value
         const release = await save({title})
         openSidebar(<ReleaseDetailsSidebar id={release.id}/>)
-    }
-
-    bindChange() {
-        return (e) => this.setState({[e.target.name]: e.target.value})
+        notify({
+            title: 'Add release',
+            level: 'success',
+            message: 'Done!',
+        })
     }
 
     render() {
@@ -50,7 +51,7 @@ class CreateReleaseSidebar extends React.Component {
                                name="title"
                                required
                                autoComplete="off"
-                               onChange={this.bindChange()}
+                               ref={this.titleRef}
                         />
                     </Form.Field>
                     <Button type='submit'>Save</Button>

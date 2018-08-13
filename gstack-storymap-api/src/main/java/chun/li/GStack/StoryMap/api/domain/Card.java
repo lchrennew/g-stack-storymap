@@ -20,10 +20,6 @@ public class Card {
     public Card() {
     }
 
-    public Card(String title) {
-        this.title = title;
-    }
-
     @Id
     @GeneratedValue
     Long id;
@@ -52,10 +48,6 @@ public class Card {
     @JsonIgnore
     private Set<Card> plans;
 
-    @Relationship(type = "PLAN", direction = INCOMING)
-    @JsonIgnore
-    private Card planFor;
-
     @Relationship(type = "DETAIL", direction = INCOMING)
     @JsonIgnore
     private Project project;
@@ -64,7 +56,7 @@ public class Card {
     @JsonIgnore
     private Release release;
 
-    @JsonIgnore
+    @JsonProperty
     private String description;
 
 
@@ -105,7 +97,7 @@ public class Card {
         } else return null;
     }
 
-    public Iterable<Card> toList() {
+    Iterable<Card> toList() {
         List<Card> list = new ArrayList<>();
         Card item = this;
         list.add(item);
@@ -142,11 +134,6 @@ public class Card {
                     .where(plan -> plan.release != null)
                     .toMap(plan -> plan.release.getId(), Card::toList);
         } else return null;
-    }
-
-    @JsonProperty("description")
-    public String getDescription() {
-        return description;
     }
 
 }

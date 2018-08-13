@@ -2,6 +2,7 @@ import React from 'react'
 import Icon from "./Icon";
 import {setPlan} from "../actions";
 import {connect} from 'react-redux'
+import {notify} from "./Contexts";
 
 
 const mapStateToProps = (state, props) => {
@@ -16,10 +17,15 @@ const mapDispatchToProps = dispatch => {
 
 class AddPlanButton extends React.Component {
 
-    addPlan(e) {
+    async addPlan(e) {
         e.preventDefault()
         const {id, release, setPlan} = this.props
-        setPlan(id, release, {title: null})
+        await setPlan(id, release, {title: null})
+        notify({
+            title: 'Add card',
+            level: 'success',
+            message: 'Done!',
+        })
     }
 
     render() {
