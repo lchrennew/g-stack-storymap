@@ -71,7 +71,9 @@ class SidebarComponent extends React.Component {
     }
 
     onClickOutsideHandler(event) {
-        if (this.state.visible && !this.domRef.current.contains(event.target)) {
+        if (this.state.visible
+            && !this.domRef.current.contains(event.target)
+            && document.contains(event.target)) {
             this.setState({visible: false})
         }
     }

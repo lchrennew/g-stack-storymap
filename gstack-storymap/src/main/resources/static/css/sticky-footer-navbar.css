@@ -513,3 +513,49 @@ DRAGGING RELATED
     right: 0;
     padding: 1rem;
 }
+
+.public-DraftEditor-content, .mde-preview-content {
+    line-height: 1.2;
+}
+
+.react-mde i.icon {
+    margin: 0;
+}
+
+.mde-header ul.mde-header-group li.mde-header-item a.mde-toolbar-button {
+    text-align: left;
+    cursor: pointer;
+    height: 22px;
+    padding: 4px;
+    margin: 0;
+    border: none;
+    background: none;
+    color: #242729;
+    display: block;
+    line-height: 1.15;
+}
+
+.header-1 {
+    font-size: 2rem;
+}
+
+.header-1, .header-2, .header-3, .header-4 {
+    cursor: pointer;
+    color: #000000;
+}
+
+.header-1 {
+    font-size: 2rem;
+}
+
+.header-2 {
+    font-size: 1.71428571rem;
+}
+
+.header-3 {
+    font-size: 1.28571429rem;
+}
+
+.header-4 {
+    font-size: 1.07142857rem;
+}

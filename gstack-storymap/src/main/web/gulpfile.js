@@ -7,7 +7,7 @@ var gulp = require("gulp"),
     sass = require('gulp-sass'),
     react = require('gulp-react'),
     babel = require('gulp-babel'),
-    rollup = require('gulp-rollup'),
+    rollup = require('rollup'),
     copy = require('gulp-copy'),
     exec = require('child_process').exec
 
@@ -65,9 +65,10 @@ gulp.task('2 - Package all compiled JS (Rollup)', ['1 - Compile JSX into JS'], f
             ['stompjs', 'Stomp'],
             ['sockjs-client', 'SockJS'],
             ['react-notification-system', 'ReactNotificationSystem'],
-            ['reactstrap','Reactstrap'],
+            ['react-markdown','reactMarkdown'],
             ['semantic-ui-react','semanticUIReact'],
             ['sortablejs','Sortable'],
+            ['showdown','showdown'],
         ],
         shell = `rollup ${entry} -o ${output} -f umd -g ${globals.map(x=>x.join(':')).join(',')}`
 
@@ -97,4 +98,8 @@ gulp.task('4 - Copy dist files to static folder', ['3 - Compile bundled js into 
     return gulp
         .src([paths.js.dist.src])
         .pipe(copy(paths.js.dist.dest, {prefix: 2}))
+})
+
+gulp.task('compile tsx', ()=>{
+
 })

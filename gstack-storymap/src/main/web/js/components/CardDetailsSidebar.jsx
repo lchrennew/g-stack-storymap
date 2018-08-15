@@ -21,9 +21,6 @@ class CardDetailsSidebar extends React.Component {
 
     constructor(props) {
         super(props)
-        const {card} = props
-        this.state = Object.assign({}, card)
-
         this.titleRef = React.createRef()
         this.descriptionRef = React.createRef()
     }

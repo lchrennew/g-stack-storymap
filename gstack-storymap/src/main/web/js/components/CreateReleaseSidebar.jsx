@@ -5,6 +5,8 @@ import {connect} from 'react-redux'
 import {createRelease} from "../actions";
 import {notify, openSidebar} from "./Contexts";
 import ReleaseDetailsSidebar from "./ReleaseDetailsSidebar";
+import MarkDownEditor from "./MarkDownEditor";
+
 
 const mapStateToProps = (state, props) => {
     return {}
@@ -21,12 +23,15 @@ class CreateReleaseSidebar extends React.Component {
     constructor(props) {
         super(props)
         this.titleRef = React.createRef()
+        this.objectiveRef = React.createRef()
     }
 
     async save(e) {
         e.preventDefault()
         const {save} = this.props
         const title = this.titleRef.current.value
+        console.log(this.objectiveRef.current.getValue())
+
         const release = await save({title})
         openSidebar(<ReleaseDetailsSidebar id={release.id}/>)
         notify({
@@ -53,6 +58,11 @@ class CreateReleaseSidebar extends React.Component {
                                autoComplete="off"
                                ref={this.titleRef}
                         />
+                    </Form.Field>
+                    <Form.Field>
+                        <label>Objective</label>
+                        <MarkDownEditor
+                            ref={this.objectiveRef}/>
                     </Form.Field>
                     <Button type='submit'>Save</Button>
                 </Form>
