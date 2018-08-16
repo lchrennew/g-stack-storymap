@@ -8,7 +8,10 @@ import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 import static org.apache.calcite.linq4j.Linq4j.asEnumerable;
@@ -135,5 +138,8 @@ public class Card {
                     .toMap(plan -> plan.release.getId(), Card::toList);
         } else return null;
     }
+
+    @JsonProperty("ac")
+    private String acceptanceCriteria;
 
 }
