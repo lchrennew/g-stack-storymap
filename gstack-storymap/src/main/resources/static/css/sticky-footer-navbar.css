@@ -564,3 +564,19 @@ DRAGGING RELATED
 .header-4 {
     font-size: 1.07142857rem;
 }
+
+.markdown h1 {
+    font-size: 1.71428571rem;
+}
+
+.markdown h2 {
+    font-size: 1.28571429rem;
+}
+
+.markdown h3 {
+    font-size: 1.07142857rem;
+}
+
+.markdown h4 {
+    font-size: 1rem;
+}

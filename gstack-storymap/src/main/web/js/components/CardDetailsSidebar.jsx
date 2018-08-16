@@ -1,11 +1,11 @@
 import React from 'react'
 import Placeholder from "./Placeholder";
-import {Button, Dimmer, Form, Loader, Menu, Segment} from "semantic-ui-react";
+import {Dimmer, Loader, Menu} from "semantic-ui-react";
 import {connect} from 'react-redux'
-import {updateCard} from "../actions";
-import {notify, SidebarMaximizeButton} from "./Contexts";
-import MarkDownEditor from "./MarkDownEditor";
+import {SidebarMaximizeButton} from "./Contexts";
+import CardEdit from "./CardEdit";
 import Icon from "./Icon";
+import CardSummary from "./CardSummary";
 
 const mapStateToProps = (state, props) => {
     return {
@@ -15,7 +15,6 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        save: (id, card) => dispatch(updateCard(id, card))
     }
 }
 
@@ -23,70 +22,54 @@ class CardDetailsSidebar extends React.Component {
 
     constructor(props) {
         super(props)
-        this.titleRef = React.createRef()
-        this.descriptionRef = React.createRef()
+        this.state = {mode: 'normal'}
     }
 
-    async save(e) {
-        e.preventDefault()
-        const {save, id} = this.props
-        const title = this.titleRef.current.value,
-            description = this.descriptionRef.current.getValue()
-        await save(id, {title, description})
-        notify({
-            title: 'Update card',
-            level: 'success',
-            message: 'Done!',
-        })
+    mode(view) {
+        return (e => {
+            e.preventDefault()
+            this.setState({mode: view})
+        }).bind(this)
     }
 
     render() {
         const {id, card} = this.props
+        const {mode} = this.state
+
+        let component;
+        if (card)
+            switch (mode) {
+                case 'normal':
+                    component = <CardSummary card={card}/>
+                    break
+                case 'edit':
+                    component = <CardEdit card={card}/>
+                    break
+                default:
+                    break
+            }
+        else component = <Dimmer active inverted>
+            <Loader size='huge'>Loading</Loader>
+        </Dimmer>
+
         return <Placeholder>
-            <Menu fixed='top' borderless className="title">
-                <Menu.Item>
-                    Card: #{id}
+            <Menu fixed='top' borderless className="title" pointing>
+                <Menu.Item active={mode === 'normal'}>
+                    <a href="#" onClick={this.mode('normal')}>Card: #{id}</a>
                 </Menu.Item>
+                {
+                    card
+                        ? <Placeholder>
+                            <Menu.Item active={mode === 'edit'}><a href="#" onClick={this.mode('edit')}><Icon name="edit"/></a></Menu.Item>
+                        </Placeholder>
+                        : null
+                }
                 <Menu.Menu position="right">
                     <Menu.Item><SidebarMaximizeButton/></Menu.Item>
                 </Menu.Menu>
             </Menu>
             <div className="content container">
-                {
-                    card
-                        ? <Form onSubmit={this.save.bind(this)}>
-                            <Form.Field>
-                                <label>Title</label>
-                                <input placeholder='Enter a title'
-                                       defaultValue={card.title}
-                                       name="title"
-                                       required
-                                       autoComplete="off"
-                                       ref={this.titleRef}
-                                />
-                            </Form.Field>
-                            {/*<Form.Field>*/}
-                            {/*<label>Description</label>*/}
-                            {/*<textarea placeholder='Enter description'*/}
-                            {/*defaultValue={card.description}*/}
-                            {/*name="description"*/}
-                            {/*ref={this.descriptionRef}*/}
-                            {/*/>*/}
-                            {/*</Form.Field>*/}
-
-                            <Form.Field>
-                                <label>Description</label>
-                                <MarkDownEditor
-                                    value={card.description}
-                                    ref={this.descriptionRef}
-                                />
-                            </Form.Field>
-                            <Button type='submit'>Update</Button>
-                        </Form>
-                        : <Dimmer active inverted>
-                            <Loader size='huge'>Loading</Loader>
-                        </Dimmer>
-                }
+                {component}
             </div>
         </Placeholder>
     }
