@@ -24,14 +24,18 @@ class ReleaseDetailsSidebar extends React.Component {
         super(props)
         this.titleRef = React.createRef()
         this.objectiveRef = React.createRef()
+        this.beginRef = React.createRef()
+        this.endRef = React.createRef()
     }
 
     async save(e) {
         e.preventDefault()
         const {save, id} = this.props
         const title = this.titleRef.current.value,
+            begin = this.beginRef.current.value,
+            end = this.endRef.current.value,
             objective = this.objectiveRef.current.getValue()
-        await save(id, {title})
+        await save(id, {title, begin, end, objective})
         notify({
             title: 'Update release',
             level: 'success',
@@ -62,6 +66,24 @@ class ReleaseDetailsSidebar extends React.Component {
                                        required
                                        autoComplete="off"
                                        ref={this.titleRef}
+                                />
+                            </Form.Field>
+                            <Form.Field>
+                                <label>Beginning</label>
+                                <input placeholder='select when this release begins'
+                                       name='begin'
+                                       type='date'
+                                       defaultValue={release.begin}
+                                       ref={this.beginRef}
+                                />
+                            </Form.Field>
+                            <Form.Field>
+                                <label>Ending</label>
+                                <input placeholder='select when this release ends'
+                                       name='end'
+                                       type='date'
+                                       defaultValue={release.end}
+                                       ref={this.endRef}
                                 />
                             </Form.Field>
                             <Form.Field>

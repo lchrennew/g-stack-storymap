@@ -12,7 +12,7 @@ class ScheduleList extends React.Component {
                         <Schedule
                             key={i}
                             first={i === 0}
-                            last={i === releases.length}
+                            last={i === releases.length - 1}
                             {...{activities, release}}/>)
                     : null
             }

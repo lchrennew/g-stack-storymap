@@ -125,7 +125,7 @@ i.icon.terminal:before { content: '\e7ac'; } /* '' */
 i.icon.thumbs.down:before { content: '👎'; } /* '\1f44e' */
 i.icon.thumbs.up:before { content: '👍'; } /* '\1f44d' */
 i.icon.to-end:before { content: '\e806'; } /* '' */
-i.icon.to-start:before { content: '\e805'; } /* '' */
+i.icon.to-begin:before { content: '\e805'; } /* '' */
 i.icon.top.list:before { content: '🏆'; } /* '\1f3c6' */
 i.icon.trash:before { content: '\e729'; } /* '' */
 i.icon.twitter:before { content: '\f303'; } /* '' */

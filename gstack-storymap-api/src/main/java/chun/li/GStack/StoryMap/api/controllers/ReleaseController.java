@@ -27,16 +27,6 @@ public class ReleaseController {
         return releaseService.findById(id).orElse(null);
     }
 
-//    @PostMapping("projects/{project}/releases")
-//    @ResponseBody
-//    public Release addRelease(@PathVariable("project") Long projectId, Release release) {
-//        projectService.findById(projectId).ifPresent(project -> {
-//            project.addRelease(release);
-//            releaseService.save(release);
-//        });
-//        return release;
-//    }
-
     @PutMapping("{id}")
     @ResponseBody
     public Release update(@PathVariable Long id, @RequestBody Release release) {

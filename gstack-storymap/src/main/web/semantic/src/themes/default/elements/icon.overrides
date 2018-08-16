@@ -433,7 +433,7 @@ i.icon.hotjar:before { content: "\f3b1"; }
 i.icon.hourglass:before { content: "\f254"; }
 i.icon.hourglass.end:before { content: "\f253"; }
 i.icon.hourglass.half:before { content: "\f252"; }
-i.icon.hourglass.start:before { content: "\f251"; }
+i.icon.hourglass.begin:before { content: "\f251"; }
 i.icon.houzz:before { content: "\f27c"; }
 i.icon.html5:before { content: "\f13b"; }
 i.icon.hubspot:before { content: "\f3b2"; }

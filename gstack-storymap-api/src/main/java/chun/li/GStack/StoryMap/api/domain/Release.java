@@ -1,5 +1,6 @@
 package chun.li.GStack.StoryMap.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.neo4j.ogm.annotation.GeneratedValue;
@@ -103,33 +104,11 @@ public class Release {
     private String objective;
 
     @JsonProperty
-    private Date start;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date begin;
 
     @JsonProperty
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date end;
 
-
-    public Date getStart() {
-        return start;
-    }
-
-    public void setStart(Date start) {
-        this.start = start;
-    }
-
-    public Date getEnd() {
-        return end;
-    }
-
-    public void setEnd(Date end) {
-        this.end = end;
-    }
-
-    public String getObjective() {
-        return objective;
-    }
-
-    public void setObjective(String objective) {
-        this.objective = objective;
-    }
 }

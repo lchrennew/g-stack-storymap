@@ -24,16 +24,19 @@ class CreateReleaseSidebar extends React.Component {
         super(props)
         this.titleRef = React.createRef()
         this.objectiveRef = React.createRef()
+        this.beginRef = React.createRef()
+        this.endRef = React.createRef()
     }
 
     async save(e) {
         e.preventDefault()
         const {save} = this.props
-        const title = this.titleRef.current.value
+        const title = this.titleRef.current.value,
+            begin = this.beginRef.current.value,
+            end = this.endRef.current.value,
+            objective = this.objectiveRef.current.getValue()
 
-        const objective = this.objectiveRef.current.getValue()
-
-        const release = await save({title, objective})
+        const release = await save({title, begin, end, objective})
         openSidebar(<ReleaseDetailsSidebar id={release.id}/>)
         notify({
             title: 'Add release',
@@ -61,6 +64,22 @@ class CreateReleaseSidebar extends React.Component {
                                required
                                autoComplete="off"
                                ref={this.titleRef}
+                        />
+                    </Form.Field>
+                    <Form.Field>
+                        <label>Beginning</label>
+                        <input placeholder='select when this release begins'
+                               name='begin'
+                               type='date'
+                               ref={this.beginRef}
+                        />
+                    </Form.Field>
+                    <Form.Field>
+                        <label>Ending</label>
+                        <input placeholder='select when this release ends'
+                               name='end'
+                               type='date'
+                               ref={this.endRef}
                         />
                     </Form.Field>
                     <Form.Field>

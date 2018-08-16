@@ -412,11 +412,13 @@ DRAGGING RELATED
     transition-duration: 0.5s;
     transition-timing-function: ease-in-out;
     position: relative;
+    visibility: visible;
 }
 
 #gstack-console > .container > .ui.sidebar:not(.visible) {
     width: 0;
     border: none;
+    transform: translate3d(0, 0, 0);
 }
 
 #gstack-console > .container > .ui.sidebar.visible {
