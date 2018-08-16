@@ -23,8 +23,9 @@ import {
 } from 'semantic-ui-react'
 import Icon from "./Icon";
 import Main from "./Main";
-import {Link, withRouter} from "react-router-dom";
+import {HashRouter, Link, withRouter} from "react-router-dom";
 import Placeholder from "./Placeholder";
+import SidebarRouter from "./SidebarRouter";
 
 const notifyRef = React.createRef()
 
@@ -39,37 +40,36 @@ export class NotificationManager extends React.Component {
 export const notify = opt => notifyRef.current && notifyRef.current.addNotification(opt)
 
 const sidebarRef = React.createRef()
-export const openSidebar = sidebar => sidebarRef.current && sidebarRef.current.open(sidebar)
+export const openSidebar = (path) => sidebarRef.current && sidebarRef.current.open(path)
 const toggleSidebarSize = () => sidebarRef.current && sidebarRef.current.toggleSize()
 
 class SidebarComponent extends React.Component {
     constructor(props) {
         super(props)
-        const {visible = false} = props
-        this.state = {visible, component: null}
         this.onClickOutsideHandler = this.onClickOutsideHandler.bind(this)
         this.domRef = React.createRef()
+        this.state = {maximized: false}
     }
 
-    open(component) {
-        this.setState({visible: true, component})
+    open(path) {
+        const {history, location} = this.props
+        path = [
+            this.visible()
+                ? location.pathname.substr(0, location.pathname.indexOf('!') - 1)
+                : location.pathname,
+            '!',
+            path
+        ].join('/')
+        history.push(path)
     }
-
 
     toggleSize() {
         this.setState({maximized: !this.state.maximized})
     }
 
-    getSize() {
-        return this.state.markdown
-    }
-
-    close() {
-        this.setState({visible: false, maximized: false})
-    }
-
-    toggle() {
-        this.setState({visible: !this.state.visible})
+    visible() {
+        const {location: {pathname}} = this.props
+        return pathname.split('/').indexOf('!') >= 0
     }
 
     componentDidMount() {
@@ -81,26 +81,26 @@ class SidebarComponent extends React.Component {
     }
 
     onClickOutsideHandler(event) {
-        if (this.state.visible
+        if (this.visible()
             && !this.domRef.current.contains(event.target)
             && document.contains(event.target)) {
-            this.setState({visible: false})
+            const {history, location: {pathname}} = this.props
+            history.push(pathname.substr(0, pathname.indexOf('!') - 1))
         }
     }
     render() {
-        const {visible, maximized} = this.state
+        const {maximized} = this.state
         const {
             className = '',
         } = this.props
-
+        const visible = this.visible()
 
         return <div ref={this.domRef}
                     className={`ui sidebar container fluid vertical right${visible ? ' visible' : ''}${maximized ? ' maximized' : ' very wide'} ${className}`}>
-            {this.state.component}
+            <SidebarRouter/>
         </div>
     }
 }
-
 
 export class SidebarMaximizeButton extends React.Component {
     constructor(props) {
@@ -126,7 +126,7 @@ export class SidebarMaximizeButton extends React.Component {
     }
 }
 
-export class SidebarContext extends React.Component {
+class _SidebarContext extends React.Component {
     render() {
         return <Placeholder>
             <div className="body">
@@ -138,3 +138,5 @@ export class SidebarContext extends React.Component {
         </Placeholder>
     }
 }
+
+export const SidebarContext = withRouter(_SidebarContext)

@@ -1,32 +1,17 @@
 import React from 'react'
 import {openSidebar} from "./Contexts";
-import {connect} from 'react-redux'
-import {fetchRelease} from "../actions";
-import ReleaseDetailsSidebar from "./ReleaseDetailsSidebar";
-
-
-const mapStateToProps = (state, props) => {
-    return {}
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        load: id => dispatch(fetchRelease(id))
-    }
-}
 
 class ReleaseDetailsEntry extends React.Component {
 
     onClick(e) {
-        e.preventDefault()
         e.stopPropagation()
+        e.preventDefault()
         this.open()
     }
 
     open() {
-        const {id, load} = this.props
-        openSidebar(<ReleaseDetailsSidebar id={id}/>)
-        load(id)
+        const {id} = this.props
+        openSidebar(`release/${id}`)
     }
 
     componentDidMount() {
@@ -35,7 +20,7 @@ class ReleaseDetailsEntry extends React.Component {
     }
 
     render() {
-        return <a href="#"
+        return <a href='#'
                   title={'Show details'}
                   onClick={this.onClick.bind(this)}>
             {this.props.children}
@@ -43,4 +28,4 @@ class ReleaseDetailsEntry extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReleaseDetailsEntry)
+export default ReleaseDetailsEntry

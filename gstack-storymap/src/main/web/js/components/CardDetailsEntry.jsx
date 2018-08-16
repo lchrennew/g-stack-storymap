@@ -1,32 +1,17 @@
 import React from 'react'
 import {openSidebar} from "./Contexts";
-import {connect} from 'react-redux'
-import {fetchCard} from "../actions";
-import CardDetailsSidebar from "./CardDetailsSidebar";
 
-
-const mapStateToProps = (state, props) => {
-    return {}
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        load: id => dispatch(fetchCard(id))
-    }
-}
 
 class CardDetailsEntry extends React.Component {
 
     onClick(e) {
-        e.preventDefault()
         e.stopPropagation()
         this.open()
     }
 
     open() {
-        const {id, load} = this.props
-        openSidebar(<CardDetailsSidebar id={id}/>)
-        load(id)
+        const {id} = this.props
+        openSidebar(`card/${id}`)
     }
 
     componentDidMount() {
@@ -35,12 +20,11 @@ class CardDetailsEntry extends React.Component {
     }
 
     render() {
-        return <a href="#"
+        return <a href='#'
                   title={'Show details'}
-                  onClick={this.onClick.bind(this)}>
-            {this.props.children}
-        </a>
+                  onClick={this.onClick.bind(this)}
+        >{this.props.children}</a>
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CardDetailsEntry)
+export default CardDetailsEntry

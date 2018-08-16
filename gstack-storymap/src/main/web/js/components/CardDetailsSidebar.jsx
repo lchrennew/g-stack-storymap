@@ -6,15 +6,19 @@ import {SidebarMaximizeButton} from "./Contexts";
 import CardEdit from "./CardEdit";
 import Icon from "./Icon";
 import CardSummary from "./CardSummary";
+import {withRouter} from "react-router-dom";
+import {fetchCard} from "../actions";
 
 const mapStateToProps = (state, props) => {
     return {
-        card: state.card.card
+        id: parseInt(props.match.params.id),
+        card: state.card.card,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
+        load: id => dispatch(fetchCard(id))
     }
 }
 
@@ -23,6 +27,18 @@ class CardDetailsSidebar extends React.Component {
     constructor(props) {
         super(props)
         this.state = {mode: 'normal'}
+    }
+
+    componentDidMount() {
+        const {id, load} = this.props
+        load(id)
+    }
+
+    componentDidUpdate() {
+        const {id, card, load} = this.props
+        if (!card || card.id !== id) {
+            load(id)
+        }
     }
 
     mode(view) {
@@ -48,9 +64,11 @@ class CardDetailsSidebar extends React.Component {
                 default:
                     break
             }
-        else component = <Dimmer active inverted>
+        else {
+            component = <Dimmer active inverted>
             <Loader size='huge'>Loading</Loader>
         </Dimmer>
+        }
 
         return <Placeholder>
             <Menu fixed='top' borderless className="title" pointing>
@@ -75,4 +93,4 @@ class CardDetailsSidebar extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CardDetailsSidebar)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CardDetailsSidebar))

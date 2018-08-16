@@ -2,18 +2,21 @@ import React from 'react'
 import Placeholder from "./Placeholder";
 import {Button, Dimmer, Form, Loader, Menu} from "semantic-ui-react";
 import {connect} from 'react-redux'
-import {updateRelease} from "../actions";
+import {fetchRelease, updateRelease} from "../actions";
 import {notify, SidebarMaximizeButton} from "./Contexts";
 import MarkDownEditor from "./MarkDownEditor";
+import {withRouter} from "react-router-dom";
 
 const mapStateToProps = (state, props) => {
     return {
+        id: parseInt(props.match.params.id),
         release: state.release.release || {},
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
+        load: id => dispatch(fetchRelease(id)),
         save: (id, release) => dispatch(updateRelease(id, release))
     }
 }
@@ -41,6 +44,18 @@ class ReleaseDetailsSidebar extends React.Component {
             level: 'success',
             message: 'Done!',
         })
+    }
+
+    componentDidMount() {
+        const {id, load} = this.props
+        load(id)
+    }
+
+    componentDidUpdate() {
+        const {id, release, load} = this.props
+        if (!release || release.id !== id) {
+            load(id)
+        }
     }
 
     render() {
@@ -104,4 +119,4 @@ class ReleaseDetailsSidebar extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReleaseDetailsSidebar)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ReleaseDetailsSidebar))

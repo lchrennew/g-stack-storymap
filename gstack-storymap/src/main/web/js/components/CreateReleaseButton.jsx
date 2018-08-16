@@ -1,6 +1,5 @@
 import React from 'react'
 import {openSidebar} from "./Contexts";
-import CreateReleaseSidebar from "./CreateReleaseSidebar";
 
 
 class CreateReleaseButton extends React.Component {
@@ -8,21 +7,17 @@ class CreateReleaseButton extends React.Component {
     onClick(e) {
         e.preventDefault()
         e.stopPropagation()
-        this.open()
-    }
-
-    open() {
-        openSidebar(<CreateReleaseSidebar/>)
+        openSidebar('release/new')
     }
 
     componentDidMount() {
         const {bindHandler} = this.props
-        bindHandler && bindHandler(this.open.bind(this))
+        bindHandler && bindHandler(openSidebar)
     }
 
     render() {
-        return <a href="#"
-                  title={'Add new release'}
+        return <a href='#'
+                  title='Add new release'
                   onClick={this.onClick.bind(this)}>
             {this.props.children}
         </a>
