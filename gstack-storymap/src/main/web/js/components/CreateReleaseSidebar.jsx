@@ -3,7 +3,7 @@ import Placeholder from "./Placeholder";
 import {Button, Form, Menu} from "semantic-ui-react";
 import {connect} from 'react-redux'
 import {createRelease} from "../actions";
-import {notify, openSidebar} from "./Contexts";
+import {notify, openSidebar, SidebarMaximizeButton} from "./Contexts";
 import ReleaseDetailsSidebar from "./ReleaseDetailsSidebar";
 import MarkDownEditor from "./MarkDownEditor";
 
@@ -30,9 +30,10 @@ class CreateReleaseSidebar extends React.Component {
         e.preventDefault()
         const {save} = this.props
         const title = this.titleRef.current.value
-        console.log(this.objectiveRef.current.getValue())
 
-        const release = await save({title})
+        const objective = this.objectiveRef.current.getValue()
+
+        const release = await save({title, objective})
         openSidebar(<ReleaseDetailsSidebar id={release.id}/>)
         notify({
             title: 'Add release',
@@ -47,6 +48,9 @@ class CreateReleaseSidebar extends React.Component {
                 <Menu.Item>
                     Creating new release
                 </Menu.Item>
+                <Menu.Menu position="right">
+                    <Menu.Item><SidebarMaximizeButton/></Menu.Item>
+                </Menu.Menu>
             </Menu>
             <div className="content container">
                 <Form onSubmit={this.save.bind(this)}>

@@ -40,6 +40,7 @@ export const notify = opt => notifyRef.current && notifyRef.current.addNotificat
 
 const sidebarRef = React.createRef()
 export const openSidebar = sidebar => sidebarRef.current && sidebarRef.current.open(sidebar)
+const toggleSidebarSize = () => sidebarRef.current && sidebarRef.current.toggleSize()
 
 class SidebarComponent extends React.Component {
     constructor(props) {
@@ -54,8 +55,17 @@ class SidebarComponent extends React.Component {
         this.setState({visible: true, component})
     }
 
+
+    toggleSize() {
+        this.setState({maximized: !this.state.maximized})
+    }
+
+    getSize() {
+        return this.state.markdown
+    }
+
     close() {
-        this.setState({visible: false})
+        this.setState({visible: false, maximized: false})
     }
 
     toggle() {
@@ -78,16 +88,41 @@ class SidebarComponent extends React.Component {
         }
     }
     render() {
-        const {visible} = this.state
+        const {visible, maximized} = this.state
         const {
             className = '',
         } = this.props
 
 
         return <div ref={this.domRef}
-                    className={`ui sidebar container fluid vertical very wide right${visible ? ' visible' : ''} ${className}`}>
+                    className={`ui sidebar container fluid vertical right${visible ? ' visible' : ''}${maximized ? ' maximized' : ' very wide'} ${className}`}>
             {this.state.component}
         </div>
+    }
+}
+
+
+export class SidebarMaximizeButton extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {}
+    }
+
+    onClick(e) {
+        e.preventDefault()
+        toggleSidebarSize()
+        this.setState({maximized: !this.state.maximized})
+    }
+
+    render() {
+        const {maximized} = this.state
+        return <a href="#" onClick={this.onClick.bind(this)}>
+            {
+                maximized
+                    ? <Icon name="minimize-2"/>
+                    : <Icon name="maximize-2"/>
+            }
+        </a>
     }
 }
 
@@ -103,4 +138,3 @@ export class SidebarContext extends React.Component {
         </Placeholder>
     }
 }
-

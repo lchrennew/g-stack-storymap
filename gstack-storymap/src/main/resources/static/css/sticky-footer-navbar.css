@@ -416,7 +416,6 @@ DRAGGING RELATED
 
 #gstack-console > .container > .ui.sidebar:not(.visible) {
     width: 0;
-    opacity: 0;
     border: none;
 }
 
@@ -426,6 +425,10 @@ DRAGGING RELATED
     overflow-x: hidden;
     overflow-y: auto;
     position: relative;
+}
+
+#gstack-console > .container > .ui.sidebar.visible.maximized {
+    width: 100%;
 }
 
 #gstack-console > .container > .body {

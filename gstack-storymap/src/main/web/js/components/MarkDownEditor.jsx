@@ -8,7 +8,7 @@ class MarkDownEditor extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {mdeState: {markdown: ''}}
+        this.state = {mdeState: {markdown: props.value || ''}}
         this.converter = new Showdown.Converter({
             tables: true,
             simplifiedAutoLink: true,

@@ -3,7 +3,8 @@ import Placeholder from "./Placeholder";
 import {Button, Dimmer, Form, Loader, Menu} from "semantic-ui-react";
 import {connect} from 'react-redux'
 import {updateRelease} from "../actions";
-import {notify} from "./Contexts";
+import {notify, SidebarMaximizeButton} from "./Contexts";
+import MarkDownEditor from "./MarkDownEditor";
 
 const mapStateToProps = (state, props) => {
     return {
@@ -22,12 +23,14 @@ class ReleaseDetailsSidebar extends React.Component {
     constructor(props) {
         super(props)
         this.titleRef = React.createRef()
+        this.objectiveRef = React.createRef()
     }
 
     async save(e) {
         e.preventDefault()
         const {save, id} = this.props
-        const title = this.titleRef.current.value
+        const title = this.titleRef.current.value,
+            objective = this.objectiveRef.current.getValue()
         await save(id, {title})
         notify({
             title: 'Update release',
@@ -43,6 +46,9 @@ class ReleaseDetailsSidebar extends React.Component {
                 <Menu.Item>
                     Release: #{id}
                 </Menu.Item>
+                <Menu.Menu position="right">
+                    <Menu.Item><SidebarMaximizeButton/></Menu.Item>
+                </Menu.Menu>
             </Menu>
             <div className="content container">
                 {
@@ -56,6 +62,13 @@ class ReleaseDetailsSidebar extends React.Component {
                                        required
                                        autoComplete="off"
                                        ref={this.titleRef}
+                                />
+                            </Form.Field>
+                            <Form.Field>
+                                <label>description</label>
+                                <MarkDownEditor
+                                    value={release.objective}
+                                    ref={this.objectiveRef}
                                 />
                             </Form.Field>
                             <Button type='submit'>Update</Button>

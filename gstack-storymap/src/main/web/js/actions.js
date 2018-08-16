@@ -3,7 +3,7 @@ import Stomp from 'stompjs'
 import SockJS from 'sockjs-client'
 import {CardHelper} from "./utils";
 
-const webApi = 'localhost:8085'
+const webApi = `${location.hostname}:8085`
 const api = (endpoint, ...args) => async (dispatch) => await fetch(`//${webApi}/${endpoint}`, ...args)
 
 const json = (body, opt) => Object.assign({}, {

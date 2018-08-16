@@ -3,7 +3,9 @@ import Placeholder from "./Placeholder";
 import {Button, Dimmer, Form, Loader, Menu, Segment} from "semantic-ui-react";
 import {connect} from 'react-redux'
 import {updateCard} from "../actions";
-import {notify} from "./Contexts";
+import {notify, SidebarMaximizeButton} from "./Contexts";
+import MarkDownEditor from "./MarkDownEditor";
+import Icon from "./Icon";
 
 const mapStateToProps = (state, props) => {
     return {
@@ -29,7 +31,7 @@ class CardDetailsSidebar extends React.Component {
         e.preventDefault()
         const {save, id} = this.props
         const title = this.titleRef.current.value,
-            description  = this.descriptionRef.current.value
+            description = this.descriptionRef.current.getValue()
         await save(id, {title, description})
         notify({
             title: 'Update card',
@@ -45,6 +47,9 @@ class CardDetailsSidebar extends React.Component {
                 <Menu.Item>
                     Card: #{id}
                 </Menu.Item>
+                <Menu.Menu position="right">
+                    <Menu.Item><SidebarMaximizeButton/></Menu.Item>
+                </Menu.Menu>
             </Menu>
             <div className="content container">
                 {
@@ -60,12 +65,20 @@ class CardDetailsSidebar extends React.Component {
                                        ref={this.titleRef}
                                 />
                             </Form.Field>
+                            {/*<Form.Field>*/}
+                            {/*<label>Description</label>*/}
+                            {/*<textarea placeholder='Enter description'*/}
+                            {/*defaultValue={card.description}*/}
+                            {/*name="description"*/}
+                            {/*ref={this.descriptionRef}*/}
+                            {/*/>*/}
+                            {/*</Form.Field>*/}
+
                             <Form.Field>
                                 <label>Description</label>
-                                <textarea placeholder='Enter description'
-                                          defaultValue={card.description}
-                                          name="description"
-                                          ref={this.descriptionRef}
+                                <MarkDownEditor
+                                    value={card.description}
+                                    ref={this.descriptionRef}
                                 />
                             </Form.Field>
                             <Button type='submit'>Update</Button>
