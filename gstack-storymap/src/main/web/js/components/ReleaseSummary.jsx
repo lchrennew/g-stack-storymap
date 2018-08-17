@@ -7,6 +7,7 @@ import Icon from "./Icon";
 
 const mapStateToProps = (state, props) => {
     return {
+        id: parseInt(props.match.params.id),
         release: state.release.release,
     }
 }

@@ -6,6 +6,7 @@ import {connect} from 'react-redux'
 
 const mapStateToProps = (state, props) => {
     return {
+        id: parseInt(props.match.params.id),
         card: state.card.card,
     }
 }

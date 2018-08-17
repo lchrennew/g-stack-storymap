@@ -8,6 +8,7 @@ import MarkDownEditor from "./MarkDownEditor";
 
 const mapStateToProps = (state, props) => {
     return {
+        id: parseInt(props.match.params.id),
         release: state.release.release,
     }
 }
