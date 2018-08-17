@@ -29,12 +29,14 @@ class CardTitleEditing extends React.Component {
         const {onBlur, save, id} = this.props
         const {value} = this.state
         onBlur(e)
-        await save(id, value)
-        notify({
-            title: 'Save card',
-            level: 'success',
-            message:'Done!'
-        })
+        if (value !== (this.props.value || '')) {
+            await save(id, value)
+            notify({
+                title: 'Save card',
+                level: 'success',
+                message: 'Done!'
+            })
+        }
     }
 
     cancel(e) {
@@ -47,7 +49,7 @@ class CardTitleEditing extends React.Component {
     }
 
     onKeyDown(e) {
-        if ((e.ctrlKey || e.metaKey) && (e.key === "\n" || e.key === 's')) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === "\n" || e.key === 'Enter' || e.key === 's')) {
             e.preventDefault()
             this.save(e)
         }
