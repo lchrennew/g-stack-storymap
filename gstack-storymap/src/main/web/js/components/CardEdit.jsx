@@ -7,7 +7,7 @@ import {notify} from "./Contexts";
 
 const mapStateToProps = (state, props) => {
     return {
-
+        card: state.card.card,
     }
 }
 

@@ -3,14 +3,15 @@ import Placeholder from "./Placeholder";
 import * as Showdown from "showdown";
 import {Divider} from "semantic-ui-react";
 import {connect} from 'react-redux'
+import Icon from "./Icon";
 
 const mapStateToProps = (state, props) => {
     return {
-        card: state.card.card,
+        release: state.release.release,
     }
 }
 
-class CardSummary extends React.Component {
+class ReleaseSummary extends React.Component {
     converter: Showdown.Converter
 
     constructor(props) {
@@ -24,15 +25,17 @@ class CardSummary extends React.Component {
     }
 
     render() {
-        const {card} = this.props
+        const {release} = this.props
         return <Placeholder>
-            <h1>{card.title || <span className='text-muted'>{`<Empty>`}</span>}</h1>
+            <h1>{release.title || <span className='text-muted'>{`<Empty>`}</span>}</h1>
             <Divider/>
+            <h4><Icon name="calendar"/> {release.begin || 'unknown begin'} - {release.end || 'unknown end'}</h4>
+            <h4>Objective</h4>
             <div className='markdown'
-                 dangerouslySetInnerHTML={{__html: this.converter.makeHtml(card.description)}}>
+                 dangerouslySetInnerHTML={{__html: this.converter.makeHtml(release.objective)}}>
             </div>
         </Placeholder>
     }
 }
 
-export default connect(mapStateToProps)(CardSummary)
+export default connect(mapStateToProps)(ReleaseSummary)

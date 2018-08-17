@@ -6,8 +6,9 @@ import {SidebarMaximizeButton} from "./Contexts";
 import CardEdit from "./CardEdit";
 import Icon from "./Icon";
 import CardSummary from "./CardSummary";
-import {withRouter} from "react-router-dom";
+import {Route, Switch, withRouter} from "react-router-dom";
 import {fetchCard} from "../actions";
+import CardDetailsHeader from "./CardDetailsHeader";
 
 const mapStateToProps = (state, props) => {
     return {
@@ -24,11 +25,6 @@ const mapDispatchToProps = dispatch => {
 
 class CardDetailsSidebar extends React.Component {
 
-    constructor(props) {
-        super(props)
-        this.state = {mode: 'normal'}
-    }
-
     componentDidMount() {
         const {id, load} = this.props
         load(id)
@@ -41,55 +37,29 @@ class CardDetailsSidebar extends React.Component {
         }
     }
 
-    mode(view) {
-        return (e => {
-            e.preventDefault()
-            this.setState({mode: view})
-        }).bind(this)
-    }
-
     render() {
-        const {id, card} = this.props
-        const {mode} = this.state
-
-        let component;
-        if (card)
-            switch (mode) {
-                case 'normal':
-                    component = <CardSummary card={card}/>
-                    break
-                case 'edit':
-                    component = <CardEdit card={card}/>
-                    break
-                default:
-                    break
-            }
-        else {
-            component = <Dimmer active inverted>
-            <Loader size='huge'>Loading</Loader>
-        </Dimmer>
-        }
+        const {card} = this.props
 
         return <Placeholder>
-            <Menu fixed='top' borderless className="title" pointing>
-                <Menu.Item active={mode === 'normal'}>
-                    <a href="#" onClick={this.mode('normal')}>Card: #{id}</a>
-                </Menu.Item>
+            <Switch>
+                <Route path='/:project/!/card/:id/:mode' component={CardDetailsHeader} />
+                <Route path='/:project/!/card/:id' component={CardDetailsHeader} />
+            </Switch>
+            <div className="content container">
                 {
                     card
-                        ? <Placeholder>
-                            <Menu.Item active={mode === 'edit'}><a href="#" onClick={this.mode('edit')}><Icon name="edit"/></a></Menu.Item>
-                        </Placeholder>
-                        : null
+                        ? <Switch>
+                            <Route path='/:project/!/card/:id/edit' component={CardEdit}/>
+                            <Route component={CardSummary}/>
+                        </Switch>
+                        : <Dimmer active inverted>
+                            <Loader size='huge'>Loading</Loader>
+                        </Dimmer>
                 }
-                <Menu.Menu position="right">
-                    <Menu.Item><SidebarMaximizeButton/></Menu.Item>
-                </Menu.Menu>
-            </Menu>
-            <div className="content container">
-                {component}
+
             </div>
         </Placeholder>
+
     }
 }
 
