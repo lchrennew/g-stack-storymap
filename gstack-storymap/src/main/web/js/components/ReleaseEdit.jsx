@@ -79,7 +79,7 @@ class ReleaseEdit extends React.Component {
                 />
             </Form.Field>
             <Form.Field>
-                <label>description</label>
+                <label>Objective</label>
                 <MarkDownEditor
                     value={release.objective}
                     ref={this.objectiveRef}
