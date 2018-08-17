@@ -47,11 +47,16 @@ class Schedule extends React.Component {
                                 ? 'chevron-up'
                                 : release
                                     ? 'chevron-down'
-                                    : 'inbox'}/> {
-                        release ? release.title : 'Unscheduled features'
-                    }
+                                    : 'inbox'}/>
+                        {release ? release.title : 'Unscheduled features'}
                     </span>
-
+                    {
+                        release
+                        && (release.begin || release.end)
+                        && <span className='text-muted addon'><Icon name="calendar"/>
+                           {release.begin || '?'} - {release.end || '?'}
+                           </span>
+                    }
                 </div>
                 <div className="sticky right">
                     <div className="actions">

@@ -333,6 +333,11 @@ Sortable List CSS
     left: 8px;
 }
 
+.ui.accordion.schedules > .title > .sticky > .addon {
+    display: inline-block;
+    margin-left: 1rem;
+}
+
 .ui.accordion.schedules > .title > .sticky.right {
     left: 100%;
     margin-right: -100%;
