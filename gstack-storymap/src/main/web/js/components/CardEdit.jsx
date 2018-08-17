@@ -8,6 +8,7 @@ import {notify} from "./Contexts";
 const mapStateToProps = (state, props) => {
     return {
         id: parseInt(props.match.params.id),
+        project: parseInt(props.match.params.project),
         card: state.card.card,
     }
 }
@@ -29,10 +30,11 @@ class CardEdit extends React.Component {
 
     async save(e) {
         e.preventDefault()
-        const {save, id} = this.props
+        const {save, id, project, history} = this.props
         const title = this.titleRef.current.value,
             description = this.descriptionRef.current.getValue()
         await save(id, {title, description})
+        history.push(`/${project}/!/card/${id}`)
         notify({
             title: 'Update card',
             level: 'success',

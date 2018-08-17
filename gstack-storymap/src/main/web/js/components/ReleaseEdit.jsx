@@ -9,6 +9,7 @@ import MarkDownEditor from "./MarkDownEditor";
 const mapStateToProps = (state, props) => {
     return {
         id: parseInt(props.match.params.id),
+        project: parseInt(props.match.params.project),
         release: state.release.release,
     }
 }
@@ -31,12 +32,13 @@ class ReleaseEdit extends React.Component {
 
     async save(e) {
         e.preventDefault()
-        const {save, id} = this.props
+        const {save, id, project, history} = this.props
         const title = this.titleRef.current.value,
             begin = this.beginRef.current.value,
             end = this.endRef.current.value,
             objective = this.objectiveRef.current.getValue()
         await save(id, {title, begin, end, objective})
+        history.push(`/${project}/!/release/${id}`)
         notify({
             title: 'Update release',
             level: 'success',
