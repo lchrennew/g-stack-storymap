@@ -93,7 +93,7 @@ public class Card {
     }
 
 
-    @JsonProperty("details")
+    @JsonProperty("avatar")
     public Iterable<Card> getDetails() {
         if (this.detail != null) {
             return this.detail.toList();

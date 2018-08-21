@@ -1,5 +1,7 @@
 package chun.li.GStack.StoryMap.api;
 
+import chun.li.GStack.StoryMap.api.domain.User;
+import chun.li.GStack.StoryMap.api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
@@ -17,6 +19,7 @@ import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticat
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.filter.CompositeFilter;
@@ -24,12 +27,16 @@ import org.springframework.web.filter.CompositeFilter;
 import javax.servlet.Filter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @EnableOAuth2Client
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     OAuth2ClientContext oauth2ClientContext;
+
+    @Autowired
+    UserService userService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -63,6 +70,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setAuthenticationSuccessHandler(
                 (request, response, authentication) -> {
                     String returnUrl = request.getParameter("return_uri");
+                    OAuth2Authentication auth = (OAuth2Authentication) authentication;
+                    Map<String, String> details = (Map<String, String>) auth.getUserAuthentication().getDetails();
+                    User user = new User(
+                            auth.getName(),
+                            details.get("avatar_url")
+                    );
+                    userService.save(user);
                     response.sendRedirect(returnUrl);
                 }
         );
