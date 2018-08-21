@@ -1,7 +1,7 @@
 import React from 'react'
 import Placeholder from "./Placeholder";
 import * as Showdown from "showdown";
-import {Divider} from "semantic-ui-react";
+import {Divider, Label} from "semantic-ui-react";
 import {connect} from 'react-redux'
 
 const mapStateToProps = (state, props) => {
@@ -27,6 +27,9 @@ class CardSummary extends React.Component {
     render() {
         const {card} = this.props
         return <Placeholder>
+            <Label as='a' color='red' ribbon>
+                Card: #{card.id}
+            </Label>
             <h1>{card.title || <span className='text-muted'>{`<Empty>`}</span>}</h1>
             <Divider/>
             <div className="mde-preview">

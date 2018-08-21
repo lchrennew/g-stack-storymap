@@ -1,7 +1,7 @@
 import React from 'react'
 import Placeholder from "./Placeholder";
 import * as Showdown from "showdown";
-import {Divider} from "semantic-ui-react";
+import {Divider, Label} from "semantic-ui-react";
 import {connect} from 'react-redux'
 import Icon from "./Icon";
 
@@ -28,6 +28,9 @@ class ReleaseSummary extends React.Component {
     render() {
         const {release} = this.props
         return <Placeholder>
+            <Label as='a' color='red' ribbon>
+                Release: #{release.id}
+            </Label>
             <h1>{release.title || <span className='text-muted'>{`<Empty>`}</span>}</h1>
             <Divider/>
             <h4><Icon name="calendar"/> {release.begin || 'unknown begin'} - {release.end || 'unknown end'}</h4>

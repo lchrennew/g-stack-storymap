@@ -13,10 +13,16 @@ class CardDetailsHeader extends React.Component {
 
         return <Menu fixed='top' borderless className="title" pointing>
             <Menu.Item active={!mode}>
-                <Link to={`/${project}/${maximized}/card/${id}`}>Card: #{id}</Link>
+                <Link to={`/${project}/${maximized}/card/${id}`}><Icon name='clipboard'/></Link>
             </Menu.Item>
             <Menu.Item active={mode === 'edit'}>
-                <Link to={`/${project}/${maximized}/card/${id}/edit`}><Icon name="edit"/></Link>
+                <Link to={`/${project}/${maximized}/card/${id}/edit`}><Icon name="edit-3"/></Link>
+            </Menu.Item>
+            <Menu.Item>
+                <a href="#"><Icon name='message-circle'/></a>
+            </Menu.Item>
+            <Menu.Item>
+                <a href="#"><Icon name='shield'/></a>
             </Menu.Item>
             <Menu.Menu position="right">
                 <Menu.Item><SidebarMaximizeButton/></Menu.Item>

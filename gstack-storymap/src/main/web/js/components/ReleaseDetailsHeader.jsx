@@ -13,10 +13,10 @@ class ReleaseDetailsHeader extends React.Component {
 
         return <Menu fixed='top' borderless className="title" pointing>
             <Menu.Item active={!mode}>
-                <Link to={`/${project}/${maximized}/release/${id}`}>Release: #{id}</Link>
+                <Link to={`/${project}/${maximized}/release/${id}`}><Icon name='clipboard'/></Link>
             </Menu.Item>
             <Menu.Item active={mode === 'edit'}>
-                <Link to={`/${project}/${maximized}/release/${id}/edit`}><Icon name="edit"/></Link>
+                <Link to={`/${project}/${maximized}/release/${id}/edit`}><Icon name="edit-3"/></Link>
             </Menu.Item>
             <Menu.Menu position="right">
                 <Menu.Item><SidebarMaximizeButton/></Menu.Item>

@@ -104,7 +104,7 @@ class SidebarComponent extends React.Component {
 
         return <div ref={this.domRef}
                     className={`ui sidebar container fluid vertical right${visible ? ' visible' : ''}${maximized ? ' maximized' : ' very wide'} ${className}`}>
-            <SidebarRouter/>
+            <SidebarRouter visible={visible}/>
         </div>
     }
 }
@@ -120,7 +120,7 @@ class _SidebarMaximizeButton extends React.Component {
         const {match: {params: {maximized}}} = this.props
         return <a href="#" onClick={this.onClick.bind(this)}>
             {
-                maximized
+                maximized === '!!'
                     ? <Icon name="minimize-2"/>
                     : <Icon name="maximize-2"/>
             }

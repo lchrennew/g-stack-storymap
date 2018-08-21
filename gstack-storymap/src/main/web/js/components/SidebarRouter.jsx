@@ -6,6 +6,11 @@ import CreateReleaseSidebar from "./CreateReleaseSidebar";
 import ReleaseDetailsSidebar from "./ReleaseDetailsSidebar";
 
 class SidebarRouter extends React.Component {
+    shouldComponentUpdate(nextProps, nextState) {
+        const {visible} = nextProps
+        return visible
+    }
+
     render() {
         return <Placeholder>
             <Switch>
