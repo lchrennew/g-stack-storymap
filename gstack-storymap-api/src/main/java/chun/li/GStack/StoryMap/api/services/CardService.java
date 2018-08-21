@@ -100,6 +100,7 @@ public class CardService {
 
     @Transactional
     public void delete(Long id) {
+        repository.deleteSubs(id);
         repository.delete(id);
     }
 

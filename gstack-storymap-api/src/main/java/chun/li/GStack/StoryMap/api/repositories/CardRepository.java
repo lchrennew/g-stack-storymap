@@ -113,6 +113,14 @@ public interface CardRepository extends Neo4jRepository<Card, Long> {
             " WHERE id(c)=$id\n" +
             OPTIONAL_MATCH_CS_RELATIONSHIPS +
             " DETACH DELETE c\n" +
-            CREATE_NEW_NEXT_RELATIONSHIPS)
+            CREATE_NEW_NEXT_RELATIONSHIPS
+    )
     void delete(@Param("id") Long id);
+
+    @Query("MATCH (c:Card)\n" +
+            " WHERE id(c)=$id\n" +
+            " OPTIONAL MATCH (c)-[:DETAIL|PLAN*]->(d:Card)\n" +
+            " OPTIONAL MATCH (d)-[:DETAIL|PLAN|NEXT*]->(e:Card)\n" +
+            " DETACH DELETE d, e")
+    void deleteSubs(@Param("id") Long id);
 }

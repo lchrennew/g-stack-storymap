@@ -4,7 +4,6 @@ import {Button, Form, Menu} from "semantic-ui-react";
 import {connect} from 'react-redux'
 import {createRelease} from "../actions";
 import {notify, openSidebar, SidebarMaximizeButton} from "./Contexts";
-import ReleaseDetailsSidebar from "./ReleaseDetailsSidebar";
 import MarkDownEditor from "./MarkDownEditor";
 
 
