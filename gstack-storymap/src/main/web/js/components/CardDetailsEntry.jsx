@@ -4,11 +4,6 @@ import {openSidebar} from "./Contexts";
 
 class CardDetailsEntry extends React.Component {
 
-    onClick(e) {
-        e.stopPropagation()
-        this.open()
-    }
-
     open() {
         const {id} = this.props
         openSidebar(`card/${id}`)
@@ -20,10 +15,7 @@ class CardDetailsEntry extends React.Component {
     }
 
     render() {
-        return <a href='#'
-                  title={'Show details'}
-                  onClick={this.onClick.bind(this)}
-        >{this.props.children}</a>
+        return null
     }
 }
 

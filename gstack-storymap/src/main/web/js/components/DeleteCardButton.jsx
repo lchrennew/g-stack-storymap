@@ -1,6 +1,7 @@
 import React from 'react'
 import {delCard} from "../actions";
 import {connect} from 'react-redux'
+import {Link} from "react-router-dom";
 
 const mapStateToProps = (state, props) => {
     return {}
@@ -15,18 +16,17 @@ const mapDispatchToProps = dispatch => {
 class DeleteCardButton extends React.Component {
 
     deleteCard(e) {
-        e.preventDefault()
         const {deleteCard, id} = this.props
-
         deleteCard(id)
     }
 
     render() {
-        return <a href="#"
+        const {to} = this.props
+        return <Link to={to}
                   title={'Delete card'}
                   onClick={this.deleteCard.bind(this)}>
             {this.props.children}
-        </a>
+        </Link>
     }
 }
 

@@ -5,7 +5,7 @@ import Icon from "./Icon";
 import AddNextButton from "./AddNextButton";
 import CardTitleEditing from "./CardTitleEditing";
 import CardTitle from "./CardTitle";
-import DeleteButton from "./DeleteButton";
+import DeleteCardButton from "./DeleteCardButton";
 import CardDetailsEntry from "./CardDetailsEntry";
 
 
@@ -52,16 +52,7 @@ class Card extends React.Component {
                         ? <CardTitleEditing value={title} onBlur={this.stopEdit.bind(this)} id={id}/>
                         : <CardTitle value={title}/>
                 }
-
-                <div className="action left">
-                    <a href="#" onClick={this.startEdit.bind(this)} title="Edit title">
-                        <Icon name="edit-3" size={16}/>
-                    </a>
-                    <CardDetailsEntry id={id} bindHandler={this.bindDetails.bind(this)}>
-                        <Icon name="maximize" size={16}/>
-                    </CardDetailsEntry>
-                    <DeleteButton id={id}><Icon name="trash" size={16} /></DeleteButton>
-                </div>
+                <CardDetailsEntry id={id} bindHandler={this.bindDetails.bind(this)}/>
                 <div className="action bottom">
                     {
                         horizontal

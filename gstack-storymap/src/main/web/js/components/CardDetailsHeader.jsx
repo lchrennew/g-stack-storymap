@@ -3,6 +3,7 @@ import {Menu} from "semantic-ui-react";
 import {SidebarMaximizeButton} from "./Contexts";
 import Icon from "./Icon";
 import {Link, withRouter} from "react-router-dom";
+import DeleteCardButton from "./DeleteCardButton";
 
 class CardDetailsHeader extends React.Component {
 
@@ -23,6 +24,9 @@ class CardDetailsHeader extends React.Component {
             </Menu.Item>
             <Menu.Item>
                 <a href="#"><Icon name='shield'/></a>
+            </Menu.Item>
+            <Menu.Item>
+                <DeleteCardButton to={`/${project}`} id={id}><Icon name="trash" /></DeleteCardButton>
             </Menu.Item>
             <Menu.Menu position="right">
                 <Menu.Item><SidebarMaximizeButton/></Menu.Item>
