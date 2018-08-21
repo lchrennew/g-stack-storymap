@@ -37,7 +37,7 @@ class CreateReleaseSidebar extends React.Component {
             objective = this.objectiveRef.current.getValue()
 
         const release = await save({title, begin, end, objective})
-        openSidebar(<ReleaseDetailsSidebar id={release.id}/>)
+        openSidebar(`release/${release.id}`)
         notify({
             title: 'Add release',
             level: 'success',

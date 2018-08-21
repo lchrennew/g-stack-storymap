@@ -19,7 +19,7 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    @GetMapping("")
+    @GetMapping
     @ResponseBody
     public Iterable<Project> getAll() {
         return projectService.getAll();
@@ -31,7 +31,7 @@ public class ProjectController {
         return projectService.findById(id);
     }
 
-    @PostMapping("")
+    @PostMapping
     @ResponseBody
     public Project create(@RequestBody Project project) {
         return projectService.save(project);

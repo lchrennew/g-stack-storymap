@@ -2,17 +2,32 @@ import fetch from 'cross-fetch'
 import Stomp from 'stompjs'
 import SockJS from 'sockjs-client'
 import {CardHelper} from "./utils";
+import Cookies from 'js-cookie'
+import $ from 'jquery'
 
 const webApi = `${location.hostname}:8085`
-const api = (endpoint, ...args) => async (dispatch) => await fetch(`//${webApi}/${endpoint}`, ...args)
+const api = (endpoint, ...args) => async (dispatch) => {
+    let response = await fetch(`//${webApi}/${endpoint}`, ...args)
+    if (response.status === 403) {
+        location.href = `//${webApi}/login/github?return_uri=${encodeURIComponent(location.href)}`
+        return Promise.resolve()
+    }
+    return response
+}
 
-const json = (body, opt) => Object.assign({}, {
+const cors = (method = 'GET') => ({
+    headers: {"X-XSRF-TOKEN": Cookies.get('XSRF-TOKEN')},
+    credentials: 'include',
+    method
+})
+
+const json = (body, opt) => $.extend(true, {}, {
     method: 'POST',
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify(body),
 }, opt)
 
-const text = (body, opt) => Object.assign({}, {
+const text = (body, opt) => $.extend(true, {}, {
     method: 'POST',
     headers: {"Content-Type": "html/text"},
     body,
@@ -31,7 +46,7 @@ const fetchedProjects = list => ({
 
 const _fetchProjects = () => async dispatch => {
     dispatch(fetchingProjects())
-    let response = await api(`projects`, {credentials: 'include'})(dispatch)
+    let response = await api(`projects`, cors('GET'))(dispatch)
     if (response.ok) {
         let list = await  response.json()
         return dispatch(fetchedProjects(list))
@@ -56,7 +71,7 @@ const creatingProject = project => ({type: 'CREATING_PROJECT', project})
 const createdProject = project => ({type: 'CREATED_PROJECT', project})
 const _createProject = (project) => async dispatch => {
     dispatch(creatingProject(project))
-    let response = await api(`projects`, json(project, {credentials: 'include'}))(dispatch)
+    let response = await api(`projects`, json(project, cors('POST')))(dispatch)
     if (response.ok) {
         const project = await response.json()
         return dispatch(createdProject(project))
@@ -86,7 +101,7 @@ const fetchedCards = (project, list) => ({
 
 const _fetchCards = (project) => async dispatch => {
     dispatch(fetchingCards(project))
-    let response = await api(`projects/${project}/cards`, {credentials: 'include'})(dispatch)
+    let response = await api(`projects/${project}/cards`, cors('GET'))(dispatch)
     if (response.ok) {
         let list = await  response.json()
         return dispatch(fetchedCards(project, list))
@@ -121,7 +136,7 @@ const fetchedReleases = (project, list) => ({
 
 const _fetchReleases = (project) => async dispatch => {
     dispatch(fetchingReleases(project))
-    let response = await api(`projects/${project}/releases`, {credentials: 'include'})(dispatch)
+    let response = await api(`projects/${project}/releases`, cors('GET'))(dispatch)
     if (response.ok) {
         let list = await  response.json()
         return dispatch(fetchedReleases(project, list))
@@ -170,7 +185,7 @@ export const moveUpdateCard = (option) => (dispatch, getState) => {
 export const saveCardMovement = option => async dispatch => {
     const {direction, card, target, release} = option
     api(`cards/${card.id}/move`,
-        json({id:target.id, direction, release}, {credentials: 'include'})
+        json({id: target.id, direction, release}, cors('POST'))
     )(dispatch)
     return dispatch(moveCard(option))
 }
@@ -202,7 +217,7 @@ const detailed = (id, detail) => {
 
 const _setDetail = (id, detail) => async dispatch => {
     dispatch(detailing(id, detail))
-    let response = await api(`cards/${id}/detail`, json(detail, {credentials: 'include'}))(dispatch)
+    let response = await api(`cards/${id}/detail`, json(detail, cors('POST')))(dispatch)
     if (response.ok) {
         detail = await response.json()
         return dispatch(detailed(id, detail))
@@ -233,7 +248,7 @@ const planned = (id, release, plan) => {
 
 const _setPlan = (id, release, plan) => async dispatch => {
     dispatch(planning(id, release, plan))
-    let response = await api(`cards/${id}/plan/${release}`, json(plan, {credentials: 'include'}))(dispatch)
+    let response = await api(`cards/${id}/plan/${release}`, json(plan, cors('POST')))(dispatch)
     if (response.ok) {
         plan = await response.json()
         return dispatch(planned(id, release, plan))
@@ -265,7 +280,7 @@ const nexted = (id, next) => {
 
 const _setNext = (id, next) => async dispatch => {
     dispatch(nexting(id, next))
-    let response = await api(`cards/${id}/next`, json(next, {credentials: 'include'}))(dispatch)
+    let response = await api(`cards/${id}/next`, json(next, cors('POST')))(dispatch)
     if (response.ok) {
         next = await response.json()
         return dispatch(nexted(id, next))
@@ -295,7 +310,7 @@ const rooted = (id, root) => {
 
 const _setRoot = (id, root) => async dispatch => {
     dispatch(rooting(id, root))
-    let response = await api(`cards/root/${id}`, json(root, {credentials: 'include'}))(dispatch)
+    let response = await api(`cards/root/${id}`, json(root, cors('POST')))(dispatch)
     if (response.ok) {
         root = await response.json()
         return dispatch(rooted(id, root))
@@ -329,7 +344,7 @@ const deletedCard = id => {
 
 const _delCard = id => async dispatch => {
     dispatch(deletingCard(id))
-    let response = await api(`cards/${id}`, {credentials: 'include', method: 'DELETE'})(dispatch)
+    let response = await api(`cards/${id}`, cors('DELETE'))(dispatch)
     if (response.ok) {
         //await response.json()
         return dispatch(deletedCard(id))
@@ -365,10 +380,7 @@ const _updateCardTitle = (id, title) => async dispatch => {
         `cards/${id}/title`,
         json(
             {id, title},
-            {
-                method: 'PUT',
-                credentials: 'include'
-            }
+            cors('PUT')
         ))(dispatch)
     if (response.ok)
         return dispatch(updatedCardTitle(id, title))
@@ -398,7 +410,7 @@ const fetchedCard = (card) => ({
 
 const _fetchCard = (id) => async dispatch => {
     dispatch(fetchingCard(id))
-    let response = await api(`cards/${id}`, {credentials: 'include'})(dispatch)
+    let response = await api(`cards/${id}`, cors('GET'))(dispatch)
     if (response.ok) {
         let card = await  response.json()
         return dispatch(fetchedCard(card))
@@ -431,7 +443,7 @@ const updatedCard = (id, card) => ({
 
 const _updateCard = (id, card) => async dispatch => {
     dispatch(updatingCard(id, card))
-    let response = await api(`cards/${id}`, json(card, {credentials: 'include', method: 'PUT'}))(dispatch)
+    let response = await api(`cards/${id}`, json(card, cors('PUT')))(dispatch)
     if (response.ok) {
         card = await response.json()
         return dispatch(updatedCard(id, card))
@@ -459,7 +471,7 @@ const fetchedRelease = (release) => ({
 
 const _fetchRelease = (id) => async dispatch => {
     dispatch(fetchingRelease(id))
-    let response = await api(`releases/${id}`, {credentials: 'include'})(dispatch)
+    let response = await api(`releases/${id}`, cors('GET'))(dispatch)
     if (response.ok) {
         let release = await  response.json()
         return dispatch(fetchedRelease(release))
@@ -493,7 +505,7 @@ const updatedRelease = (id, release) => ({
 
 const _updateRelease = (id, release) => async dispatch => {
     dispatch(updatingRelease(id, release))
-    let response = await api(`releases/${id}`, json(release, {credentials: 'include', method: 'PUT'}))(dispatch)
+    let response = await api(`releases/${id}`, json(release, cors('PUT')))(dispatch)
     if (response.ok) {
         release = await response.json()
         return dispatch(updatedRelease(id, release))
@@ -522,7 +534,7 @@ const deletedRelease = (id) => {
 
 const _delRelease = id => async dispatch => {
     dispatch(deletingRelease(id))
-    let response = await api(`releases/${id}`, {credentials: 'include', method: 'DELETE'})(dispatch)
+    let response = await api(`releases/${id}`, cors('DELETE'))(dispatch)
     if (response.ok) {
         let result = await response.json()
         if (result)
@@ -555,7 +567,7 @@ const createdRelease = release => {
 
 const _createRelease = (project, release) => async dispatch => {
     dispatch(creatingRelease())
-    let response = await api(`releases/project/${project}`, json(release, {credentials: 'include'}))(dispatch)
+    let response = await api(`releases/project/${project}`, json(release, cors('POST')))(dispatch)
     if (response.ok) {
         release = await response.json()
         dispatch(createdRelease(release))
@@ -588,7 +600,7 @@ const movedRelease = (id, direction) => {
 
 const _moveRelease = (id, direction) => async dispatch => {
     dispatch(movingRelease(id, direction))
-    let response = await api(`releases/${id}/move`, json({direction}, {credentials: 'include'}))(dispatch)
+    let response = await api(`releases/${id}/move`, json({direction}, cors('POST')))(dispatch)
     if (response.ok) {
         return dispatch(movedRelease(id, direction))
     }

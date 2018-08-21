@@ -32,7 +32,7 @@ class ReleaseSummary extends React.Component {
             <Divider/>
             <h4><Icon name="calendar"/> {release.begin || 'unknown begin'} - {release.end || 'unknown end'}</h4>
             <h4>Objective</h4>
-            <div className='markdown'
+            <div className='mde-preview-content'
                  dangerouslySetInnerHTML={{__html: this.converter.makeHtml(release.objective)}}>
             </div>
         </Placeholder>

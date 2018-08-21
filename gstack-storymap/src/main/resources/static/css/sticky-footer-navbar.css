@@ -390,17 +390,17 @@ DRAGGING RELATED
 }
 
 .schedules .card {
-    background: #99e6ff;
+    background: #FAFA77;
     border: none;
 }
 
 .activity.list .card {
-    background: #ff9999;
+    background: #FBAAC5;
 
 }
 
 .task.list .card {
-    background: #fff799;
+    background:  #97D0C8;
 }
 
 .feature.sortable.list > .head {

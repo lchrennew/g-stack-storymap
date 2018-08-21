@@ -1,0 +1,21 @@
+
+github:
+  client:
+    clientId: 77412eedeaee983a2b2a
+    clientSecret: bfaa22073f7ba2b1e2376d502fd6bc7fa9cd1fe8
+    accessTokenUri: https://github.com/login/oauth/access_token
+    userAuthorizationUri: https://github.com/login/oauth/authorize
+    clientAuthenticationScheme: form
+    registeredRedirectUri: http://127.0.0.1:8086
+  resource:
+    userInfoUri: https://api.github.com/user
+server:
+  port: 8085
+  tomcat:
+    uri-encoding: utf-8
+spring:
+  data:
+    neo4j:
+      uri: bolt://localhost:17687
+      username: neo4j
+      password: root

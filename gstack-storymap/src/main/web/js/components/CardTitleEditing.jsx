@@ -37,25 +37,30 @@ class CardTitleEditing extends React.Component {
                 message: 'Done!'
             })
         }
+        else if (this.props.value === undefined) {
+            await save(id, value)
+        }
     }
 
-    cancel(e) {
-        const {onBlur} = this.props
+    async cancel(e) {
+        const {onBlur, value, id, save} = this.props
         onBlur(e)
+        if (value === undefined)
+            await save(id, '')
     }
 
     syncValue(e) {
         this.setState({value: e.target.value})
     }
 
-    onKeyDown(e) {
+    async onKeyDown(e) {
         if ((e.ctrlKey || e.metaKey) && (e.key === "\n" || e.key === 'Enter' || e.key === 's')) {
             e.preventDefault()
             this.save(e)
         }
         else if (e.key === 'Escape') {
             e.preventDefault()
-            this.cancel(e)
+            await  this.cancel(e)
         }
     }
 

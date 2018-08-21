@@ -34,6 +34,7 @@
     "draft-js": "^0.10.5",
     "feather-icons": "^4.7.3",
     "jquery": "^3.3.1",
+    "js-cookie": "^2.2.0",
     "react": "^16.4.1",
     "react-dates": "^17.2.0",
     "react-dom": "^16.4.1",

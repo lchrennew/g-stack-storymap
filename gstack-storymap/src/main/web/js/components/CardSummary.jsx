@@ -29,8 +29,10 @@ class CardSummary extends React.Component {
         return <Placeholder>
             <h1>{card.title || <span className='text-muted'>{`<Empty>`}</span>}</h1>
             <Divider/>
-            <div className='markdown'
-                 dangerouslySetInnerHTML={{__html: this.converter.makeHtml(card.description)}}>
+            <div className="mde-preview">
+                <div className='mde-preview-content'
+                     dangerouslySetInnerHTML={{__html: this.converter.makeHtml(card.description)}}>
+                </div>
             </div>
         </Placeholder>
     }

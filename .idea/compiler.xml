@@ -12,6 +12,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="gastack-storymap-api" target="9" />
+      <module name="gstack-security" target="9" />
       <module name="gstack-storymap" target="9" />
       <module name="gstack-storymap-api" target="9" />
       <module name="gstackstorymap" target="9" />
