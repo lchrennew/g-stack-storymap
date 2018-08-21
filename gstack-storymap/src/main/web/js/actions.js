@@ -10,7 +10,7 @@ const api = (endpoint, ...args) => async (dispatch) => {
     let response = await fetch(`//${webApi}/${endpoint}`, ...args)
     if (response.status === 403) {
         location.href = `//${webApi}/login/github?return_uri=${encodeURIComponent(location.href)}`
-        return Promise.resolve()
+        return response
     }
     return response
 }
@@ -614,3 +614,35 @@ export const moveRelease = (id, direction) => (dispatch, getState) => {
 }
 
 
+/****
+ 用户
+ *********/
+
+const fetchingMe = () => ({
+    type: 'FETCH_ME',
+})
+
+const fetchedMe = (me) => ({
+    type: 'RECEIVE_ME',
+    me,
+})
+
+const _fetchMe = () => async dispatch => {
+    dispatch(fetchingMe())
+    let response = await api(`users/me`, cors('GET'))(dispatch)
+    if (response.ok) {
+        let me = await response.json()
+        return dispatch(fetchedMe(me))
+    }
+    return null
+}
+
+const meNotFetching = state => !state.users.fetch
+
+export const fetchMe = () => (dispatch, getState) => {
+    let state = getState()
+    if (meNotFetching(state)) {
+        return dispatch(_fetchMe())
+    }
+    else return Promise.resolve()
+}

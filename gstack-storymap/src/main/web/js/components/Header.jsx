@@ -8,6 +8,7 @@ import {
     Menu,
 } from 'semantic-ui-react'
 import Placeholder from "./Placeholder";
+import MeHeaderMenuItem from "./MeHeaderMenuItem";
 
 const ProjectMenuItems = withRouter(props => {
     const {match: {params: {project}}} = props
@@ -24,6 +25,9 @@ class Header extends React.Component {
                     G-Stack Story Mapping
                 </Menu.Item>
                 <Link className="item" to="/">Home</Link>
+                <Menu.Menu position='right'>
+                    <MeHeaderMenuItem/>
+                </Menu.Menu>
             </Container>
         </Menu>
     }

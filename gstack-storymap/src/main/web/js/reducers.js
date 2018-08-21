@@ -165,4 +165,15 @@ const release = (state = {fetch: false, id: -1, release: null}, action) => {
     }
 }
 
-export default combineReducers({projects, cards, releases, dragging, card, release})
+const users = (state = {me: null, fetch: false}, action) => {
+    switch (action.type) {
+        case 'FETCH_ME':
+            return {fetch: true, me: null}
+        case 'RECEIVE_ME':
+            return {fetch: false, me: action.me}
+        default:
+            return state
+    }
+}
+
+export default combineReducers({projects, cards, releases, dragging, card, release, users})
