@@ -7,23 +7,8 @@
 
 import React from 'react'
 import NotificationSystem from "react-notification-system";
-import {
-    Modal,
-    Segment,
-    Sidebar,
-    Menu,
-    Item,
-    Container,
-    Header,
-    Divider,
-    Table,
-    Label,
-    Button,
-    Sticky, Dropdown
-} from 'semantic-ui-react'
 import Icon from "./Icon";
-import Main from "./Main";
-import {HashRouter, Link, withRouter} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import Placeholder from "./Placeholder";
 import SidebarRouter from "./SidebarRouter";
 
@@ -48,28 +33,49 @@ class SidebarComponent extends React.Component {
         super(props)
         this.onClickOutsideHandler = this.onClickOutsideHandler.bind(this)
         this.domRef = React.createRef()
-        this.state = {maximized: false}
+    }
+
+    getMaximizedWithoutMatch() {
+        const {location: {pathname}} = this.props
+        const paths = pathname.split('/')
+        if (paths.indexOf('!!') >= 0) return '!!'
+        else if (paths.indexOf('!') >= 0) return '!'
+        else return false
     }
 
     open(path) {
         const {history, location} = this.props
+        const maximized = this.getMaximizedWithoutMatch() || '!'
         path = [
             this.visible()
-                ? location.pathname.substr(0, location.pathname.indexOf('!') - 1)
+                ? location.pathname.substr(0, location.pathname.indexOf(maximized) - 1)
                 : location.pathname,
-            '!',
+            maximized,
             path
         ].join('/')
         history.push(path)
     }
 
     toggleSize() {
-        this.setState({maximized: !this.state.maximized})
+        const {
+            history,
+            location: {pathname}
+        } = this.props
+        const maximized = this.getMaximizedWithoutMatch()
+
+        let paths = pathname.split('/'),
+            tokenIndex = paths.indexOf(maximized)
+        if (tokenIndex >= 0) {
+            paths.splice(tokenIndex, 1, maximized === '!!' ? '!' : '!!')
+            history.push(
+                paths.join('/')
+            )
+        }
     }
 
     visible() {
-        const {location: {pathname}} = this.props
-        return pathname.split('/').indexOf('!') >= 0
+        const maximized = this.getMaximizedWithoutMatch()
+        return !!maximized
     }
 
     componentDidMount() {
@@ -85,14 +91,15 @@ class SidebarComponent extends React.Component {
             && !this.domRef.current.contains(event.target)
             && document.contains(event.target)) {
             const {history, location: {pathname}} = this.props
-            history.push(pathname.substr(0, pathname.indexOf('!') - 1))
+            const maximized = this.getMaximizedWithoutMatch()
+            history.push(pathname.substr(0, pathname.indexOf(maximized) - 1))
         }
     }
     render() {
-        const {maximized} = this.state
         const {
             className = '',
         } = this.props
+        const maximized = this.getMaximizedWithoutMatch() === '!!'
         const visible = this.visible()
 
         return <div ref={this.domRef}
@@ -102,20 +109,15 @@ class SidebarComponent extends React.Component {
     }
 }
 
-export class SidebarMaximizeButton extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {}
-    }
+class _SidebarMaximizeButton extends React.Component {
 
     onClick(e) {
         e.preventDefault()
         toggleSidebarSize()
-        this.setState({maximized: !this.state.maximized})
     }
 
     render() {
-        const {maximized} = this.state
+        const {match: {params: {maximized}}} = this.props
         return <a href="#" onClick={this.onClick.bind(this)}>
             {
                 maximized
@@ -125,6 +127,8 @@ export class SidebarMaximizeButton extends React.Component {
         </a>
     }
 }
+
+export const SidebarMaximizeButton = withRouter(_SidebarMaximizeButton)
 
 class _SidebarContext extends React.Component {
     render() {

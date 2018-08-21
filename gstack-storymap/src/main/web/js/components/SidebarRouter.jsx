@@ -9,9 +9,9 @@ class SidebarRouter extends React.Component {
     render() {
         return <Placeholder>
             <Switch>
-                <Route path='/:project/!/card/:id' component={CardDetailsSidebar}/>
-                <Route exact path="/:project/!/release/new" component={CreateReleaseSidebar}/>
-                <Route path="/:project/!/release/:id" component={ReleaseDetailsSidebar}/>
+                <Route path='/:project/:maximized(!{1,2})/card/:id' component={CardDetailsSidebar}/>
+                <Route exact path="/:project/:maximized(!{1,2})/release/new" component={CreateReleaseSidebar}/>
+                <Route path="/:project/:maximized(!{1,2})/release/:id" component={ReleaseDetailsSidebar}/>
                 <Route render={() => <div>Not Found</div>} />
             </Switch>
         </Placeholder>

@@ -63,14 +63,14 @@ class ReleaseDetailsSidebar extends React.Component {
         const {release} = this.props
         return <Placeholder>
             <Switch>
-                <Route path='/:project/!/release/:id/:mode' component={ReleaseDetailsHeader} />
-                <Route path='/:project/!/release/:id' component={ReleaseDetailsHeader} />
+                <Route path='/:project/:maximized(!{1,2})/release/:id/:mode' component={ReleaseDetailsHeader} />
+                <Route path='/:project/:maximized(!{1,2})/release/:id' component={ReleaseDetailsHeader} />
             </Switch>
             <div className="content container">
                 {
                     release
                         ? <Switch>
-                            <Route path='/:project/!/release/:id/edit' component={ReleaseEdit}/>
+                            <Route path='/:project/:maximized(!{1,2})/release/:id/edit' component={ReleaseEdit}/>
                             <Route component={ReleaseSummary}/>
                         </Switch>
                         : <Dimmer active inverted>

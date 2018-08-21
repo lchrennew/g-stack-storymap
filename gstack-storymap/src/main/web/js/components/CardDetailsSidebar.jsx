@@ -1,10 +1,8 @@
 import React from 'react'
 import Placeholder from "./Placeholder";
-import {Dimmer, Loader, Menu} from "semantic-ui-react";
+import {Dimmer, Loader} from "semantic-ui-react";
 import {connect} from 'react-redux'
-import {SidebarMaximizeButton} from "./Contexts";
 import CardEdit from "./CardEdit";
-import Icon from "./Icon";
 import CardSummary from "./CardSummary";
 import {Route, Switch, withRouter} from "react-router-dom";
 import {fetchCard} from "../actions";
@@ -42,14 +40,14 @@ class CardDetailsSidebar extends React.Component {
 
         return <Placeholder>
             <Switch>
-                <Route path='/:project/!/card/:id/:mode' component={CardDetailsHeader} />
-                <Route path='/:project/!/card/:id' component={CardDetailsHeader} />
+                <Route path='/:project/:maximized(!{1,2})/card/:id/:mode' component={CardDetailsHeader} />
+                <Route path='/:project/:maximized(!{1,2})/card/:id' component={CardDetailsHeader} />
             </Switch>
             <div className="content container">
                 {
                     card
                         ? <Switch>
-                            <Route path='/:project/!/card/:id/edit' component={CardEdit}/>
+                            <Route path='/:project/:maximized(!{1,2})/card/:id/edit' component={CardEdit}/>
                             <Route component={CardSummary}/>
                         </Switch>
                         : <Dimmer active inverted>
