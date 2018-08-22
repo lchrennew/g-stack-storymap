@@ -8,9 +8,9 @@ import org.springframework.data.repository.query.Param;
 public interface CommentRepository extends Neo4jRepository<Comment, Long> {
 
     @Query("MATCH (target) WHERE id(target)=$target\n" +
-            " OPTIONAL MATCH (target)-[:REPLY]->(c0:Comment)-[:BY]->(u0:User)\n" +
-            " OPTIONAL MATCH (c0)-[:NEXT|:REPLY*]->(c:Comment)-[:BY]->(u:User)\n" +
-            " RETURN c0, c, u0, u")
+            " OPTIONAL MATCH (target)-[:REPLY]->(c0:Comment)-[r1:BY]->(u0:User)\n" +
+            " OPTIONAL MATCH (c0)-[r2:NEXT|:REPLY*]->(c:Comment)-[r3:BY]->(u:User)\n" +
+            " RETURN c0, c, u0, u, r1, r2, r3")
     Iterable<Comment> findAllByTarget(@Param("target") Long target);
 
 
@@ -33,6 +33,7 @@ public interface CommentRepository extends Neo4jRepository<Comment, Long> {
 
     @Query("MATCH (comment:Comment), (author:User {name:$name})" +
             " WHERE id(comment) = $id" +
-            " CREATE (comment)-[:BY]->(author)")
-    void setAuthor(@Param("id") Long id, @Param("name") String name);
+            " CREATE (comment)-[r:BY]->(author)" +
+            " RETURN comment, author, r")
+    Comment setAuthor(@Param("id") Long id, @Param("name") String name);
 }

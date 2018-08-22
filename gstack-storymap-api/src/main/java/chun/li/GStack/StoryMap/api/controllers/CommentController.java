@@ -18,6 +18,7 @@ public class CommentController {
     }
 
     @GetMapping("target/{target}")
+    @ResponseBody
     public Iterable<Comment> findCommentsByTarget(@PathVariable Long target) {
         return commentService.findCommentsByTarget(target);
     }

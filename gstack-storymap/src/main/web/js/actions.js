@@ -646,3 +646,64 @@ export const fetchMe = () => (dispatch, getState) => {
     }
     else return Promise.resolve()
 }
+
+/*************************
+ 评论
+ ***************************/
+const fetchingComments = (id) => ({
+    type: 'FETCH_COMMENTS',
+    id,
+})
+
+const fetchedComments = (id, list) => ({
+    type: 'RECEIVE_COMMENTS',
+    id, list
+})
+
+const _fetchComments = (id) => async dispatch => {
+    dispatch(fetchingComments(id))
+    let response = await api(`comments/target/${id}`, cors('GET'))(dispatch)
+    if (response.ok) {
+        let list = await response.json()
+        return dispatch(fetchedComments(id, list))
+    }
+    return null
+}
+
+const commentsNotFetching = state => !state.comments.fetch
+
+export const fetchComments = (id) => (dispatch, getState) => {
+    let state = getState()
+    if (commentsNotFetching(state)) {
+        return dispatch(_fetchComments(id))
+    }
+    else return Promise.resolve()
+}
+
+//----------添加评论-----------
+const addingComment = (id, comment) => ({
+    type: 'ADDING_COMMENT',
+    id,
+    comment
+})
+
+const addedComment = (id, comment) => ({
+    type: 'ADDED_COMMENT',
+    id,
+    comment
+})
+
+const _addComment = (id, comment) => async dispatch => {
+    dispatch(addingComment(id, comment))
+    let response = await api(`comments/target/${id}`, json(comment, cors('POST')))(dispatch)
+    if (response.ok) {
+        comment = await response.json()
+        return dispatch(addedComment(id, comment))
+    }
+    return null
+}
+
+export const addComment = (id, comment) => (dispatch, getState) => {
+    let state = getState()
+    return dispatch(_addComment(id, comment))
+}

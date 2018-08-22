@@ -21,7 +21,7 @@ public class CommentService {
     @Transactional
     public Comment post(Comment comment, Long target, String author) {
         comment = commentRepository.save(comment);
-        commentRepository.setAuthor(comment.getId(), author);
+        comment = commentRepository.setAuthor(comment.getId(), author);
         commentRepository.appendToTarget(comment.getId(), target);
         return comment;
     }

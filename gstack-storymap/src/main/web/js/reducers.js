@@ -176,4 +176,24 @@ const users = (state = {me: null, fetch: false}, action) => {
     }
 }
 
-export default combineReducers({projects, cards, releases, dragging, card, release, users})
+const comments = (state = {list: null, fetch: false}, action) => {
+    let list = $.extend(true, [], state.list)
+    switch (action.type) {
+        case 'FETCH_COMMENTS':
+            return {fetch: true, list: null, target: action.id}
+        case 'RECEIVE_COMMENTS':
+            return {fetch: false, list: action.list, target: action.id}
+        case 'ADDING_COMMENT':
+            return state
+        case 'ADDED_COMMENT':
+            return {fetch: false, list: [...list, action.comment], target: action.id}
+        case 'ADDING_REPLY':
+            return state
+        case 'ADDED_REPLY':
+            return state
+        default:
+            return state
+    }
+}
+
+export default combineReducers({projects, cards, releases, dragging, card, release, users, comments})
