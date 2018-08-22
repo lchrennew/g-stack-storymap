@@ -62,7 +62,6 @@ public class Card {
     @JsonProperty
     private String description;
 
-
     public Card getNext() {
         return next;
     }

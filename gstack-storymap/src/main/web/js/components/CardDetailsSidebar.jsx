@@ -7,6 +7,7 @@ import CardSummary from "./CardSummary";
 import {Route, Switch, withRouter} from "react-router-dom";
 import {fetchCard} from "../actions";
 import CardDetailsHeader from "./CardDetailsHeader";
+import CardComments from "./CardComments";
 
 const mapStateToProps = (state, props) => {
     return {
@@ -48,6 +49,7 @@ class CardDetailsSidebar extends React.Component {
                     card
                         ? <Switch>
                             <Route path='/:project/:maximized(!{1,2})/card/:id/edit' component={CardEdit}/>
+                            <Route path='/:project/:maximized(!{1,2})/card/:id/comments' component={CardComments}/>
                             <Route component={CardSummary}/>
                         </Switch>
                         : <Dimmer active inverted>

@@ -19,8 +19,8 @@ class CardDetailsHeader extends React.Component {
             <Menu.Item active={mode === 'edit'}>
                 <Link to={`/${project}/${maximized}/card/${id}/edit`}><Icon name="edit-3"/></Link>
             </Menu.Item>
-            <Menu.Item>
-                <a href="#"><Icon name='message-circle'/></a>
+            <Menu.Item active={mode === 'comments'}>
+                <Link to={`/${project}/${maximized}/card/${id}/comments`}><Icon name='message-circle'/></Link>
             </Menu.Item>
             <Menu.Item>
                 <a href="#"><Icon name='shield'/></a>

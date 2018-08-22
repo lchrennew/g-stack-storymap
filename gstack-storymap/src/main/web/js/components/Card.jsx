@@ -1,11 +1,9 @@
 import React from 'react'
 import $ from 'jquery'
 import AddDetailButton from "./AddDetailButton";
-import Icon from "./Icon";
 import AddNextButton from "./AddNextButton";
 import CardTitleEditing from "./CardTitleEditing";
 import CardTitle from "./CardTitle";
-import DeleteCardButton from "./DeleteCardButton";
 import CardDetailsEntry from "./CardDetailsEntry";
 
 
@@ -52,7 +50,6 @@ class Card extends React.Component {
                         ? <CardTitleEditing value={title} onBlur={this.stopEdit.bind(this)} id={id}/>
                         : <CardTitle value={title}/>
                 }
-                <CardDetailsEntry id={id} bindHandler={this.bindDetails.bind(this)}/>
                 <div className="action bottom">
                     {
                         horizontal
@@ -70,6 +67,7 @@ class Card extends React.Component {
 
             </div>
             {nested}
+            <CardDetailsEntry id={id} bindHandler={this.bindDetails.bind(this)}/>
         </div>
     }
 }
