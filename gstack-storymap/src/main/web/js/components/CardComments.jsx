@@ -31,7 +31,7 @@ class CardComments extends React.Component {
         const {list, id, match: {params: {reply}}} = this.props
 
         return list
-            ? <Comment.Group threaded>
+            ? <Comment.Group>
                 <CommentList comments={list}/>
                 {
                     !reply && <CommentForm id={id}/>

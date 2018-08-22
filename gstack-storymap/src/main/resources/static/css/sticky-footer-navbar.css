@@ -585,3 +585,24 @@ DRAGGING RELATED
 .markdown h4 {
     font-size: 1rem;
 }
+
+.ui.comments .reply.form .ui.button {
+    display: none;
+}
+
+.ui.comments .reply.form textarea {
+    font-size: 0.8rem;
+    height: 2.6rem;
+    transition-property: height;
+    transition-duration: 0.1s;
+    transition-timing-function: ease-in-out;
+    resize: none;
+}
+
+.ui.comments .reply.form.active .ui.button {
+    display: block;
+}
+
+.ui.comments .reply.form.active textarea {
+    height: 4rem;
+}

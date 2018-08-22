@@ -10,19 +10,16 @@ class CommentItem extends React.Component {
         this.state = {reply: false}
     }
 
-    showReplyForm(e) {
-        e.preventDefault()
-        this.setState({reply: true})
-    }
     render() {
-        const {comment, match: {params: {reply}}, location: {pathname}} = this.props
+        const {comment, match: {params: {reply}}, location: {pathname}, history} = this.props
         let paths = pathname.split('/'),
             tokenIndex = paths.lastIndexOf('comments')
 
         paths.length = tokenIndex + 1
 
         const replyVisible = parseInt(reply) === comment.id,
-            replyPath = (replyVisible ? paths : [...paths, 'reply', comment.id]).join('/')
+            // replyPath = (replyVisible ? paths : [...paths, 'reply', comment.id]).join('/')
+            replyPath = [...paths, 'reply', comment.id].join('/')
 
         return <Comment key={comment.id}>
             <Comment.Avatar src={comment.author.avatar}/>
@@ -33,10 +30,17 @@ class CommentItem extends React.Component {
                 </Comment.Metadata>
                 <Comment.Text>{comment.content}</Comment.Text>
                 <Comment.Actions>
-                    <Link to={replyPath}>{replyVisible ? 'Cancel' : 'Reply'}</Link>
+                    <Link to={replyPath}>Reply</Link>
                 </Comment.Actions>
                 {
-                    replyVisible && <CommentForm reply id={comment.id}/>
+                    replyVisible
+                    && <CommentForm reply
+                                    id={comment.id}
+                                    pathname={replyPath}
+                                    onCancel={() => {
+                                        history.push(paths.join('/'))
+                                    }}
+                    />
                 }
 
             </Comment.Content>
