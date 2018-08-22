@@ -28,12 +28,14 @@ class CardComments extends React.Component {
     }
 
     render() {
-        const {list, id} = this.props
+        const {list, id, match: {params: {reply}}} = this.props
 
         return list
-            ? <Comment.Group>
+            ? <Comment.Group threaded>
                 <CommentList comments={list}/>
-                <CommentForm id={id}/>
+                {
+                    !reply && <CommentForm id={id}/>
+                }
             </Comment.Group>
             : <Dimmer active>
                 <Loader size='massive'>Loading</Loader>

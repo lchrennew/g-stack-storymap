@@ -55,7 +55,7 @@ public class Comment {
         return list;
     }
 
-    @JsonProperty("replies")
+    @JsonProperty("comments")
     @JsonInclude(content = NON_NULL)
     public List<Comment> getReplies() {
         if (this.reply != null)

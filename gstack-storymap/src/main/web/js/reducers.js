@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux'
 import $ from 'jquery'
-import {CardHelper} from "./utils";
+import {CardHelper, CommentHelper, jsonPath} from "./utils";
 
 
 const projects = (state = {list: null}, action) => {
@@ -190,7 +190,8 @@ const comments = (state = {list: null, fetch: false}, action) => {
         case 'ADDING_REPLY':
             return state
         case 'ADDED_REPLY':
-            return state
+            CommentHelper.reply(list, action.id, action.reply)
+            return {fetch: false, list, target: action.id}
         default:
             return state
     }

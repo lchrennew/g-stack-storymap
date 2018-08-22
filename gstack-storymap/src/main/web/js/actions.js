@@ -707,3 +707,31 @@ export const addComment = (id, comment) => (dispatch, getState) => {
     let state = getState()
     return dispatch(_addComment(id, comment))
 }
+
+//----------添加评论回复-----------
+const addingReply = (id, reply) => ({
+    type: 'ADDING_REPLY',
+    id,
+    reply
+})
+
+const addedReply = (id, reply) => ({
+    type: 'ADDED_REPLY',
+    id,
+    reply
+})
+
+const _addReply = (id, reply) => async dispatch => {
+    dispatch(addingReply(id, reply))
+    let response = await api(`comments/target/${id}`, json(reply, cors('POST')))(dispatch)
+    if (response.ok) {
+        reply = await response.json()
+        return dispatch(addedReply(id, reply))
+    }
+    return null
+}
+
+export const addReply = (id, reply) => (dispatch, getState) => {
+    let state = getState()
+    return dispatch(_addReply(id, reply))
+}

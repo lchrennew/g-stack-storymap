@@ -49,6 +49,7 @@ class CardDetailsSidebar extends React.Component {
                     card
                         ? <Switch>
                             <Route path='/:project/:maximized(!{1,2})/card/:id/edit' component={CardEdit}/>
+                            <Route path='/:project/:maximized(!{1,2})/card/:id/comments/reply/:reply' component={CardComments}/>
                             <Route path='/:project/:maximized(!{1,2})/card/:id/comments' component={CardComments}/>
                             <Route component={CardSummary}/>
                         </Switch>
