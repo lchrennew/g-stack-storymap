@@ -5,6 +5,10 @@ import chun.li.GStack.StoryMap.api.repositories.CommentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+
+import static org.apache.calcite.linq4j.Linq4j.asEnumerable;
+
 @Service
 public class CommentService {
     private final CommentRepository commentRepository;
@@ -15,7 +19,12 @@ public class CommentService {
 
     @Transactional(readOnly = true)
     public Iterable<Comment> findCommentsByTarget(Long target) {
-        return commentRepository.findAllByTarget(target);
+        Comment comment = asEnumerable(
+                commentRepository.findAllByTarget(target)
+        ).firstOrDefault();
+        return comment == null
+                ? new ArrayList<>()
+                : comment.toList();
     }
 
     @Transactional

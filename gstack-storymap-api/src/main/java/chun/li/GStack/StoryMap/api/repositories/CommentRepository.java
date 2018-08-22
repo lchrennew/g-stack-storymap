@@ -13,7 +13,6 @@ public interface CommentRepository extends Neo4jRepository<Comment, Long> {
             " RETURN c0, c, u0, u, r1, r2, r3")
     Iterable<Comment> findAllByTarget(@Param("target") Long target);
 
-
     @Query("MATCH (target), (comment:Comment)\n" +
             " WHERE id(target)=$target AND id(comment)=$id\n" +
             " OPTIONAL MATCH (target)-[:REPLY]->(c0:Comment)\n" +
