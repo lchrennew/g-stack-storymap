@@ -586,6 +586,10 @@ DRAGGING RELATED
     font-size: 1rem;
 }
 
+.markdown img, .mde-preview-content img{
+    max-width: 100%;
+}
+
 .ui.comments .reply.form .ui.button {
     display: none;
 }
