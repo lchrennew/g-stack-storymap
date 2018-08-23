@@ -62,6 +62,10 @@ public class Card {
     @JsonProperty
     private String description;
 
+    // MUST/SHOULD/COULD/WOULD_NOT
+    @JsonProperty
+    private String necessity = "";
+
     public Card getNext() {
         return next;
     }

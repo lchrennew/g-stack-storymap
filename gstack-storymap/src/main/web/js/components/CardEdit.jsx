@@ -1,9 +1,10 @@
 import React from 'react'
 import MarkDownEditor from "./MarkDownEditor";
-import {Button, Form} from "semantic-ui-react";
+import {Button, Form, Select} from "semantic-ui-react";
 import {updateCard} from "../actions";
 import {connect} from "react-redux";
 import {notify} from "./Contexts";
+import CardNecessity from "./CardNecessity";
 
 const mapStateToProps = (state, props) => {
     return {
@@ -25,6 +26,7 @@ class CardEdit extends React.Component {
     constructor(props) {
         super(props)
         this.titleRef = React.createRef()
+        this.necessityRef = React.createRef()
         this.descriptionRef = React.createRef()
     }
 
@@ -32,8 +34,9 @@ class CardEdit extends React.Component {
         e.preventDefault()
         const {save, id, project, history} = this.props
         const title = this.titleRef.current.value,
-            description = this.descriptionRef.current.getValue()
-        await save(id, {title, description})
+            description = this.descriptionRef.current.getValue(),
+            necessity = this.necessityRef.current.getValue()
+        await save(id, {title, description, necessity})
         history.push(`/${project}/!/card/${id}`)
         notify({
             title: 'Update card',
@@ -44,6 +47,8 @@ class CardEdit extends React.Component {
 
     render() {
         const {card, match: {params: {maximized}}} = this.props
+
+
         return <Form onSubmit={this.save.bind(this)}>
             <Form.Field>
                 <label>Title</label>
@@ -53,6 +58,13 @@ class CardEdit extends React.Component {
                        required
                        autoComplete="off"
                        ref={this.titleRef}
+                />
+            </Form.Field>
+            <Form.Field>
+                <label>Necessity</label>
+                <CardNecessity
+                    ref={this.necessityRef}
+                    value={card.necessity}
                 />
             </Form.Field>
             <Form.Field>

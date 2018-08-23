@@ -1,7 +1,7 @@
 import React from 'react'
 import Placeholder from "./Placeholder";
 import * as Showdown from "showdown";
-import {Divider, Label} from "semantic-ui-react";
+import {Divider, Label, List} from "semantic-ui-react";
 import {connect} from 'react-redux'
 
 const mapStateToProps = (state, props) => {
@@ -27,11 +27,19 @@ class CardSummary extends React.Component {
     render() {
         const {card} = this.props
         return <Placeholder>
-            <Label as='a' color='red' ribbon>
+            <Label as='a' color='blue' ribbon>
                 Card: #{card.id}
             </Label>
             <h1>{card.title || <span className='text-muted'>{`<Empty>`}</span>}</h1>
+            {
+                card.necessity &&
+// TODO: any conditions here
+                <List horizontal>
+                    {card.necessity && <List.Item><Label size='mini'>{card.necessity}</Label></List.Item>}
+                </List>
+            }
             <Divider/>
+
             <div className="mde-preview">
                 <div className='mde-preview-content'
                      dangerouslySetInnerHTML={{__html: this.converter.makeHtml(card.description)}}>
