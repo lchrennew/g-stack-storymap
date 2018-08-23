@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactMde from "react-mde";
 import * as Showdown from "showdown";
-import {withRouter} from "react-router-dom";
 
 
 class MarkDownEditor extends React.Component {
@@ -28,10 +27,9 @@ class MarkDownEditor extends React.Component {
     }
 
     render() {
-        const {match: {params: {maximized}}} = this.props
-
+        const {layout} = this.props
         return <ReactMde
-            layout={maximized === '!!' ? 'horizontal' : 'vertical'}
+            layout={layout}
             onChange={this.handleValueChange.bind(this)}
             editorState={this.state.mdeState}
             generateMarkdownPreview={markdown => Promise.resolve(this.converter.makeHtml(markdown))}
@@ -39,4 +37,4 @@ class MarkDownEditor extends React.Component {
     }
 }
 
-export default withRouter(MarkDownEditor)
+export default MarkDownEditor

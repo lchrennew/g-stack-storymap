@@ -43,7 +43,7 @@ class CardEdit extends React.Component {
     }
 
     render() {
-        const {card} = this.props
+        const {card, match: {params: {maximized}}} = this.props
         return <Form onSubmit={this.save.bind(this)}>
             <Form.Field>
                 <label>Title</label>
@@ -59,6 +59,7 @@ class CardEdit extends React.Component {
                 <label>Description</label>
                 <MarkDownEditor
                     value={card.description}
+                    layout={maximized === '!!' ? 'horizontal' : 'vertical'}
                     ref={this.descriptionRef}
                 />
             </Form.Field>

@@ -47,8 +47,7 @@ class ReleaseEdit extends React.Component {
     }
 
     render() {
-        const {release} = this.props
-
+        const {release,match: {params: {maximized}}} = this.props
         return <Form onSubmit={this.save.bind(this)}>
             <Form.Field>
                 <label>Title</label>
@@ -82,6 +81,7 @@ class ReleaseEdit extends React.Component {
                 <label>Objective</label>
                 <MarkDownEditor
                     value={release.objective}
+                    layout={maximized === '!!' ? 'horizontal' : 'vertical'}
                     ref={this.objectiveRef}
                 />
             </Form.Field>

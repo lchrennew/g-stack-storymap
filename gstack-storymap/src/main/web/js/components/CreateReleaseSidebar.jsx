@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import {createRelease} from "../actions";
 import {notify, openSidebar, SidebarMaximizeButton} from "./Contexts";
 import MarkDownEditor from "./MarkDownEditor";
+import {withRouter} from "react-router-dom";
 
 
 const mapStateToProps = (state, props) => {
@@ -45,6 +46,8 @@ class CreateReleaseSidebar extends React.Component {
     }
 
     render() {
+        const {match: {params: {maximized}}} = this.props
+
         return <Placeholder>
             <Menu fixed='top' borderless className="title">
                 <Menu.Item>
@@ -84,6 +87,7 @@ class CreateReleaseSidebar extends React.Component {
                     <Form.Field>
                         <label>Objective</label>
                         <MarkDownEditor
+                            layout={maximized === '!!' ? 'horizontal' : 'vertical'}
                             ref={this.objectiveRef}/>
                     </Form.Field>
                     <Button type='submit'>Save</Button>
