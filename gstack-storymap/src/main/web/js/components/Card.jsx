@@ -5,6 +5,7 @@ import AddNextButton from "./AddNextButton";
 import CardTitleEditing from "./CardTitleEditing";
 import CardTitle from "./CardTitle";
 import CardDetailsEntry from "./CardDetailsEntry";
+import {Label} from "semantic-ui-react";
 
 
 class Card extends React.Component {
@@ -39,7 +40,7 @@ class Card extends React.Component {
     }
 
     render() {
-        const {card: {id, title}, nested, horizontal = false} = this.props
+        const {card: {id, title, necessity, color}, nested, horizontal = false} = this.props
         const {editing} = this.state
         return <div className={`item${editing || title == null?' edit':''}`} ref={this.bindCard.bind(this)}>
             <div className="card"
@@ -64,7 +65,14 @@ class Card extends React.Component {
                         </div>
                         : null
                 }
-
+                {
+                    (necessity || color) &&
+                    <Label circular color={color} size='mini' className='g-card-label'>
+                        {
+                            necessity && necessity[0]
+                        }
+                    </Label>
+                }
             </div>
             {nested}
             <CardDetailsEntry id={id} bindHandler={this.bindDetails.bind(this)}/>

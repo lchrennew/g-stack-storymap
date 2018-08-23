@@ -66,6 +66,9 @@ public class Card {
     @JsonProperty
     private String necessity = "";
 
+    @JsonProperty
+    private String color;
+
     public Card getNext() {
         return next;
     }

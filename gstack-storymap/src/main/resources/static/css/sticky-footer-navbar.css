@@ -510,6 +510,13 @@ DRAGGING RELATED
     user-select: text;
 }
 
+.g-card-label{
+    position: absolute;
+    bottom: 4px;
+    transform: scale(0.64);
+    transform-origin: bottom left;
+}
+
 .sidebar > .title {
 
 }
@@ -614,4 +621,8 @@ DRAGGING RELATED
 
 .ui.comments .reply.form.active textarea {
     height: 4rem;
+}
+
+.ui.button.dropdown{
+    font-weight: normal;
 }
