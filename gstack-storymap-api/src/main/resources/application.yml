@@ -6,7 +6,12 @@ github:
     accessTokenUri: https://github.com/login/oauth/access_token
     userAuthorizationUri: https://github.com/login/oauth/authorize
     clientAuthenticationScheme: form
-    registeredRedirectUri: http://127.0.0.1:8086
+#  client:
+#    clientId: 1aacc11d94d3339cd891
+#    clientSecret: 54fe273216936d329d301a5a3cb2314cef49c17a
+#    accessTokenUri: https://github.com/login/oauth/access_token
+#    userAuthorizationUri: https://github.com/login/oauth/authorize
+#    clientAuthenticationScheme: form
   resource:
     userInfoUri: https://api.github.com/user
 server:
