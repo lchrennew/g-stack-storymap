@@ -9,7 +9,6 @@ import {fetchCard} from "../actions";
 import CardDetailsHeader from "./CardDetailsHeader";
 import CardComments from "./CardComments";
 import CardCriteria from "./CardCriteria";
-import CriterionForm from "./CriterionForm";
 
 const mapStateToProps = (state, props) => {
     return {
@@ -58,8 +57,6 @@ class CardDetailsSidebar extends React.Component {
                                    component={CardComments}/>
                             <Route path='/:project/:maximized(!{1,2})/card/:id/comments'
                                    component={CardComments}/>
-                            <Route path='/:project/:maximized(!{1,2})/card/:id/criteria/new'
-                                   component={CriterionForm}/>
                             <Route path='/:project/:maximized(!{1,2})/card/:id/criteria'
                                    component={CardCriteria}/>
                             <Route component={CardSummary}/>

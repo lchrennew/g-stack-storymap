@@ -33,6 +33,7 @@ public class CriterionController {
     @ResponseBody
     public Criterion update(@PathVariable Long id,
                             @RequestBody Criterion criterion) {
+        criterion.setId(id);
         return criterionService.save(criterion);
     }
 

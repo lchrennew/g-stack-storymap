@@ -217,7 +217,8 @@ const criteria = (state = {list: null, fetch: false}, action) => {
         case 'UPDATING_CRITERION':
             return state
         case 'UPDATED_CRITERION':
-            return state
+            list.splice(list.findIndex(x => x.id === action.id), 1, action.criterion)
+            return {fetch: false, list, id: state.id}
         default:
             return state
     }

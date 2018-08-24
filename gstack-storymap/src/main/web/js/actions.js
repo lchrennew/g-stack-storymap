@@ -767,6 +767,7 @@ export const fetchCriteria = (id) => (dispatch, getState) => {
     }
     else return Promise.resolve()
 }
+
 const addingCriterion = (id, criterion) => ({
     type: 'ADDING_CRITERION',
     id,
@@ -792,4 +793,32 @@ const _addCriterion = (id, criterion) => async dispatch => {
 export const addCriterion = (id, criterion) => (dispatch, getState) => {
     let state = getState()
     return dispatch(_addCriterion(id, criterion))
+}
+
+
+const updatingCriterion = (id, criterion) => ({
+    type: 'UPDATING_CRITERION',
+    id,
+    criterion
+})
+
+const updatedCriterion = (id, criterion) => ({
+    type: 'UPDATED_CRITERION',
+    id,
+    criterion
+})
+
+const _updateCriterion = (id, criterion) => async dispatch => {
+    dispatch(updatingCriterion(id, criterion))
+    let response = await api(`criteria/${id}`, json(criterion, cors('PUT')))(dispatch)
+    if (response.ok) {
+        criterion = await response.json()
+        return dispatch(updatedCriterion(id, criterion))
+    }
+    return null
+}
+
+export const updateCriterion = (id, criterion) => (dispatch, getState) => {
+    let state = getState()
+    return dispatch(_updateCriterion(id, criterion))
 }
