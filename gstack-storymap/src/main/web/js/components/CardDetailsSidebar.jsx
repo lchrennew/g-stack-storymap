@@ -8,6 +8,8 @@ import {Route, Switch, withRouter} from "react-router-dom";
 import {fetchCard} from "../actions";
 import CardDetailsHeader from "./CardDetailsHeader";
 import CardComments from "./CardComments";
+import CardCriteria from "./CardCriteria";
+import CriterionForm from "./CriterionForm";
 
 const mapStateToProps = (state, props) => {
     return {
@@ -41,16 +43,25 @@ class CardDetailsSidebar extends React.Component {
 
         return <Placeholder>
             <Switch>
-                <Route path='/:project/:maximized(!{1,2})/card/:id/:mode' component={CardDetailsHeader} />
-                <Route path='/:project/:maximized(!{1,2})/card/:id' component={CardDetailsHeader} />
+                <Route path='/:project/:maximized(!{1,2})/card/:id/:mode'
+                       component={CardDetailsHeader} />
+                <Route path='/:project/:maximized(!{1,2})/card/:id'
+                       component={CardDetailsHeader} />
             </Switch>
             <div className="content container">
                 {
                     card
                         ? <Switch>
-                            <Route path='/:project/:maximized(!{1,2})/card/:id/edit' component={CardEdit}/>
-                            <Route path='/:project/:maximized(!{1,2})/card/:id/comments/reply/:reply' component={CardComments}/>
-                            <Route path='/:project/:maximized(!{1,2})/card/:id/comments' component={CardComments}/>
+                            <Route path='/:project/:maximized(!{1,2})/card/:id/edit'
+                                   component={CardEdit}/>
+                            <Route path='/:project/:maximized(!{1,2})/card/:id/comments/reply/:reply'
+                                   component={CardComments}/>
+                            <Route path='/:project/:maximized(!{1,2})/card/:id/comments'
+                                   component={CardComments}/>
+                            <Route path='/:project/:maximized(!{1,2})/card/:id/criteria/new'
+                                   component={CriterionForm}/>
+                            <Route path='/:project/:maximized(!{1,2})/card/:id/criteria'
+                                   component={CardCriteria}/>
                             <Route component={CardSummary}/>
                         </Switch>
                         : <Dimmer active inverted>

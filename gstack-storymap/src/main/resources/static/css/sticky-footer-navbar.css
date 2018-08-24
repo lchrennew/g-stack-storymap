@@ -513,6 +513,7 @@ DRAGGING RELATED
 .g-card-label{
     position: absolute;
     bottom: 4px;
+    left: 4px;
     transform: scale(0.64);
     transform-origin: bottom left;
 }

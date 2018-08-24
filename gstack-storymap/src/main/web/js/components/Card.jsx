@@ -67,7 +67,7 @@ class Card extends React.Component {
                 }
                 {
                     (necessity || color) &&
-                    <Label circular color={color} size='mini' className='g-card-label'>
+                    <Label circular color={color || undefined} size='mini' className='g-card-label'>
                         {
                             necessity && necessity[0]
                         }

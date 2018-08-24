@@ -143,6 +143,12 @@ const card = (state = {fetch: false, id: -1, card: null}, action) => {
             return {fetch: false, id: action.id, card: action.card}
         case 'UPDATED_CARD':
             return {fetch: false, id: action.id, card: action.card}
+        case 'REQUEST_UPDATE_CARD_TITLE':
+            if (action.id === state.id) {
+                state.card.title = action.title
+                return {fetch: false, id: action.id, card: Object.assign({}, state.card, action)}
+            }
+            else return state
         default:
             return state
     }
@@ -197,4 +203,34 @@ const comments = (state = {list: null, fetch: false}, action) => {
     }
 }
 
-export default combineReducers({projects, cards, releases, dragging, card, release, users, comments})
+const criteria = (state = {list: null, fetch: false}, action) => {
+    let list = $.extend(true, [], state.list)
+    switch (action.type) {
+        case 'FETCH_CRITERIA':
+            return {fetch: true, list: null, id: action.id}
+        case 'RECEIVE_CRITERIA':
+            return {fetch: false, list: action.list, id: action.id}
+        case 'ADDING_CRITERION':
+            return state
+        case 'ADDED_CRITERION':
+            return {fetch: false, list: [...list, action.criterion], id: action.id}
+        case 'UPDATING_CRITERION':
+            return state
+        case 'UPDATED_CRITERION':
+            return state
+        default:
+            return state
+    }
+}
+
+export default combineReducers({
+    projects,
+    cards,
+    releases,
+    dragging,
+    card,
+    release,
+    users,
+    comments,
+    criteria,
+})

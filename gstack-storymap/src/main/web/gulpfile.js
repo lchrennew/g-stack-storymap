@@ -70,6 +70,7 @@ gulp.task('2 - Package all compiled JS (Rollup)', ['1 - Compile JSX into JS'], f
             ['sortablejs','Sortable'],
             ['showdown','showdown'],
             ['js-cookie', 'Cookies'],
+            ['prismjs', 'Prism'],
         ],
         shell = `rollup ${entry} -o ${output} -f umd -g ${globals.map(x=>x.join(':')).join(',')}`
 

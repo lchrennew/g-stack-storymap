@@ -735,3 +735,61 @@ export const addReply = (id, reply) => (dispatch, getState) => {
     let state = getState()
     return dispatch(_addReply(id, reply))
 }
+
+
+//--------------CRITERIA
+const fetchingCriteria = (id) => ({
+    type: 'FETCH_CRITERIA',
+    id,
+})
+
+const fetchedCriteria = (id, list) => ({
+    type: 'RECEIVE_CRITERIA',
+    id, list
+})
+
+const _fetchCriteria = (id) => async dispatch => {
+    dispatch(fetchingCriteria(id))
+    let response = await api(`criteria/of/card/${id}`, cors('GET'))(dispatch)
+    if (response.ok) {
+        let list = await response.json()
+        return dispatch(fetchedCriteria(id, list))
+    }
+    return null
+}
+
+const criteriaNotFetching = state => !state.criteria.fetch
+
+export const fetchCriteria = (id) => (dispatch, getState) => {
+    let state = getState()
+    if (criteriaNotFetching(state)) {
+        return dispatch(_fetchCriteria(id))
+    }
+    else return Promise.resolve()
+}
+const addingCriterion = (id, criterion) => ({
+    type: 'ADDING_CRITERION',
+    id,
+    criterion
+})
+
+const addedCriterion = (id, criterion) => ({
+    type: 'ADDED_CRITERION',
+    id,
+    criterion
+})
+
+const _addCriterion = (id, criterion) => async dispatch => {
+    dispatch(addingCriterion(id, criterion))
+    let response = await api(`criteria/of/card/${id}`, json(criterion, cors('POST')))(dispatch)
+    if (response.ok) {
+        criterion = await response.json()
+        return dispatch(addedCriterion(id, criterion))
+    }
+    return null
+}
+
+export const addCriterion = (id, criterion) => (dispatch, getState) => {
+    let state = getState()
+    return dispatch(_addCriterion(id, criterion))
+}

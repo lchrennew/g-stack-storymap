@@ -27,7 +27,7 @@ class CardSummary extends React.Component {
     render() {
         const {card} = this.props
         return <Placeholder>
-            <Label as='a' color={card.color} ribbon>
+            <Label as='a' color={card.color || undefined} ribbon>
                 Card: #{card.id}
             </Label>
             <h1>{card.title || <span className='text-muted'>{`<Empty>`}</span>}</h1>

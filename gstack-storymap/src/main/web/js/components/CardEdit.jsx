@@ -73,7 +73,7 @@ class CardColor extends React.Component {
                 name: this.state.value
                     ? 'circle'
                     : 'circle outline',
-                color: this.state.value
+                color: this.state.value || undefined
             }}
             options={colorOptions}
             value={this.state.value}
