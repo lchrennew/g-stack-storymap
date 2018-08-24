@@ -1,5 +1,5 @@
 import React from 'react'
-import {Accordion, Dimmer, Loader} from "semantic-ui-react";
+import {Accordion, Dimmer, Label, Loader, Message} from "semantic-ui-react";
 import {fetchCriteria} from "../actions";
 import {connect} from 'react-redux'
 import Placeholder from "./Placeholder";
@@ -7,6 +7,7 @@ import * as Showdown from "showdown";
 import Prism from 'prismjs';
 import Icon from "./Icon";
 import {Link} from "react-router-dom";
+import Code from "./Code";
 
 const mapStateToProps = (state, props) => {
     return {
@@ -58,7 +59,7 @@ class CardCriteria extends React.Component {
         const {activeIndex} = this.state
         return list
             ? (
-                <Accordion>
+                <Accordion fluid>
                     {
                         list.map((criterion, i) =>
                             <Placeholder key={i}>
@@ -66,21 +67,18 @@ class CardCriteria extends React.Component {
                                                  index={i}
                                                  onClick={this.handleClick.bind(this)}>
                                     <Icon name={activeIndex === i ? 'chevron-up' : 'chevron-down'}/>
-                                    {criterion.title}
+                                    <Label basic horizontal size='mini'>#{criterion.id}</Label> {criterion.title}
                                 </Accordion.Title>
                                 <Accordion.Content active={activeIndex === i}>
-                                    <p>
-                                        {
-                                            criterion.description
-                                                .split('\n')
-                                                .map(
-                                                    (line, ln) =>
-                                                        <Placeholder key={ln}>
-                                                            {line}<br/>
-                                                        </Placeholder>
-                                                )
-                                        }
-                                    </p>
+                                    <Message>
+                                        <Message.Header>{criterion.title}</Message.Header>
+                                        <Code mode='text' content={criterion.description}/>
+                                        <Link to={`/${project}/${maximized}/card/${id}/criteria/${criterion.id}/edit`}
+                                              className='ui top right attached label'
+                                        >
+                                            Edit
+                                        </Link>
+                                    </Message>
                                 </Accordion.Content>
                             </Placeholder>)
                     }

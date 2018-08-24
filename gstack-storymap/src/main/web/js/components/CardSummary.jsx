@@ -3,6 +3,7 @@ import Placeholder from "./Placeholder";
 import * as Showdown from "showdown";
 import {Divider, Label, List} from "semantic-ui-react";
 import {connect} from 'react-redux'
+import Code from "./Code";
 
 const mapStateToProps = (state, props) => {
     return {
@@ -41,9 +42,9 @@ class CardSummary extends React.Component {
             <Divider/>
 
             <div className="mde-preview">
-                <div className='mde-preview-content'
-                     dangerouslySetInnerHTML={{__html: this.converter.makeHtml(card.description)}}>
-                </div>
+                <Code content={card.description}
+                      mode='rendered'
+                      className='mde-preview-content' />
             </div>
         </Placeholder>
     }

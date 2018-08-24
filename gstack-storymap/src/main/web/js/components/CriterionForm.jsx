@@ -36,13 +36,14 @@ class CriterionForm extends React.Component {
             <Form.Field>
                 <label>Scenario</label>
                 <input
+                    required
                     placeholder='Enter scenario name'
                     ref={this.titleRef}
                 />
             </Form.Field>
             <Form.Field>
                 <label>Description</label>
-                <textarea placeholder={`Enter description`} ref={this.descriptionRef}/>
+                <textarea placeholder={`Enter description`} ref={this.descriptionRef} required/>
             </Form.Field>
             <Button type='submit' primary>Create</Button>
         </Form>
