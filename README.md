@@ -29,9 +29,14 @@ User Story Mapping
 - Back End: http://localhost:8085
 - Neo4j: bolt://localhost:17687 username: neo4j password: root
 
+### Configuring Neo4j Port
+- Goto the directory where your neo4j installed/stored
+- Open `./conf/neo4j.conf`
+- Find this option `dbms.connector.bolt.listen_address` and change the port to `:17687`
+
 ### Configuring Github Securing
 - Visit https://github.com/settings/developers and create new OAuth App
-- Create application.yml under the directory where your BackEnd jar saved in
+- Create `application.yml` under the directory where your BackEnd jar saved in
 - Replace `clientId` and `clientSecret` with the values of your new created oauth app's
 
 ### Run application
