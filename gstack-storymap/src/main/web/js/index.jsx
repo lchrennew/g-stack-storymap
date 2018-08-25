@@ -13,6 +13,7 @@ import reducer from './reducers'
 import Index from './components/Index'
 import Placeholder from "./components/Placeholder";
 import {NotificationManager} from "./components/Contexts";
+import {setWebApi} from "./actions";
 
 let devTool = typeof window === 'object' && typeof window.devToolsExtension !== 'undefined'
     ? window.devToolsExtension()
@@ -39,7 +40,15 @@ class Console extends React.Component {
     }
 }
 
-jQuery(() =>
+const initConfig = async () => {
+    let response = await fetch(`/json/config.json`)
+    const config = await response.json()
+    setWebApi(config)
+}
+
+jQuery(async () => {
+    await initConfig()
     render(
         <Console {...{store}} />,
-        document.getElementById('gstack-console')))
+        document.getElementById('gstack-console'))
+})

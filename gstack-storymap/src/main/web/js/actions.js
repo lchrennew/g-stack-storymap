@@ -5,7 +5,12 @@ import {CardHelper} from "./utils";
 import Cookies from 'js-cookie'
 import $ from 'jquery'
 
-const webApi = `${location.hostname}:8085`
+let webApi = `/`
+
+export const setWebApi = config=> webApi = config.webApi[location.host]
+
+
+
 const api = (endpoint, ...args) => async (dispatch) => {
     let response = await fetch(`//${webApi}/${endpoint}`, ...args)
     if (response.status === 403) {
