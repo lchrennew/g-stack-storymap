@@ -49,37 +49,71 @@ gulp.task('1 - Compile JSX into JS', function () {
         .pipe(gulp.dest(paths.js.dest))
 })
 
-gulp.task('2 - Package all compiled JS (Rollup)', ['1 - Compile JSX into JS'], function (cb) {
-    var entry = paths.js.rollup.src,
-        output = paths.js.rollup.dest,
-        globals = [
-            ['jquery', 'jQuery'],
-            ['react', 'React'],
-            ['react-dom', 'ReactDOM'],
-            ['redux', 'Redux'],
-            ['redux-thunk', 'ReduxThunk'],
-            ['react-redux', 'ReactRedux'],
-            ['react-router', 'ReactRouter'],
-            ['react-router-dom', 'ReactRouterDOM'],
-            ['cross-fetch', 'fetch'],
-            ['stompjs', 'Stomp'],
-            ['sockjs-client', 'SockJS'],
-            ['react-notification-system', 'ReactNotificationSystem'],
-            ['react-markdown','reactMarkdown'],
-            ['semantic-ui-react','semanticUIReact'],
-            ['sortablejs','Sortable'],
-            ['showdown','showdown'],
-            ['js-cookie', 'Cookies'],
-            ['prismjs', 'Prism'],
-        ],
-        shell = `rollup ${entry} -o ${output} -f umd -g ${globals.map(x=>x.join(':')).join(',')}`
+gulp.task('2 - Package all compiled JS (Rollup)', ['1 - Compile JSX into JS'], async cb => {
+//     var entry = paths.js.rollup.src,
+//         output = paths.js.rollup.dest,
+//         globals = [
+//             ['jquery', 'jQuery'],
+//             ['react', 'React'],
+//             ['react-dom', 'ReactDOM'],
+//             ['redux', 'Redux'],
+//             ['redux-thunk', 'ReduxThunk'],
+//             ['react-redux', 'ReactRedux'],
+//             ['react-router', 'ReactRouter'],
+//             ['react-router-dom', 'ReactRouterDOM'],
+//             ['cross-fetch', 'fetch'],
+//             ['stompjs', 'Stomp'],
+//             ['sockjs-client', 'SockJS'],
+//             ['react-notification-system', 'ReactNotificationSystem'],
+//             ['react-markdown','reactMarkdown'],
+//             ['semantic-ui-react','semanticUIReact'],
+//             ['sortablejs','Sortable'],
+//             ['showdown','showdown'],
+//             ['js-cookie', 'Cookies'],
+//             ['prismjs', 'Prism'],
+//         ],
+//         shell = `rollup ${entry} -o ${output} -f umd -g ${globals.map(x=>x.join(':')).join(',')}`
+//
+//     console.log(shell)
+//     exec(shell, (err, stdout, stderr)=> {
+//         console.log(stdout);
+//     console.log(stderr);
+//     cb(err);
+// })
 
-    console.log(shell)
-    exec(shell, (err, stdout, stderr)=> {
-        console.log(stdout);
-    console.log(stderr);
-    cb(err);
-})
+    const globals = {
+        'jquery': 'jQuery',
+        'react': 'React',
+        'react-dom': 'ReactDOM',
+        'redux': 'Redux',
+        'redux-thunk': 'ReduxThunk',
+        'react-redux': 'ReactRedux',
+        'react-router': 'ReactRouter',
+        'react-router-dom': 'ReactRouterDOM',
+        'cross-fetch': 'fetch',
+        'stompjs': 'Stomp',
+        'sockjs-client': 'SockJS',
+        'react-notification-system': 'ReactNotificationSystem',
+        'react-markdown': 'reactMarkdown',
+        'semantic-ui-react': 'semanticUIReact',
+        'sortablejs': 'Sortable',
+        'showdown': 'showdown',
+        'js-cookie': 'Cookies',
+        'prismjs': 'Prism',
+        'react-mde': 'ReactMde',
+    }
+    const bundle = await rollup.rollup({
+        input: paths.js.rollup.src,
+        external: Object.keys(globals),
+    })
+
+
+    await bundle.write({
+        file: paths.js.rollup.dest,
+        format: 'umd',
+        globals,
+
+    })
 })
 
 gulp.task('3 - Compile bundled js into previous version of Javascript', ['2 - Package all compiled JS (Rollup)'], function () {

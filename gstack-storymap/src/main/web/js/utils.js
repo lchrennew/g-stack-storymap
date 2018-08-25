@@ -94,7 +94,7 @@ export const jsonPath = (obj, expr, arg) => {
         },
         eval: function (x, _v, _vname) {
             try {
-                return $ && _v && eval(x.replace(/@/g, "_v"));
+                return new Function('_v', '$', `return $ && _v && ${x.replace(/@/g, "_v")}`)(_v, $);
             }
             catch (e) {
                 throw new SyntaxError("jsonPath: " + e.message + ": " + x.replace(/@/g, "_v").replace(/\^/g, "_a"));
