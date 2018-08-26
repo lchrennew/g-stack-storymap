@@ -10,9 +10,9 @@ import {BrowserRouter as Router, Route} from 'react-router-dom'
 
 // import reducer from './repository/reducer'
 import reducer from './reducers'
-import Index from './components/Index'
-import Placeholder from "./components/Placeholder";
-import {NotificationManager} from "./components/NotificationManager";
+import Index from './components/layout/Index'
+import Placeholder from "./components/common/Placeholder";
+import {NotificationManager} from "./components/common/NotificationManager";
 import {setWebApi} from "./actions";
 
 let devTool = typeof window === 'object' && typeof window.devToolsExtension !== 'undefined'
