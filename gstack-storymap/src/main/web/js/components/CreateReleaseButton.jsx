@@ -1,5 +1,5 @@
 import React from 'react'
-import {openSidebar} from "./Contexts";
+import {openSidebar} from "./Sidebar";
 
 
 class CreateReleaseButton extends React.Component {

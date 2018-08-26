@@ -3,8 +3,6 @@ import Placeholder from "./Placeholder";
 import FeatureList from "./FeatureList";
 import {Accordion} from 'semantic-ui-react'
 import Icon from "./Icon";
-import {openSidebar} from "./Contexts";
-import ReleaseDetails from "./ReleaseDetails";
 import ReleaseDetailsEntry from "./ReleaseDetailsEntry";
 import DeleteReleaseButton from "./DeleteReleaseButton";
 import CreateReleaseButton from "./CreateReleaseButton";
@@ -21,17 +19,6 @@ class Schedule extends React.Component {
         this.setState({fold: !this.state.fold})
     }
 
-    bindOpenRelease(release) {
-        return e => {
-            e.preventDefault()
-            release && this.open(release)
-        }
-    }
-
-    open(release) {
-        openSidebar(<ReleaseDetails id={release.id}/>)
-    }
-
     render() {
         const {activities, release, first = false, last = false} = this.props
         const {fold} = this.state
@@ -40,7 +27,6 @@ class Schedule extends React.Component {
                 <div className="sticky">
                     <span
                         onClick={release ? this.toggleFold.bind(this) : null}
-                        onContextMenu={this.bindOpenRelease(release)}
                     >
                         <Icon
                             name={fold

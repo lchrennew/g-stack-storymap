@@ -6,7 +6,7 @@ import Footer from "./Footer";
 import ProjectsProvider from "./ProjectsProvider";
 import Main from "./Main";
 import Placeholder from "./Placeholder";
-import {SidebarContext} from "./Contexts";
+import {SidebarContext} from "./Sidebar";
 import Projects from "./Projects";
 import AuthProvider from "./AuthProvider";
 

@@ -3,7 +3,7 @@ import MarkDownEditor from "./MarkDownEditor";
 import {Button, Dropdown, Form, Select} from "semantic-ui-react";
 import {updateCard} from "../actions";
 import {connect} from "react-redux";
-import {notify} from "./Contexts";
+import {notify} from "./NotificationManager";
 
 const necessityOptions = [
     {key: 'MUST', value: 'MUST', text: 'Must'},
@@ -147,14 +147,11 @@ class CardEdit extends React.Component {
                 />
             </Form.Field>
             <Form.Field>
-                <label>Flag Color</label>
+                <label>Token Color</label>
                 <CardColor
                     ref={this.colorRef}
                     value={card.color}
                 />
-            </Form.Field>
-            <Form.Field>
-                <label>color</label>
             </Form.Field>
             <Form.Field>
                 <label>Description</label>

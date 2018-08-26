@@ -3,9 +3,9 @@ import Placeholder from "./Placeholder";
 import {Button, Form, Menu} from "semantic-ui-react";
 import {connect} from 'react-redux'
 import {createRelease} from "../actions";
-import {notify, openSidebar, SidebarMaximizeButton} from "./Contexts";
+import {notify, } from "./NotificationManager";
+import {openSidebar, SidebarMaximizeButton} from './Sidebar'
 import MarkDownEditor from "./MarkDownEditor";
-import {withRouter} from "react-router-dom";
 
 
 const mapStateToProps = (state, props) => {

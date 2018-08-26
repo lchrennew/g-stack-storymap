@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {updateCardTitle} from "../actions";
-import {notify} from "./Contexts";
+import {notify} from "./NotificationManager";
 
 const mapStateToProps = (state, props) => {
     return {}

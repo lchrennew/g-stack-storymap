@@ -1,6 +1,6 @@
 import React from 'react'
 import {Menu} from "semantic-ui-react";
-import {SidebarMaximizeButton} from "./Contexts";
+import {SidebarMaximizeButton} from "./Sidebar";
 import Icon from "./Icon";
 import {Link, withRouter} from "react-router-dom";
 import DeleteCardButton from "./DeleteCardButton";

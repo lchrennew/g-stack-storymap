@@ -3,10 +3,9 @@ import Sortable from "sortablejs"
 import $ from 'jquery'
 import {endDragCard, moveUpdateCard, startDragCard, saveCardMovement} from "../actions";
 import {connect} from 'react-redux'
-import {CardHelper} from "../utils";
 import Card from "./Card";
-import {notify} from "./Contexts";
-
+import {notify} from "./NotificationManager";
+import {CardHelper} from "../utils/CardHelper";
 
 const mapStateToProps = (state, props) => {
     return {

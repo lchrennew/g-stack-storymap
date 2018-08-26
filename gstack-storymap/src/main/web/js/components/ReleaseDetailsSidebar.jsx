@@ -1,9 +1,9 @@
 import React from 'react'
 import Placeholder from "./Placeholder";
-import {Button, Dimmer, Form, Loader, Menu} from "semantic-ui-react";
+import {Dimmer, Loader} from "semantic-ui-react";
 import {connect} from 'react-redux'
-import {fetchRelease, updateRelease} from "../actions";
-import {notify} from "./Contexts";
+import {fetchRelease} from "../actions";
+import {notify} from "./NotificationManager";
 import {Route, Switch, withRouter} from "react-router-dom";
 import ReleaseDetailsHeader from "./ReleaseDetailsHeader";
 import ReleaseEdit from "./ReleaseEdit";

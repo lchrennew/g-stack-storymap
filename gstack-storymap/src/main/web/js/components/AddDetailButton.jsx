@@ -2,7 +2,7 @@ import React from 'react'
 import Icon from "./Icon";
 import {setDetail} from "../actions";
 import {connect} from 'react-redux'
-import {notify} from "./Contexts";
+import {notify} from "./NotificationManager";
 
 
 const mapStateToProps = (state, props) => {

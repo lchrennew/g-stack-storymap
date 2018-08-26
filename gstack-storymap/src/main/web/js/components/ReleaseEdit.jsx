@@ -2,7 +2,7 @@ import React from 'react'
 import {Button, Form} from "semantic-ui-react";
 import {connect} from 'react-redux'
 import {updateRelease} from "../actions";
-import {notify} from "./Contexts";
+import {notify} from "./NotificationManager";
 import MarkDownEditor from "./MarkDownEditor";
 
 

@@ -1,28 +1,8 @@
-/*****
- * 后缀命名规范
- * Context -> 容器，封装了带有ref的容器Component
- * Component -> 渲染props.children的容器
- * Manager -> 管理器， 封装了带有ref非容器Component
- */
-
 import React from 'react'
-import NotificationSystem from "react-notification-system";
 import Icon from "./Icon";
 import {withRouter} from "react-router-dom";
 import Placeholder from "./Placeholder";
 import SidebarRouter from "./SidebarRouter";
-
-const notifyRef = React.createRef()
-
-// 向全局组件中添加此组件
-export class NotificationManager extends React.Component {
-    render() {
-        return <NotificationSystem ref={notifyRef}/>
-    }
-}
-
-// 其他js可以调用notify(notification)
-export const notify = opt => notifyRef.current && notifyRef.current.addNotification(opt)
 
 const sidebarRef = React.createRef()
 export const openSidebar = (path) => sidebarRef.current && sidebarRef.current.open(path)
@@ -95,6 +75,7 @@ class SidebarComponent extends React.Component {
             history.push(pathname.substr(0, pathname.indexOf(maximized) - 1))
         }
     }
+
     render() {
         const {
             className = '',
