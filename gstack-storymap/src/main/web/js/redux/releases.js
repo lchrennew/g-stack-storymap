@@ -1,5 +1,5 @@
 import $ from "jquery";
-import {api, cors} from "../utils/fetch";
+import {api, cors, json} from "../utils/fetch";
 
 export const releases = (state = {list: null}, action) => {
     let list = $.extend(true, [], state.list)

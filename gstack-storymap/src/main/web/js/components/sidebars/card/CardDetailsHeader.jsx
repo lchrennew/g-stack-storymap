@@ -3,7 +3,7 @@ import {Menu} from "semantic-ui-react";
 import {SidebarMaximizeButton} from "../Sidebar";
 import Icon from "../../common/Icon";
 import {Link, withRouter} from "react-router-dom";
-import DeleteCardButton from "../DeleteCardButton";
+import DeleteCardButton from "../../triggers/DeleteCardButton";
 
 class CardDetailsHeader extends React.Component {
 

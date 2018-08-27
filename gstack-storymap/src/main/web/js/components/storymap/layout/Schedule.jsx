@@ -4,7 +4,7 @@ import FeatureList from "./FeatureList";
 import {Accordion} from 'semantic-ui-react'
 import Icon from "../../common/Icon";
 import ReleaseDetailsEntry from "../../triggers/ReleaseDetailsEntry";
-import DeleteReleaseButton from "../../sidebars/DeleteReleaseButton";
+import DeleteReleaseButton from "../../triggers/DeleteReleaseButton";
 import CreateReleaseButton from "../../triggers/CreateReleaseButton";
 import ReleaseMoveButton from "../../triggers/ReleaseMoveButton";
 

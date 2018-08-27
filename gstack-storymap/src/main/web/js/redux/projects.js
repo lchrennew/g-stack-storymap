@@ -1,4 +1,4 @@
-import {api, cors} from "../utils/fetch";
+import {api, cors, json} from "../utils/fetch";
 
 export const projects = (state = {list: null}, action) => {
     switch (action.type) {
