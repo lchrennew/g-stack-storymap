@@ -25,6 +25,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.filter.CompositeFilter;
 
 import javax.servlet.Filter;
+import javax.servlet.http.Cookie;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler(
                         (request, response, authentication)
                                 -> response.sendRedirect(
-                                request.getParameter("return_uri")))
+                                        request.getParameter("return_uri")))
                 .permitAll()
                 .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
@@ -69,6 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(path);
         filter.setAuthenticationSuccessHandler(
                 (request, response, authentication) -> {
+                    Cookie[] cookies = request.getCookies();
                     String returnUrl = request.getParameter("return_uri");
                     OAuth2Authentication auth = (OAuth2Authentication) authentication;
                     Map<String, String> details = (Map<String, String>) auth.getUserAuthentication().getDetails();

@@ -1,4 +1,5 @@
 import {api, cors} from "../utils/fetch";
+import Cookies from "js-cookie";
 
 export const users = (state = {me: null, fetch: false}, action) => {
     switch (action.type) {
@@ -31,6 +32,7 @@ const _fetchMe = () => async dispatch => {
     let response = await api(`users/me`, cors('GET'))(dispatch)
     if (response.ok) {
         let me = await response.json()
+        Cookies.set('XSRF-TOKEN', me.token)
         return dispatch(fetchedMe(me))
     }
     return null

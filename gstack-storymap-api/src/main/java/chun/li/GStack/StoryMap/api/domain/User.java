@@ -46,4 +46,14 @@ public class User {
 
     String avatar;
 
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    String token;
+
 }

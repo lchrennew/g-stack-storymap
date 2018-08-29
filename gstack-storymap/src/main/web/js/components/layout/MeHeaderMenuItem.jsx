@@ -12,7 +12,7 @@ class MeHeaderMenuItem extends React.Component {
     render() {
         const {me} = this.props
         return <Menu.Item>
-            <Image avatar src={me.userAuthentication.details.avatar_url}/> <span>{me.name}</span>
+            <Image avatar src={me.avatar}/> <span>{me.name}</span>
         </Menu.Item>
     }
 }
