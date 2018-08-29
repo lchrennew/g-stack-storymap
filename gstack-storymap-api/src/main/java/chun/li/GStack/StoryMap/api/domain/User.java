@@ -42,9 +42,9 @@ public class User {
         this.avatar = avatar;
     }
 
-    String name;
+    private String name;
 
-    String avatar;
+    private String avatar;
 
     public void setToken(String token) {
         this.token = token;
@@ -54,6 +54,6 @@ public class User {
         return token;
     }
 
-    String token;
+    private String token;
 
 }
