@@ -36,6 +36,13 @@ body {
     overflow: hidden;
 }
 
+@media only screen and (max-width: 767px) {
+    #gstack-console > .ui.container {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+}
+
 .footer > .container {
     padding-right: 15px;
     padding-left: 15px;
@@ -418,6 +425,27 @@ DRAGGING RELATED
     transition-timing-function: ease-in-out;
     position: relative;
     visibility: visible;
+}
+
+
+@media only screen and (max-width: 767px) {
+    #gstack-console > .container > .ui.sidebar:not(.visible) {
+        width: 0 !important;
+    }
+
+    .ui.container.sidebar.visible {
+        width: 475px !important;
+    }
+}
+
+@media only screen and (max-width: 475px) {
+    #gstack-console > .container > .ui.sidebar:not(.visible) {
+        width: 0 !important;
+    }
+
+    .ui.container.sidebar.visible {
+        width: 100% !important;
+    }
 }
 
 #gstack-console > .container > .ui.sidebar:not(.visible) {

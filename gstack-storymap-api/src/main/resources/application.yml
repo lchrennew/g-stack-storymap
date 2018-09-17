@@ -17,3 +17,9 @@ spring:
       uri: bolt://localhost:17687
       username: neo4j
       password: root
+cas:
+  server:
+    host:
+      url: http://10.168.0.187:8080
+      login_url: ${cas.server.host.url}/login
+      logout_url: ${cas.server.host.url}/logout?service=${app.server.host.url}
