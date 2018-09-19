@@ -11,7 +11,7 @@ export const setWebApi = config=> webApi = config.webApi[location.host]
 export const api = (endpoint, ...args) => async (dispatch) => {
     let response = await fetch(`//${webApi}/${endpoint}`, ...args)
     if (response.status === 403) {
-        location.href = `//${webApi}/login/github?return_uri=${encodeURIComponent(location.href)}`
+        location.href = `//${webApi}/login/cas?return_uri=${encodeURIComponent(location.href)}`
         return response
     }
     return response

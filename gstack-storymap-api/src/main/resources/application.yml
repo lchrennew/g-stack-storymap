@@ -17,9 +17,33 @@ spring:
       uri: bolt://localhost:17687
       username: neo4j
       password: root
-cas:
-  server:
-    host:
-      url: http://10.168.0.187:8080
-      login_url: ${cas.server.host.url}/login
-      logout_url: ${cas.server.host.url}/logout?service=${app.server.host.url}
+#cas:
+#  sign-out-filters: /logout
+#  auth-filters: /*
+#  validate-filters: /*
+#  request-wrapper-filters: /*
+#  assertion-filters: /*
+#  cas-server-login-url: http://10.168.0.187:8080/login
+#  cas-server-url-prefix: http://10.168.0.187:8080
+#  redirect-after-validation: true
+#  use-session: true
+#  server-name: http://localhost:8085
+
+security:
+  cas:
+    server:
+      base-url: http://10.168.0.187:8080
+      protocol-version: 2
+    service:
+      resolution-mode: dynamic
+      paths:
+        login: /login/cas
+    enabled: true
+
+
+#      cas:
+#        server:
+#          host:
+#            url: http://10.168.0.187:8080
+#            login_url: ${cas.server.host.url}/login
+#            logout_url: ${cas.server.host.url}/logout?service=

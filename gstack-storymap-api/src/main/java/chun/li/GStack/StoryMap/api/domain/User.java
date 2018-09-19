@@ -8,9 +8,10 @@ public class User {
     public User() {
     }
 
-    public User(String name, String avatar) {
+    public User(String name, String avatar, String provider) {
         this.name = name;
         this.avatar = avatar;
+        this.provider = provider;
     }
 
 
@@ -55,5 +56,7 @@ public class User {
     }
 
     private String token;
+
+    private String provider;
 
 }
