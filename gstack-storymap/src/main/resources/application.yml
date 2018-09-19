@@ -1,0 +1,7 @@
+server:
+  port: 8086
+  tomcat:
+    uri-encoding: utf-8
+spring:
+  thymeleaf:
+    cache: false
