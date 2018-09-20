@@ -3,15 +3,17 @@ import Cookies from "js-cookie";
 import $ from "jquery";
 
 let webApi = `/`
+let login = `github`
 
-export const setWebApi = config=> webApi = config.webApi[location.host]
-
-
+export const setWebApi = config => {
+    webApi = config.webApi[location.host]
+    login = config.login
+}
 
 export const api = (endpoint, ...args) => async (dispatch) => {
     let response = await fetch(`//${webApi}/${endpoint}`, ...args)
-    if (response.status === 403) {
-        location.href = `//${webApi}/login/cas?return_uri=${encodeURIComponent(location.href)}`
+    if (response.status === 401) {
+        location.href = `//${webApi}/login/${login}?return_uri=${encodeURIComponent(location.href)}`
         return response
     }
     return response

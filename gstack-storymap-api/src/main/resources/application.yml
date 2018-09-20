@@ -39,6 +39,8 @@ security:
       paths:
         login: /login/cas
     enabled: true
+    proxy-validation:
+      enabled: false
 
 
 #      cas:
