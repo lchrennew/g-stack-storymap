@@ -123,4 +123,10 @@ public interface CardRepository extends Neo4jRepository<Card, Long> {
             " OPTIONAL MATCH (d)-[:DETAIL|PLAN|NEXT*]->(e:Card)\n" +
             " DETACH DELETE d, e")
     void deleteSubs(@Param("id") Long id);
+
+    @Query("MATCH (r:Release) WHERE id(r)=$release" +
+            " OPTIONAL MATCH (c0:Card)-[:PLANNED_IN]->(r)" +
+            " OPTIONAL MATCH (c0)-[:NEXT*]->(c1:Card)" +
+            " RETURN c0, c1")
+    Iterable<Card> findAllByRelease(@Param("release") Long release);
 }

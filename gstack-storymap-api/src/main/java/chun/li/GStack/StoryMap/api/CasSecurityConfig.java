@@ -63,8 +63,8 @@ public class CasSecurityConfig extends CasSecurityConfigurerAdapter {
                         String origin = request.getHeader("Origin");
                         response.setHeader("Access-Control-Allow-Origin", origin);
                         response.setHeader("Access-Control-Allow-Credentials", "true");
-                        response.setHeader("Access-Control-Allow-Methods", "*");
-                        response.setHeader("Access-Control-Allow-Headers", "x-xsrf-token");
+                        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+                        response.setHeader("Access-Control-Allow-Headers", "x-xsrf-token, Content-Type");
                         response.setHeader("Access-Control-Max-Age", "3600");
                         if (request.getMethod().equalsIgnoreCase("OPTIONS"))
                             response.sendError(200);

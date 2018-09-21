@@ -109,4 +109,9 @@ public class CardService {
     public void updateTitle(Long id, String title) {
         repository.updateTitle(id, title);
     }
+
+    @Transactional(readOnly = true)
+    public Iterable<Card> findAllByRelease(Long release) {
+        return repository.findAllByRelease(release);
+    }
 }

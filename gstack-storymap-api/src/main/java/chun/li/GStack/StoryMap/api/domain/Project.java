@@ -65,10 +65,12 @@ public class Project {
         this.release = release;
     }
 
+    @JsonIgnore
     public Iterable<Card> getDetails() {
         return detail != null ? detail.toList() : new ArrayList<>();
     }
 
+    @JsonIgnore
     public Iterable<Release> getReleases() {
         return release != null ? release.toList() : new ArrayList<>();
     }

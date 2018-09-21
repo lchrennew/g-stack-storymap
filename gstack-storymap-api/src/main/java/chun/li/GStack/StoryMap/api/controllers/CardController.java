@@ -94,4 +94,10 @@ public class CardController {
         cardService.updateTitle(id, card.getTitle());
     }
 
+    @GetMapping("release/{release}")
+    @ResponseBody
+    public Iterable<Card> findAllByRelease(@PathVariable Long release) {
+        return cardService.findAllByRelease(release);
+    }
+
 }
