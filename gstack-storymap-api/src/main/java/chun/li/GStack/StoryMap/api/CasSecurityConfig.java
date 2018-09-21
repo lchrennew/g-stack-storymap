@@ -54,7 +54,7 @@ public class CasSecurityConfig extends CasSecurityConfigurerAdapter {
                 .requestMatcher(
                         request -> {
                             String uri = request.getRequestURI();
-                            return !uri.startsWith("/login") && !uri.startsWith("/favicon.ico");
+                            return !uri.startsWith("/login");
                         })
                 .exceptionHandling()
                 .authenticationEntryPoint((request, response, authentication) -> {

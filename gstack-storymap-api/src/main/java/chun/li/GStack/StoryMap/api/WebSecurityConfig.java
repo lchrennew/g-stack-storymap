@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/", "/login**", "/webjars/**", "/error**").permitAll()
                 .anyRequest().authenticated()
-                .and().logout()
+                .and().logout().logoutUrl("/logout")
                 .logoutSuccessHandler(
                         (request, response, authentication)
                                 -> response.sendRedirect(
