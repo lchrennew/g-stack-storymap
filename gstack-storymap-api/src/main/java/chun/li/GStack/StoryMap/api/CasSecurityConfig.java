@@ -2,7 +2,8 @@ package chun.li.GStack.StoryMap.api;
 
 import chun.li.GStack.StoryMap.api.domain.User;
 import chun.li.GStack.StoryMap.api.services.UserService;
-import com.kakawait.spring.boot.security.cas.autoconfigure.*;
+import com.kakawait.spring.boot.security.cas.autoconfigure.CasAuthenticationFilterConfigurer;
+import com.kakawait.spring.boot.security.cas.autoconfigure.CasSecurityConfigurerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +29,6 @@ public class CasSecurityConfig extends CasSecurityConfigurerAdapter {
             userService.save(user);
             response.sendRedirect(returnUrl);
         });
-
         filter.authenticationFailureHandler((request, response, authentication) -> {
             response.sendRedirect(
                     server
@@ -37,8 +37,6 @@ public class CasSecurityConfig extends CasSecurityConfigurerAdapter {
                             + URLEncoder.encode(
                             request.getRequestURL() + "?" + request.getQueryString(), "utf-8"));
         });
-
-
     }
 
     @Value("${security.cas.server.base-url}")
@@ -52,14 +50,27 @@ public class CasSecurityConfig extends CasSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         super.configure(http);
 
-        http.exceptionHandling().authenticationEntryPoint((request, response, authentication) -> {
+        http
+                .requestMatcher(
+                        request -> {
+                            String uri = request.getRequestURI();
+                            return !uri.startsWith("/login") && !uri.startsWith("/favicon.ico");
+                        })
+                .exceptionHandling()
+                .authenticationEntryPoint((request, response, authentication) -> {
+                    if (!request.getRequestURI().startsWith("/login")) {
 
-            String origin = request.getHeader("Origin");
-            response.setHeader("Access-Control-Allow-Origin", origin);
-            response.setHeader("Access-Control-Allow-Credentials", "true");
-            response.setHeader("Access-Control-Allow-Methods", "*");
-            response.setHeader("Access-Control-Max-Age", "3600");
-            response.sendError(403, authentication.getMessage());
+                        String origin = request.getHeader("Origin");
+                        response.setHeader("Access-Control-Allow-Origin", origin);
+                        response.setHeader("Access-Control-Allow-Credentials", "true");
+                        response.setHeader("Access-Control-Allow-Methods", "*");
+                        response.setHeader("Access-Control-Allow-Headers", "x-xsrf-token");
+                        response.setHeader("Access-Control-Max-Age", "3600");
+                        if (request.getMethod().equalsIgnoreCase("OPTIONS"))
+                            response.sendError(200);
+                        else
+                            response.sendError(403, authentication.getMessage());
+                    }
         });
     }
 }

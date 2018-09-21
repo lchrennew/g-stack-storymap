@@ -41,14 +41,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserService userService;
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        cas().configure(http);
         http
                 .antMatcher("/**")
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/", "/login/**", "/webjars/**", "/error**").permitAll()
+                .antMatchers("/", "/login**", "/webjars/**", "/error**").permitAll()
                 .anyRequest().authenticated()
                 .and().logout()
                 .logoutSuccessHandler(
@@ -58,8 +58,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
-        cas().configure(http);
     }
+
 
     /*******
      * oauth2 SSO
