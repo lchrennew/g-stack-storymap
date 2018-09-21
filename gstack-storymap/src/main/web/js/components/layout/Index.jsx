@@ -9,6 +9,7 @@ import Placeholder from "../common/Placeholder";
 import {SidebarContext} from "../sidebars/Sidebar";
 import Projects from "../projects/Projects";
 import AuthProvider from "../providers/AuthProvider";
+import {LoginContext} from "./Login";
 
 
 
@@ -25,20 +26,22 @@ class Index extends React.Component {
     * */
     render() {
         return <Placeholder>
-            <AuthProvider>
-                <Header/>
-                <Main>
-                    <SidebarContext>
-                        <ProjectsProvider>
-                            <Switch>
-                                <Route path="/:project" component={Project}/>
-                                <Route path="/" component={Projects}/>
-                            </Switch>
-                        </ProjectsProvider>
-                    </SidebarContext>
-                </Main>
-                <Footer/>
-            </AuthProvider>
+            <LoginContext>
+                <AuthProvider>
+                    <Header/>
+                    <Main>
+                        <SidebarContext>
+                            <ProjectsProvider>
+                                <Switch>
+                                    <Route path="/:project" component={Project}/>
+                                    <Route path="/" component={Projects}/>
+                                </Switch>
+                            </ProjectsProvider>
+                        </SidebarContext>
+                    </Main>
+                    <Footer/>
+                </AuthProvider>
+            </LoginContext>
         </Placeholder>
     }
 }

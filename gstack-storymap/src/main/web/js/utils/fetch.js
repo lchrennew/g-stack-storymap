@@ -1,6 +1,7 @@
 import fetch from "cross-fetch";
 import Cookies from "js-cookie";
 import $ from "jquery";
+import {showLogin} from "../components/layout/Login";
 
 let webApi = `/`
 let login = `github`
@@ -13,7 +14,8 @@ export const setWebApi = config => {
 export const api = (endpoint, ...args) => async (dispatch) => {
     let response = await fetch(`//${webApi}/${endpoint}`, ...args)
     if (response.status === 401 || response.status === 403) {
-        location.href = `//${webApi}/login/${login}?return_uri=${encodeURIComponent(location.href)}`
+        // location.href = `//${webApi}/login/${login}?return_uri=${encodeURIComponent(location.href)}`
+        showLogin(`//${webApi}/login/`)
         return response
     }
     return response

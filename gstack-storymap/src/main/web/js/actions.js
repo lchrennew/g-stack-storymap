@@ -15,6 +15,6 @@ export {
 export {fetchReleases, createRelease, delRelease, moveRelease, updateRelease} from './redux/releases'
 export {fetchCard} from "./redux/card";
 export {fetchRelease} from "./redux/release";
-export {fetchMe} from "./redux/users";
+export {fetchMe, login} from "./redux/users";
 export {addReply, addComment, fetchComments} from "./redux/comments";
 export {fetchCriteria, addCriterion, updateCriterion} from "./redux/criteria";

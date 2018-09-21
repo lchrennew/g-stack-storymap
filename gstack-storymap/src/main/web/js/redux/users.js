@@ -7,6 +7,8 @@ export const users = (state = {me: null, fetch: false}, action) => {
             return {fetch: true, me: null}
         case 'RECEIVE_ME':
             return {fetch: false, me: action.me}
+        case 'SHOW_LOGIN':
+            return {fetch: false, me: null, login: true}
         default:
             return state
     }
@@ -46,4 +48,8 @@ export const fetchMe = () => (dispatch, getState) => {
         return dispatch(_fetchMe())
     }
     else return Promise.resolve()
+}
+
+export const login = () => (dispatch) => {
+    dispatch({type: 'SHOW_LOGIN'})
 }
