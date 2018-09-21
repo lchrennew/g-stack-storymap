@@ -34,6 +34,8 @@ security:
     server:
       base-url: http://10.168.0.187:8080
       protocol-version: 2
+      paths:
+        login: /login
     service:
       resolution-mode: dynamic
       paths:

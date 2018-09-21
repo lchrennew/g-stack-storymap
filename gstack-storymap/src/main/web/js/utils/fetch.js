@@ -12,7 +12,7 @@ export const setWebApi = config => {
 
 export const api = (endpoint, ...args) => async (dispatch) => {
     let response = await fetch(`//${webApi}/${endpoint}`, ...args)
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 403) {
         location.href = `//${webApi}/login/${login}?return_uri=${encodeURIComponent(location.href)}`
         return response
     }

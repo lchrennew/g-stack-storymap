@@ -8,12 +8,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
+import java.net.URLEncoder;
+
 @Configuration
 public class CasSecurityConfig extends CasSecurityConfigurerAdapter {
-    @Override
-    public void init(HttpSecurity http) throws Exception {
-        super.init(http);
-    }
 
     @Autowired
     private UserService userService;
@@ -32,41 +30,36 @@ public class CasSecurityConfig extends CasSecurityConfigurerAdapter {
         });
 
         filter.authenticationFailureHandler((request, response, authentication) -> {
-            String returnUrl = request.getParameter("return_uri");
+            response.sendRedirect(
+                    server
+                            + login
+                            + "?service="
+                            + URLEncoder.encode(
+                            request.getRequestURL() + "?" + request.getQueryString(), "utf-8"));
         });
 
 
     }
 
-    @Value("security.cas.server.base-url")
-    private String casServer;
+    @Value("${security.cas.server.base-url}")
+    private String server;
 
-    @Override
-    public void configure(CasSingleSignOutFilterConfigurer filter) {
-        super.configure(filter);
+    @Value("${security.cas.server.paths.login}")
+    private String login;
 
-    }
-
-    @Override
-    public void configure(CasAuthenticationProviderSecurityBuilder provider) {
-        super.configure(provider);
-
-    }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         super.configure(http);
+
         http.exceptionHandling().authenticationEntryPoint((request, response, authentication) -> {
-            response.setHeader("Access-Control-Allow-Origin", "*");
+
+            String origin = request.getHeader("Origin");
+            response.setHeader("Access-Control-Allow-Origin", origin);
             response.setHeader("Access-Control-Allow-Credentials", "true");
             response.setHeader("Access-Control-Allow-Methods", "*");
             response.setHeader("Access-Control-Max-Age", "3600");
             response.sendError(403, authentication.getMessage());
         });
-    }
-
-    @Override
-    public void configure(CasTicketValidatorBuilder ticketValidator) {
-        super.configure(ticketValidator);
     }
 }
