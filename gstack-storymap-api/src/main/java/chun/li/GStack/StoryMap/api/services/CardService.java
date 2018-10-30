@@ -31,22 +31,30 @@ public class CardService {
         assert card != null;
         switch (options.getDirection()) {
             case Next:
-                assert card.getPrev() == null
-                        || !card.getPrev().getId().equals(options.getId());
+                if (card.getPrev() != null
+                        && card.getPrev().getId().equals(options.getId()))
+                    throw new UnsupportedOperationException("This card is already there!");
                 repository.next(id, options.getId());
                 break;
             case Detail:
-                assert card.getGeneral() == null
-                        || !card.getGeneral().getId().equals(options.getId());
+                if (card.getGeneral() != null
+                        && card.getGeneral().getId().equals(options.getId())
+                        && card.getRelease() == null)
+                    throw new UnsupportedOperationException("This card is already there!");
                 repository.detail(id, options.getId());
                 break;
             case Root:
-                assert card.getProject() == null;
+                if (card.getProject() != null)
+                    throw new UnsupportedOperationException("This card is already there.");
                 repository.root(id, options.getId());
                 break;
             case Plan:
-                assert card.getRelease() == null
-                        || !card.getRelease().getId().equals(options.getRelease());
+                Card general = repository.findById(options.getId(), 1).orElse(null);
+                if (general == null)
+                    throw new UnsupportedOperationException("General card not exists");
+                Card plan = general.getPlannedDetail(options.getRelease());
+                if (plan != null && plan.getId() == id)
+                    throw new UnsupportedOperationException("This card is already there.");
                 repository.plan(id, options.getId(), options.getRelease());
                 break;
         }

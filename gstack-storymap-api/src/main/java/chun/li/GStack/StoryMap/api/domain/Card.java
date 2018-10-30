@@ -43,6 +43,7 @@ public class Card {
     @JsonIgnore
     private Card general;
 
+
     @Relationship(type = "DETAIL")
     @JsonIgnore
     private Card detail;
@@ -157,4 +158,16 @@ public class Card {
     public Card getPrev() {
         return prev;
     }
+
+    @JsonIgnore
+    public Card getPlannedDetail(Long release) {
+        if (plans == null)
+            return null;
+        else
+            return asEnumerable(plans)
+                    .firstOrDefault(
+                            c -> c.getRelease().getId().equals(release)
+                    );
+    }
+
 }

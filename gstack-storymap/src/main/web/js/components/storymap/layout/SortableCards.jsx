@@ -151,7 +151,7 @@ class _SortableCards extends React.Component {
                             ? $(e.to).data('card')
                             : null,
             release = direction === 'Plan'
-                ? `${$(e.to).data('release').id}`
+                ? $(e.to).data('release').id
                 : null
         console.log(direction)
         return {direction, card, target, release, index}

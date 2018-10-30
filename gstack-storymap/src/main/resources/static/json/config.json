@@ -3,9 +3,9 @@
     "storymap.4x1.io": "storymap-api.4x1.io",
     "storymap.4x1.tech": "storymap-api.4x1.tech",
     "sm.4x1.tech": "storymap-api.4x1.tech",
-    "127.0.0.1:8086": "localhost:8085",
-    "localhost:8086": "localhost:8085",
-    "10.168.66.60:8086": "10.168.66.60:8085"
+    "127.0.0.1:8086": "localhost:8087",
+    "localhost:8086": "localhost:8087",
+    "10.168.66.60:8086": "10.168.66.60:8087"
   },
   "login": "github"
 }

@@ -8,7 +8,7 @@ github:
   resource:
     userInfoUri: https://api.github.com/user
 server:
-  port: 8085
+  port: 8087
   tomcat:
     uri-encoding: utf-8
 spring:
