@@ -27,17 +27,26 @@ public class CardService {
 
     @Transactional
     public void move(Long id, CardMoveOptions options) {
+        Card card = repository.findById(id, 1).orElse(null);
+        assert card != null;
         switch (options.getDirection()) {
             case Next:
+                assert card.getPrev() == null
+                        || !card.getPrev().getId().equals(options.getId());
                 repository.next(id, options.getId());
                 break;
             case Detail:
+                assert card.getGeneral() == null
+                        || !card.getGeneral().getId().equals(options.getId());
                 repository.detail(id, options.getId());
                 break;
             case Root:
+                assert card.getProject() == null;
                 repository.root(id, options.getId());
                 break;
             case Plan:
+                assert card.getRelease() == null
+                        || !card.getRelease().getId().equals(options.getRelease());
                 repository.plan(id, options.getId(), options.getRelease());
                 break;
         }

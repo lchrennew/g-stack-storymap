@@ -148,4 +148,13 @@ public class Card {
     @JsonProperty("ac")
     private String acceptanceCriteria;
 
+    @JsonIgnore
+    public Card getGeneral() {
+        return general;
+    }
+
+    @JsonIgnore
+    public Card getPrev() {
+        return prev;
+    }
 }

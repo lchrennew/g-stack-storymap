@@ -26,7 +26,7 @@ public interface CardRepository extends Neo4jRepository<Card, Long> {
                     CREATE_NEW_NEXT_RELATIONSHIPS +
                     // 7. CREATE c's new relationships  [NOTICE: according to which relationship to be replaced]
                     " CREATE (to)-[:NEXT]->(c)\n" +
-                    " FOREACH (o IN CASE WHEN to_next IS NOT NULL THEN [to_next] ELSE [] END |" +
+                    " FOREACH (o IN CASE WHEN to_next IS NOT NULL AND id(to_next)<>id(c) THEN [1] ELSE [] END |" +
                     " CREATE (c)-[:NEXT]->(to_next)" +
                     " )"
     )
